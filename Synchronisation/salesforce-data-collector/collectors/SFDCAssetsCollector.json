@@ -1,0 +1,114 @@
+{
+  "name": "$prefix$:CrmAssets",
+  "description": "$prefix$ Data Collector (v. $version$): Organizations",
+  "status": "$synchro_status$",
+  "user_id": "$synchro_user$",
+  "scope_class": "CrmAssets",
+  "database_table_name": "",
+  "action_on_zero": "create",
+  "action_on_one": "update",
+  "action_on_multiple": "error",
+  "delete_policy": "ignore",
+  "delete_policy_update": "",
+  "delete_policy_retention": "0",
+  "reconciliation_policy": "use_attributes",
+  "attribute_list": [
+    {
+      "attcode": "name",
+      "update": "1",
+      "reconcile": "1",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "name"
+    },
+    {
+      "attcode": "description",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "description"
+    },
+    {
+      "attcode": "org_id",
+      "update": "1",
+      "reconcile": "1",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttExtKey",
+      "reconciliation_attcode": "cod",
+      "friendlyname": "org_id"
+    },
+    {
+      "attcode": "business_criticity",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "business_criticity"
+    },
+    {
+      "attcode": "needmonitoring",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "needmonitoring"
+    },
+    {
+      "attcode": "billing_code",
+      "update": "1",
+      "reconcile": "1",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "billing_code"
+    },
+    {
+      "attcode": "status",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "status"
+    },
+    {
+      "attcode": "move2production",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "move2production"
+    },
+    {
+      "attcode": "crm_reference",
+      "update": "1",
+      "reconcile": "1",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "crm_reference"
+    },
+    {
+      "attcode": "location_id",
+      "update": "1",
+      "reconcile": "1",
+      "update_policy": "master_locked",
+      "reconciliation_attcode": "name",
+      "finalclass": "SynchroAttExtKey",
+      "friendlyname": "location_id"
+    },
+    {
+      "attcode": "functionalcis_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "row_separator": "|",
+      "attribute_separator": ";",
+      "value_separator": ":",
+      "attribute_qualifier": "'",
+      "finalclass": "SynchroAttLinkSet",
+      "friendlyname": "functionalcis_list"
+    }
+  ],
+  "user_delete_policy": "administrators",
+  "url_icon": "",
+  "url_application": ""
+}

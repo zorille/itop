@@ -1,0 +1,57 @@
+/*!
+ * Copyright (c) 2015 - 2020 Molkobain.
+ *
+ * This file is part of licensed extension.
+ *
+ * Use of this extension is bound by the license you purchased. A license grants you a non-exclusive and non-transferable right to use and incorporate the item in your personal or commercial projects. There are several licenses available (see https://www.molkobain.com/usage-licenses/ for more informations)
+ */
+
+/* Variables */
+/* - Helpers */
+$mdv-box-shadow-small: 0 1px 1px rgba(0, 0, 0, 0.15) !default;
+
+/* - Filter */
+$mdv-filter-input-border-color: #C2C2C2 !default;
+$mdv-filter-input-border-radius: 3px !default;
+
+/* - Unmounted container */
+$mdv-unmounted-container-bg-color: #ffffff !default;
+$mdv-unmounted-spot-bg-color: #d85656 !default;
+$mdv-unmounted-spot-color: #ffffff !default;
+$mdv-unmounted-spot-width: 15px !default;
+/* - Rack panel */
+$mdv-rack-panel-outer-border-color: #c5c5c5 !default;
+$mdv-rack-panel-outer-border: 1px solid $mdv-rack-panel-outer-border-color !default;
+/* - Rack unit */
+$mdv-rack-unit-number-width: 36px !default;
+/* - Rack unit slot */
+$mdv-rack-unit-slot-width: 217px !default;
+$mdv-rack-unit-slot-height: 18px !default;
+$mdv-rack-unit-slot-bg-color: #ffffff !default;
+$mdv-rack-unit-slot-separator-color: #eaeaea !default;
+/* - Element */
+$mdv-element-note-max-width: 95px !default;
+/* - Enclosure */
+$mdv-enclosure-color: #939393 !default;
+$mdv-enclosure-bg-color: #eaeaea !default;
+$mdv-enclosure-sidebar-bg-color-mounted: #83a967 !default;
+$mdv-enclosure-sidebar-bg-color-unmounted: #da5757 !default;
+/* - Enclosure unit slot */
+$mdv-enclosure-unit-slot-separator-color: #d9d9d9 !default;
+/* - Device */
+$mdv-device-color: #ffffff !default;
+
+/* - Tooltip */
+$mdv-tooltip-indicator-color: #434343 !default;
+$mdv-tooltip-list-label-width: 120px !default;
+
+/* - Object classes */
+$mdv-obj-class-default-bg-color: #8db46e !default;
+$mdv-obj-class-enclosure-bg-color: #eaeaea !default;
+$mdv-obj-class-server-bg-color: #3f627e !default;
+$mdv-obj-class-networkdevice-bg-color: #c85454 !default;
+$mdv-obj-class-sanswitch-bg-color: lightsalmon !default;
+$mdv-obj-class-nas-bg-color: #80b469 !default;
+$mdv-obj-class-storagesystem-bg-color: #eb913b !default;
+$mdv-obj-class-tapelibrary-bg-color: #7da9bc !default;
+$mdv-obj-class-pdu-bg-color: #c85454 !default;

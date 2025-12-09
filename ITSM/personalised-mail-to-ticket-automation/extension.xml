@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension format="1.0">
+	<extension_code>personalized-mail-to-ticket-automation</extension_code>
+	<company>Zorille</company>
+	<author><![CDATA[Stephen, Eric]]></author>
+	<label><![CDATA[Personalized Mail to ticket automation]]></label>
+	<description><![CDATA[Scan several mailboxes to create or update tickets.]]></description>
+	<version>1.1.0</version>
+	<release_date>2022-06-13</release_date>
+	<version_description><![CDATA[
+                * Contacts in To/cc with the same email as current mailbox are not added to the ticket anymore
+                * Handle signed emails with an "enveloped format"
+                * Store eml for all the messages
+            ]]></version_description>
+	<itop_version_min>2.3.0</itop_version_min>
+	<status>stable</status>
+	<mandatory>false</mandatory>
+	<more_info_url></more_info_url>
+</extension>

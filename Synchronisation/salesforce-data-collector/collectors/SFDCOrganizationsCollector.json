@@ -1,0 +1,70 @@
+{
+  "name": "$prefix$:Organizations",
+  "description": "$prefix$ Data Collector (v. $version$): Organizations",
+  "status": "$synchro_status$",
+  "user_id": "$synchro_user$",
+  "scope_class": "Organization",
+  "database_table_name": "",
+  "action_on_zero": "create",
+  "action_on_one": "update",
+  "action_on_multiple": "error",
+  "delete_policy": "ignore",
+  "delete_policy_update": "",
+  "delete_policy_retention": "0",
+  "reconciliation_policy": "use_attributes",
+  "attribute_list": [
+    {
+      "attcode": "name",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "name"
+    },
+    {
+      "attcode": "code",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "code"
+    },
+    {
+      "attcode": "parent_id",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttExtKey",
+      "reconciliation_attcode": "code",
+      "friendlyname": "parent_id"
+    },
+    {
+      "attcode": "deliverymodel_id",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttExtKey",
+      "reconciliation_attcode": "name",
+      "friendlyname": "deliverymodel_id"
+    },
+    {
+      "attcode": "status",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "status"
+    },
+    {
+      "attcode": "code",
+      "update": "1",
+      "reconcile": "1",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "code"
+    }
+  ],
+  "user_delete_policy": "administrators",
+  "url_icon": "",
+  "url_application": ""
+}

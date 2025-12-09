@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+	<constants>
+	</constants>
+	<classes>
+		<class id="Server" _delta="must_exist">
+			<fields>
+				<field id="hypervisor_list" xsi:type="AttributeLinkedSet"
+					_delta="define">
+					<filter><![CDATA[SELECT Hypervisor WHERE server_id = :this->id]]></filter>
+					<linked_class>Hypervisor</linked_class>
+					<ext_key_to_me>server_id</ext_key_to_me>
+				</field>
+			</fields>
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="hypervisor_list">
+							<rank>150</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="Hypervisor" _delta="must_exist">
+			<fields>
+				<field id="osfamily_id" xsi:type="AttributeExternalKey"
+					_delta="define">
+					<sql>osfamily_id</sql>
+					<target_class>OSFamily</target_class>
+					<is_null_allowed>true</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+				</field>
+				<field id="osfamily_name" xsi:type="AttributeExternalField"
+					_delta="define">
+					<extkey_attcode>osfamily_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+				<field id="osversion_id" xsi:type="AttributeExternalKey"
+					_delta="define">
+					<filter><![CDATA[SELECT OSVersion WHERE osfamily_id = :this->osfamily_id]]></filter>
+					<dependencies>
+						<attribute id="osfamily_id" />
+					</dependencies>
+					<sql>osversion_id</sql>
+					<target_class>OSVersion</target_class>
+					<is_null_allowed>true</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+				</field>
+				<field id="osversion_name" xsi:type="AttributeExternalField"
+					_delta="define">
+					<extkey_attcode>osversion_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+				<field id="oslicence_id" xsi:type="AttributeExternalKey"
+					_delta="define">
+					<filter><![CDATA[SELECT OSLicence WHERE osversion_id = :this->osversion_id]]></filter>
+					<dependencies>
+						<attribute id="osversion_id" />
+					</dependencies>
+					<sql>oslicence_id</sql>
+					<target_class>OSLicence</target_class>
+					<is_null_allowed>true</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+				</field>
+				<field id="oslicence_name" xsi:type="AttributeExternalField"
+					_delta="define">
+					<extkey_attcode>oslicence_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+				<field id="managementip" xsi:type="AttributeIPAddress"
+					_delta="define">
+					<sql>managementip</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<presentation>
+				<details _delta="redefine">
+					<items>
+						<item id="fieldset:Server:baseinfo" _delta="define">
+							<rank>10</rank>
+							<items>
+								<item id="name">
+									<rank>10</rank>
+								</item>
+								<item id="fqdn" _delta="if_exists">
+									<rank>10</rank>
+								</item>
+								<item id="org_id">
+									<rank>20</rank>
+								</item>
+								<item id="status">
+									<rank>25</rank>
+								</item>
+								<item id="server_id">
+									<rank>30</rank>
+								</item>
+								<item id="farm_id">
+									<rank>40</rank>
+								</item>
+								<item id="business_criticity">
+									<rank>50</rank>
+								</item>
+								<item id="needmonitoring" _delta="if_exists">
+									<rank>55</rank>
+								</item>
+								<item id="move2production">
+									<rank>60</rank>
+								</item>
+								<item id="description">
+									<rank>70</rank>
+								</item>
+								<item id="contacts_list">
+									<rank>80</rank>
+								</item>
+								<item id="documents_list">
+									<rank>90</rank>
+								</item>
+								<item id="applicationsolution_list">
+									<rank>110</rank>
+								</item>
+								<item id="logicalvolumes_list">
+									<rank>115</rank>
+								</item>
+								<item id="virtualmachine_list">
+									<rank>120</rank>
+								</item>
+								<item id="providercontracts_list">
+									<rank>130</rank>
+								</item>
+								<item id="services_list">
+									<rank>140</rank>
+								</item>
+								<item id="monitoring_list" _delta="if_exists">
+									<rank>300</rank>
+								</item>
+							</items>
+						</item>
+						<item id="fieldset:Server:moreinfo" _delta="define">
+							<rank>20</rank>
+							<items>
+								<item id="osfamily_id" _delta="define">
+									<rank>10</rank>
+								</item>
+								<item id="osversion_id" _delta="define">
+									<rank>20</rank>
+								</item>
+								<item id="managementip" _delta="define">
+									<rank>25</rank>
+								</item>
+								<item id="oslicence_id" _delta="define">
+									<rank>30</rank>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+				<search _delta="merge">
+					<item id="osfamily_id" _delta="define">
+						<rank>50</rank>
+					</item>
+					<item id="osversion_id" _delta="define">
+						<rank>60</rank>
+					</item>
+					<item id="managementip" _delta="define">
+						<rank>70</rank>
+					</item>
+				</search>
+				<list _delta="merge">
+					<item id="osfamily_id" _delta="define">
+						<rank>60</rank>
+					</item>
+					<item id="osversion_id" _delta="define">
+						<rank>70</rank>
+					</item>
+					<item id="managementip" _delta="define">
+						<rank>80</rank>
+					</item>
+				</list>
+			</presentation>
+		</class>
+	</classes>
+	<user_rights>
+	</user_rights>
+</itop_design>

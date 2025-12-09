@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+  <constants>
+  </constants>
+  <classes>
+	<class id="Service" _delta="must_exist">
+      <properties _delta="merge">
+		<naming  _delta="redefine">
+			<attributes>
+				<attribute id="name"/>
+				<attribute id="code_facturation" />
+			</attributes>
+		</naming>
+		<reconciliation  _delta="redefine">
+			<attributes>
+				<attribute id="name"/>
+				<attribute id="code_facturation" />
+			</attributes>
+		</reconciliation>
+	  </properties>
+	  <fields>
+		<field id="code_facturation" xsi:type="AttributeString" _delta="define">
+			<sql>code_facturation</sql>
+			<default_value />
+			<is_null_allowed>true</is_null_allowed>
+		</field>
+      </fields>
+	  <presentation>
+        <details _delta="merge">
+          <items>
+			<item id="code_facturation" _delta="define">
+				<rank>15</rank>
+			</item>
+          </items>
+        </details>
+		<list _delta="merge">
+			<items>
+				<item id="code_facturation" _delta="define">
+					<rank>15</rank>
+				</item>
+			</items>
+		</list>
+		<search _delta="merge">
+			<items>
+				<item id="code_facturation" _delta="define">
+					<rank>15</rank>
+				</item>
+			</items>
+		</search>
+      </presentation>
+    </class>
+	<class id="lnkCustomerContractToService" _delta="must_exist">
+      <properties/>
+	  <fields>
+		<field id="type_facturation" xsi:type="AttributeEnum" _delta="define">
+			<values>
+				<value id="na">na</value>
+				<value id="forfait">forfait</value>
+				<value id="variable">variable</value>
+			</values>
+			<sql>type_facturation</sql>
+			<default_value>na</default_value>
+			<is_null_allowed>true</is_null_allowed>
+			<display_style>list</display_style>
+		</field>
+		<field id="description" xsi:type="AttributeString" _delta="define">
+			<sql>description</sql>
+			<default_value />
+			<is_null_allowed>true</is_null_allowed>
+		</field>
+      </fields>
+	  <presentation>
+        <details _delta="merge">
+          <items>
+			<item id="type_facturation" _delta="define">
+				<rank>15</rank>
+			</item>
+			<item id="description" _delta="define">
+				<rank>16</rank>
+			</item>
+          </items>
+        </details>
+		<list _delta="merge">
+			<items>
+				<item id="type_facturation" _delta="define">
+					<rank>15</rank>
+				</item>
+				<item id="description" _delta="define">
+					<rank>16</rank>
+				</item>
+			</items>
+		</list>
+		<search _delta="merge">
+			<items>
+				<item id="type_facturation" _delta="define">
+					<rank>30</rank>
+				</item>
+				<item id="description" _delta="define">
+					<rank>31</rank>
+				</item>
+			</items>
+		</search>
+      </presentation>
+    </class>
+	<class id="lnkContactToContract" _delta="must_exist">
+      <fields>
+        <field id="contract_role" xsi:type="AttributeEnum" _delta="define">
+          <sql>contract_role</sql>
+          <values>
+            <value id="customer_contact">customer_contact</value>
+			<value id="customer_sales">customer_sales</value>
+			<value id="customer_responsible">customer_responsible</value>
+          </values>
+          <default_value>customer_contact</default_value>
+          <is_null_allowed>true</is_null_allowed>
+          <display_style>list</display_style>
+          <dependencies/>
+          <tracking_level>all</tracking_level>
+        </field>
+      </fields>
+      <presentation>
+        <details  _delta="merge">
+          <items>
+            <item id="contract_id">
+              <rank>10</rank>
+            </item>
+            <item id="contact_id">
+              <rank>20</rank>
+            </item>
+            <item id="contract_role">
+              <rank>30</rank>
+            </item>
+          </items>
+        </details>
+        <list  _delta="merge">
+          <items>
+            <item id="contract_role">
+              <rank>10</rank>
+            </item>
+            <item id="contract_id">
+              <rank>20</rank>
+            </item>
+            <item id="contact_id">
+              <rank>30</rank>
+            </item>
+          </items>
+        </list>
+      </presentation>
+    </class>
+  </classes>
+  <user_rights>
+  </user_rights>
+</itop_design>

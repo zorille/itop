@@ -1,0 +1,28 @@
+cp /home/personalised-datacenter-view/molkobain-datacenter-view/datamodel.molkobain-datacenter-view.xml ./data/production-modules/molkobain-datacenter-view/molkobain-datacenter-view/
+cp /home/personalised-datacenter-view/molkobain-datacenter-view/??.dict.molkobain-datacenter-view.php ./data/production-modules/molkobain-datacenter-view/molkobain-datacenter-view/
+
+
+37d36
+<       const ENUM_PANEL_REAR = 'rear';
+257c256
+<                                       <div class="mdv-filter-container"><input class="mdv-filter-input" type="text" placeholder="{$sFilterInputTooltipAsHTML}" /><span class="mdv-filter-clear-icon fa fa-fw fa-times"></span></div>
+---
+>                                       <div class="mdv-filter-container"><input class="mdv-filter-input" type="search" placeholder="{$sFilterInputTooltipAsHTML}" /></div>
+454d453
+<                                       static::ENUM_PANEL_REAR => Dict::S('Molkobain:DatacenterView:Rack:Panel:Rear:Title'),
+529c528
+<                               'position_p' => $oEnclosure->Get('position_p'),
+---
+>                               'position_p' => static::ENUM_PANEL_FRONT,
+532d530
+<                                       static::ENUM_PANEL_REAR => Dict::S('Molkobain:DatacenterView:Enclosure:Panel:Rear:Title'),
+587c585
+<                               'position_p' => $oDevice->Get('position_p'),
+---
+>                               'position_p' => static::ENUM_PANEL_FRONT,
+704c702
+<                               $sAttributesHTML .= '<div class="mdv-dt-list-wrapper mdv-dt-' . $sAttCategory . '">';
+---
+>                               $sAttributesHTML .= '<div class="mdv-et-list-wrapper mdv-dt-' . $sAttCategory . '">';
+960d957
+<                       static::ENUM_PANEL_REAR,

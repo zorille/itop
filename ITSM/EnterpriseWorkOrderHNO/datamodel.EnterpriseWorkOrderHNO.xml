@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+  <constants>
+  </constants>
+  <classes>
+	<class id="WorkOrder" _delta="merge">
+      <fields>
+         <field id="nonworkinghour_flag" xsi:type="AttributeEnum" _delta="define">
+			<values>
+				<value id="yes">yes</value>
+                <value id="no">no</value>
+            </values>
+            <sql>nonworkinghour_flag</sql>
+            <default_value>no</default_value>
+            <is_null_allowed>false</is_null_allowed>
+            <display_style>radio_horizontal</display_style>
+        </field>
+		<field id="deplacement_flag" xsi:type="AttributeEnum" _delta="define">
+			<values>
+				<value id="yes">yes</value>
+                <value id="no">no</value>
+            </values>
+            <sql>deplacement_flag</sql>
+            <default_value>no</default_value>
+            <is_null_allowed>false</is_null_allowed>
+            <display_style>radio_horizontal</display_style>
+        </field>
+		<field id="time_spent" xsi:type="AttributeInteger" _delta="define">
+          <sql>time_spent</sql>
+          <default_value>0</default_value>
+          <is_null_allowed>false</is_null_allowed>
+        </field>
+      </fields>
+	  <presentation>
+        <details _delta="merge">
+          <items>
+			<item id="nonworkinghour_flag" _delta="define">
+                <rank>90</rank>
+            </item>
+			<item id="deplacement_flag" _delta="define">
+                <rank>93</rank>
+            </item>
+			<item id="time_spent" _delta="define">
+                <rank>95</rank>
+            </item>
+          </items>
+        </details>
+		<search _delta="merge">
+          <items>
+			<item id="nonworkinghour_flag" _delta="define">
+                <rank>80</rank>
+            </item>
+			<item id="deplacement_flag" _delta="define">
+                <rank>85</rank>
+            </item>
+          </items>
+        </search>
+		<list _delta="merge">
+          <items>
+			<item id="nonworkinghour_flag" _delta="define">
+                <rank>70</rank>
+            </item>
+			<item id="deplacement_flag" _delta="define">
+                <rank>75</rank>
+            </item>
+          </items>
+        </list>
+      </presentation>
+	  <methods>
+        <method id="ComputeTimeSpent" _delta="define">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[	public function ComputeTimeSpent()
+    {
+       $iSum = 0;
+       $oStartDateSet = $this->Get('start_date');
+	   $oEndDateSet = $this->Get('end_date');
+	   $dateFrom = new DateTime($oStartDateSet);
+	   $dateTo = new DateTime($oEndDateSet);
+
+       $iSum = ($dateTo->getTimestamp()-$dateFrom->getTimestamp())/60;
+       $this->Set('time_spent', $iSum);
+    }]]></code>
+        </method>
+		<method id="OnUpdate" _delta="redefine">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[	public function OnUpdate()
+    {
+        $this->ComputeTimeSpent();
+    }]]></code>
+        </method>
+		<method id="GetInitialStateAttributeFlags" _delta="define">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[	public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
+    {
+       // Hide the calculated field in object creation form
+       if (($sAttCode == 'time_spent'))
+             return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
+       return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+    }]]></code>
+        </method>
+		<method id="GetAttributeFlags" _delta="define">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[	public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
+    {
+       // Force the computed field to be read-only, preventing it to be written
+       if (($sAttCode == 'time_spent'))
+             return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
+       return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+    }]]></code>
+        </method>
+      </methods>
+    </class>
+  </classes>
+  <user_rights>
+  </user_rights>
+</itop_design>

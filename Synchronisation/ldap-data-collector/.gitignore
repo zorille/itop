@@ -1,0 +1,6 @@
+conf/params.local.xml
+.buildpath
+.project
+.settings/
+data/
+

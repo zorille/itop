@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+	<constants>
+	</constants>
+	<classes>
+		<class id="Wifi" _delta="define">
+			<parent>NetworkDevice</parent>
+			<properties>
+				<category>bizmodel,searchable</category>
+				<abstract>false</abstract>
+				<key_type>autoincrement</key_type>
+				<db_table>wifi</db_table>
+				<db_key_field>id</db_key_field>
+				<db_final_class_field />
+				<naming>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="fqdn" />
+					</attributes>
+				</naming>
+				<display_template />
+				<style>
+					<icon>images/wifi.jpg</icon>
+				</style>
+				<reconciliation>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="org_id" />
+						<attribute id="organization_name" />
+						<attribute id="fqdn" />
+						<attribute id="location_id" />
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+			</fields>
+			<methods />
+			<presentation/>
+		</class>
+	</classes>
+	<menus>
+		<menu id="ConfigManagementOverview" xsi:type="DashboardMenuNode"
+			_delta="must_exist">
+			<definition>
+				<cells>
+					<cell id="0" _delta="must_exist">
+						<dashlets>
+							<dashlet id="110" xsi:type="DashletBadge" _delta="define">
+								<rank>20</rank>
+								<class>Wifi</class>
+							</dashlet>
+						</dashlets>
+					</cell>
+				</cells>
+			</definition>
+		</menu>
+	</menus>
+	<user_rights>
+	</user_rights>
+</itop_design>

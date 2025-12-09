@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<parameters>
+  <itop_url>http://itop.company.com/</itop_url>
+  <itop_login>itop-user</itop_login>
+  <itop_password>Password</itop_password>
+  <contact_to_notify>admin@company.com</contact_to_notify>
+  <synchro_user>itop-user</synchro_user>
+  <sql_host>mysql.company.com</sql_host>
+  <sql_database>ocsweb;charset=UTF8</sql_database>
+  <sql_login>itop</sql_login>
+  <sql_password>password</sql_password>
+  
+  <default_org_id>Company</default_org_id>
+  <default_status>production</default_status>
+  <PCCollection>yes</PCCollection>
+  <ServerCollection>yes</ServerCollection>
+  <VMCollection>yes</VMCollection>
+</parameters>

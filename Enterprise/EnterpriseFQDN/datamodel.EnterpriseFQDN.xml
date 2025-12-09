@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+	<constants>
+	</constants>
+	<classes>
+		<class id="NetworkDevice" _delta="merge">
+			<properties _delta="merge">
+				<naming _delta="redefine">
+					<attributes>
+						<attribute id="name" />
+						<attribute id="fqdn" />
+					</attributes>
+				</naming>
+			</properties>
+			<fields>
+				<field id="fqdn" xsi:type="AttributeString" _delta="define">
+					<sql>fqdn</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="col:col1">
+							<items>
+								<item id="fieldset:Server:baseinfo">
+									<items>
+										<item id="fqdn" _delta="define">
+											<rank>15</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+				<search _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>20</rank>
+						</item>
+					</items>
+				</search>
+				<list _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>15</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="SANSwitch" _delta="merge">
+			<properties _delta="merge">
+				<naming _delta="redefine">
+					<attributes>
+						<attribute id="name" />
+						<attribute id="fqdn" />
+					</attributes>
+				</naming>
+			</properties>
+			<fields>
+				<field id="fqdn" xsi:type="AttributeString" _delta="define">
+					<sql>fqdn</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="col:col1">
+							<items>
+								<item id="fieldset:Server:baseinfo">
+									<items>
+										<item id="fqdn" _delta="define">
+											<rank>15</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+				<search _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>20</rank>
+						</item>
+					</items>
+				</search>
+				<list _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>15</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="Server" _delta="merge">
+			<properties _delta="merge">
+				<naming _delta="redefine">
+					<attributes>
+						<attribute id="name" />
+						<attribute id="fqdn" />
+					</attributes>
+				</naming>
+			</properties>
+			<fields>
+				<field id="fqdn" xsi:type="AttributeString" _delta="define">
+					<sql>fqdn</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="col:col1">
+							<items>
+								<item id="fieldset:Server:baseinfo">
+									<items>
+										<item id="fqdn" _delta="define">
+											<rank>15</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+				<search _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>20</rank>
+						</item>
+					</items>
+				</search>
+				<list _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>15</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="DBServer" _delta="merge">
+			<properties _delta="merge">
+				<naming _delta="redefine">
+					<attributes>
+						<attribute id="name" />
+						<attribute id="fqdn" />
+						<attribute id="system_name" />
+					</attributes>
+				</naming>
+			</properties>
+			<fields>
+				<field id="fqdn" xsi:type="AttributeString" _delta="define">
+					<sql>fqdn</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>15</rank>
+						</item>
+					</items>
+				</details>
+				<search _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>20</rank>
+						</item>
+					</items>
+				</search>
+				<list _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>15</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="WebServer" _delta="merge">
+			<properties _delta="merge">
+				<naming _delta="redefine">
+					<attributes>
+						<attribute id="name" />
+						<attribute id="fqdn" />
+						<attribute id="system_name" />
+					</attributes>
+				</naming>
+			</properties>
+			<fields>
+				<field id="fqdn" xsi:type="AttributeString" _delta="define">
+					<sql>fqdn</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>15</rank>
+						</item>
+					</items>
+				</details>
+				<search _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>20</rank>
+						</item>
+					</items>
+				</search>
+				<list _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>15</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="StorageSystem" _delta="merge">
+			<properties _delta="merge">
+				<naming _delta="redefine">
+					<attributes>
+						<attribute id="name" />
+						<attribute id="fqdn" />
+					</attributes>
+				</naming>
+			</properties>
+			<fields>
+				<field id="fqdn" xsi:type="AttributeString" _delta="define">
+					<sql>fqdn</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="col:col1">
+							<items>
+								<item id="fieldset:Server:baseinfo">
+									<items>
+										<item id="fqdn" _delta="define">
+											<rank>15</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+				<search _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>20</rank>
+						</item>
+					</items>
+				</search>
+				<list _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>15</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="NAS" _delta="merge">
+			<properties _delta="merge">
+				<naming _delta="redefine">
+					<attributes>
+						<attribute id="name" />
+						<attribute id="fqdn" />
+					</attributes>
+				</naming>
+			</properties>
+			<fields>
+				<field id="fqdn" xsi:type="AttributeString" _delta="define">
+					<sql>fqdn</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="col:col1">
+							<items>
+								<item id="fieldset:Server:baseinfo">
+									<items>
+										<item id="fqdn" _delta="define">
+											<rank>15</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+				<search _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>20</rank>
+						</item>
+					</items>
+				</search>
+				<list _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>15</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="Hypervisor" _delta="merge">
+			<properties _delta="merge">
+				<naming _delta="redefine">
+					<attributes>
+						<attribute id="name" />
+						<attribute id="fqdn" />
+					</attributes>
+				</naming>
+			</properties>
+			<fields>
+				<field id="fqdn" xsi:type="AttributeString" _delta="define">
+					<sql>fqdn</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>15</rank>
+						</item>
+					</items>
+				</details>
+				<search _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>20</rank>
+						</item>
+					</items>
+				</search>
+				<list _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>15</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="VirtualMachine" _delta="merge">
+			<!--Champ hostname du plugin VirtualMachineDef <properties _delta="merge"> 
+				<naming _delta="redefine"> <attributes> <attribute id="name" /> <attribute 
+				id="fqdn" /> </attributes> </naming> </properties> -->
+			<fields>
+				<field id="fqdn" xsi:type="AttributeString" _delta="define">
+					<sql>fqdn</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="col:col1">
+							<items>
+								<item id="fieldset:Server:baseinfo">
+									<items>
+										<item id="fqdn" _delta="define">
+											<rank>15</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+				<search _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>20</rank>
+						</item>
+					</items>
+				</search>
+				<list _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>15</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="PDU" _delta="merge">
+			<fields>
+				<field id="fqdn" xsi:type="AttributeString" _delta="define">
+					<sql>fqdn</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>15</rank>
+						</item>
+					</items>
+				</details>
+				<search _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>20</rank>
+						</item>
+					</items>
+				</search>
+				<list _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>15</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="Printer" _delta="merge">
+			<properties _delta="merge">
+				<naming _delta="redefine">
+					<attributes>
+						<attribute id="name" />
+						<attribute id="fqdn" />
+					</attributes>
+				</naming>
+			</properties>
+			<fields>
+				<field id="fqdn" xsi:type="AttributeString" _delta="define">
+					<sql>fqdn</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="col:col1">
+							<items>
+								<item id="fieldset:Server:baseinfo">
+									<items>
+										<item id="fqdn" _delta="define">
+											<rank>15</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+				<search _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>20</rank>
+						</item>
+					</items>
+				</search>
+				<list _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>15</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="IPPhone" _delta="merge">
+			<properties _delta="merge">
+				<naming _delta="redefine">
+					<attributes>
+						<attribute id="name" />
+						<attribute id="fqdn" />
+					</attributes>
+				</naming>
+			</properties>
+			<fields>
+				<field id="fqdn" xsi:type="AttributeString" _delta="define">
+					<sql>fqdn</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+				<field id="ip" xsi:type="AttributeIPAddress" _delta="define">
+					<sql>ip</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>45</rank>
+						</item>
+						<item id="ip" _delta="define">
+							<rank>46</rank>
+						</item>
+					</items>
+				</details>
+				<search _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>20</rank>
+						</item>
+					</items>
+				</search>
+				<list _delta="merge">
+					<items>
+						<item id="fqdn" _delta="define">
+							<rank>15</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+	</classes>
+</itop_design>

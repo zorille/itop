@@ -1,0 +1,214 @@
+{
+  "name": "$prefix$:CrmAssets",
+  "description": "$prefix$ Data Collector (v. $version$): CrmAssets",
+  "status": "$synchro_status$",
+  "user_id": "$synchro_user$",
+  "scope_class": "CrmAssets",
+  "database_table_name": "",
+  "action_on_zero": "create",
+  "action_on_one": "update",
+  "action_on_multiple": "error",
+  "delete_policy": "ignore",
+  "delete_policy_update": "",
+  "delete_policy_retention": "0",
+  "reconciliation_policy": "use_attributes",
+  "attribute_list": [
+    {
+      "attcode": "name",
+      "update": "1",
+      "reconcile": "1",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "name"
+    },
+    {
+      "attcode": "description",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "description"
+    },
+    {
+      "attcode": "org_id",
+      "update": "1",
+      "reconcile": "1",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttExtKey",
+      "reconciliation_attcode": "code",
+      "friendlyname": "org_id"
+    },
+    {
+      "attcode": "business_criticity",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "business_criticity"
+    },
+    {
+      "attcode": "needmonitoring",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "needmonitoring"
+    },
+    {
+      "attcode": "billing_code",
+      "update": "1",
+      "reconcile": "1",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "billing_code"
+    },
+    {
+      "attcode": "status",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "status"
+    },
+    {
+      "attcode": "accesspermissions_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "accesspermissions_list"
+    },
+    {
+      "attcode": "crmassetss_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "crmassetss_list"
+    },
+    {
+      "attcode": "backups_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "backups_list"
+    },
+    {
+      "attcode": "monitoring_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "monitoring_list"
+    },
+    {
+      "attcode": "providercontracts_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "providercontracts_list"
+    },
+    {
+      "attcode": "softwares_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "softwares_list"
+    },
+    {
+      "attcode": "documents_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "documents_list"
+    },
+    {
+      "attcode": "contacts_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "contacts_list"
+    },
+    {
+      "attcode": "functionalcis_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "functionalcis_list"
+    },
+    {
+      "attcode": "contacts_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "contacts_list"
+    },
+    {
+      "attcode": "applicationsolution_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "applicationsolution_list"
+    },
+    {
+      "attcode": "services_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "services_list"
+    },
+    {
+      "attcode": "tickets_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "tickets_list"
+    },
+    {
+      "attcode": "tickets_list",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "tickets_list"
+    },
+    {
+      "attcode": "move2production",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "move2production"
+    },
+    {
+      "attcode": "crm_reference",
+      "update": "1",
+      "reconcile": "1",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "crm_reference"
+    },
+    {
+      "attcode": "location_id",
+      "update": "1",
+      "reconcile": "1",
+      "update_policy": "master_locked",
+      "reconciliation_attcode": "name",
+      "finalclass": "SynchroAttExtKey",
+      "friendlyname": "location_id"
+    }
+  ],
+  "user_delete_policy": "administrators",
+  "url_icon": "",
+  "url_application": ""
+}

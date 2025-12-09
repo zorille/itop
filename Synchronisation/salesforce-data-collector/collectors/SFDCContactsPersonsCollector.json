@@ -1,0 +1,101 @@
+{
+  "name": "$prefix$:Persons",
+  "description": "$prefix$ Data Collector (v. $version$): Persons",
+  "status": "$synchro_status$",
+  "user_id": "$synchro_user$",
+  "scope_class": "Person",
+  "database_table_name": "",
+  "action_on_zero": "create",
+  "action_on_one": "update",
+  "action_on_multiple": "error",
+  "delete_policy": "ignore",
+  "delete_policy_update": "",
+  "delete_policy_retention": "0",
+  "reconciliation_policy": "use_attributes",
+  "attribute_list": [
+    {
+      "attcode": "name",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "name"
+    },
+    {
+      "attcode": "status",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "status"
+    },
+    {
+      "attcode": "email",
+      "update": "1",
+      "reconcile": "1",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "email"
+    },
+    {
+      "attcode": "notify",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "notify"
+    },
+    {
+      "attcode": "is_support_team",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "is_support_team"
+    },
+    {
+      "attcode": "techintervention_flag",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "techintervention_flag"
+    },
+    {
+      "attcode": "employee_number",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "employee_number"
+    },
+    {
+      "attcode": "first_name",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "first_name"
+    },
+    {
+      "attcode": "portail_flag",
+      "update": "0",
+      "reconcile": "0",
+      "update_policy": "master_unlocked",
+      "finalclass": "SynchroAttribute",
+      "friendlyname": "portail_flag"
+    },
+    {
+      "attcode": "org_id",
+      "update": "1",
+      "reconcile": "0",
+      "update_policy": "master_locked",
+      "finalclass": "SynchroAttExtKey",
+      "reconciliation_attcode": "code",
+      "friendlyname": "org_id"
+    }
+  ],
+  "user_delete_policy": "administrators",
+  "url_icon": "",
+  "url_application": ""
+}

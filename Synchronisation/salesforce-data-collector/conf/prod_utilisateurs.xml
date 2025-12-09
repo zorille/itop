@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+	<utilisateurs using="oui" sort_en_erreur="non">
+		<dv-sfdc-company-sandbox>
+			<username>user</username>
+			<crypt_password>XXXXXXXXXXXXXXXXXXXXXXXXXX</crypt_password>
+		</dv-sfdc-company-sandbox>
+
+		<dv-sfdc-company-prod>
+			<username>user</username>
+			<crypt_password>xxxxxxxxxxxxxxxxxxxxxxxxxxx</crypt_password>
+		</dv-sfdc-company-prod>
+
+		<itop-admin-std>
+			<username>itop-user</username>
+			<crypt_password>xxxxxxxxxxxxxxxxxxxxxxxxxx</crypt_password>
+		</itop-admin-std>
+	</utilisateurs>
+</xml>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+	<constants>
+	</constants>
+	<classes>
+		<class id="StockElement" _delta="merge">
+			<properties>
+				<reconciliation _delta="redefine">
+					<attributes>
+						<attribute id="name" />
+						<attribute id="org_id" />
+						<attribute id="location_id" />
+					</attributes>
+				</reconciliation>
+				<naming _delta="redefine">
+					<attributes>
+						<attribute id="name" />
+						<attribute id="location_name" />
+					</attributes>
+				</naming>
+			</properties>
+			<fields>
+				<field id="picture" xsi:type="AttributeImage" _delta="define">
+					<display_max_width>96</display_max_width>
+					<display_max_height>96</display_max_height>
+					<storage_max_width>128</storage_max_width>
+					<storage_max_height>128</storage_max_height>
+					<default_image />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+				<field id="org_name" xsi:type="AttributeExternalField"
+					_delta="define">
+					<extkey_attcode>org_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+				<field id="location_name" xsi:type="AttributeExternalField"
+					_delta="define">
+					<extkey_attcode>location_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+				<field id="reference_number" xsi:type="AttributeString"
+					_delta="define">
+					<sql>reference_number</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+				<field id="ancien_prix" xsi:type="AttributeString"
+					_delta="define">
+					<sql>ancien_prix</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+				<field id="date_ancien_prix" xsi:type="AttributeDate"
+					_delta="define">
+					<sql>date_ancien_prix</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="col:col0" _delta="merge">
+							<items>
+								<item id="fieldset:StockElement:baseinfo" _delta="merge">
+									<items>
+										<item id="reference_number" _delta="define">
+											<rank>60</rank>
+										</item>
+										<item id="ancien_prix" _delta="define">
+											<rank>70</rank>
+										</item>
+										<item id="date_ancien_prix" _delta="define">
+											<rank>80</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+							<rank>10</rank>
+						</item>
+						<item id="col:col1" _delta="merge">
+							<items>
+								<item id="fieldset:StockElement:quantity" _delta="merge">
+									<items>
+										<item id="picture" _delta="define">
+											<rank>60</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+				<search _delta="merge">
+					<items>
+						<item id="picture" _delta="define">
+							<rank>120</rank>
+						</item>
+					</items>
+				</search>
+				<list _delta="merge">
+					<items>
+						<item id="location_id" _delta="define">
+							<rank>5</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="Ticket" _delta="merge">
+			<fields _delta="merge">
+				<field id="StockElement_list"
+					xsi:type="AttributeLinkedSetIndirect" _delta="define">
+					<linked_class>lnkStockElementToTicket</linked_class>
+					<ext_key_to_me>ticket_id</ext_key_to_me>
+					<count_min>0</count_min>
+					<count_max>0</count_max>
+					<ext_key_to_remote>stockelement_id</ext_key_to_remote>
+					<duplicates>false</duplicates>
+				</field>
+			</fields>
+			<methods _delta="merge">
+				<method id="OnUpdate" _delta="define">
+					<static>false</static>
+					<access>protected</access>
+					<code><![CDATA[	protected function OnUpdate()
+	{
+        $aChanges = $this->ListChanges();
+        if (array_key_exists('StockElement_list', $aChanges))
+        {
+        	//On recupere la liste des changements dans StockElement_list
+        	$modifiedLinks=$aChanges['StockElement_list']->ListModifiedLinks();
+        	foreach ($modifiedLinks as $oLnk)
+            {
+            	//Pour chaque element, on soustrait la quantite
+               	$oLnkSE = MetaModel::GetObject('StockElement', $oLnk->Get('stockelement_id'));
+            	if (is_object($oLnkSE) && (get_class($oLnkSE) == 'StockElement'))
+            	{
+            		//On force le recalcul des stock
+        		    $oLnkSE->Set('quantity_to_compute', 'yes');
+            		$iCurrentQuantity = $oLnkSE->Get('current_quantity') - $oLnk->Get('quantity');
+            		if($iCurrentQuantity<0) {
+            			$iCurrentQuantity=0;
+            		}
+            		$oLnkSE->Set('current_quantity', $iCurrentQuantity);
+            		$oLnkSE->DBUpdate();
+            	}
+            }
+        }
+        parent::OnUpdate();
+	}]]></code>
+				</method>
+			</methods>
+			<presentation>
+				<details _delta="merge">
+					<items _delta="merge">
+						<item id="StockElement_list">
+							<rank>150</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="Incident" _delta="must_exist">
+			<presentation>
+				<details _delta="merge">
+					<items _delta="merge">
+						<item id="StockElement_list">
+							<rank>45</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="UserRequest" _delta="must_exist">
+			<presentation>
+				<details _delta="merge">
+					<items _delta="merge">
+						<item id="StockElement_list">
+							<rank>45</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="NormalChange" _delta="must_exist">
+			<presentation>
+				<details _delta="merge">
+					<items _delta="merge">
+						<item id="StockElement_list">
+							<rank>45</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="EmergencyChange" _delta="must_exist">
+			<presentation>
+				<details _delta="merge">
+					<items _delta="merge">
+						<item id="StockElement_list">
+							<rank>45</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="RoutineChange" _delta="must_exist">
+			<presentation>
+				<details _delta="merge">
+					<items _delta="merge">
+						<item id="StockElement_list">
+							<rank>45</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+	</classes>
+	<user_rights>
+	</user_rights>
+</itop_design>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Default values for parameters. Do NOT alter this file, use params.local.xml instead -->
+<parameters>
+	<itop_url>http://itop.company.com</itop_url>
+	<itop_login>itop-user</itop_login>
+	<itop_password>password</itop_password>
+	<contact_to_notify>admin@company.com</contact_to_notify>
+	<synchro_user>itop-user</synchro_user>
+	<!--
+		Set a non empty (and unique) prefix if you run several instances of the collector against the same iTop Server
+		This is the recommended method to collect data from several Salesforce servers. (assign a unique prefix to each "source" Salesforce server)
+		Note: prefix is defined here since json_placeholders (below) can only reference global parameters
+	-->
+	<prefix>Salesforce</prefix>
+
+	<json_placeholders>
+		<prefix>$prefix$</prefix>
+	    <full_load_interval>604800</full_load_interval><!-- 7 days (in seconds): 7*24*60*60 -->
+	    <synchro_status>production</synchro_status>
+	    <!-- How to import the profiles in iTop. Possible values: write_if_empty | master_locked
+	    Use write_if_empty if you want the collector to initialize the profiles for each account but let you edit them in iTop after the initial creation of the user
+	    Use master_locked if you manage the profiles directly in LDAP and let the collector synchronize them in iTop
+	    -->
+	    <profile_list_update_policy>write_if_empty</profile_list_update_policy>
+	</json_placeholders>
+</parameters>
+
+<!--
+=> format des flags de parametrage dans params.local.xml
+=> Les flags seront pris en compte automatiquement
+<flags>
+	<flag-name(ex: itop_serveur)>flag-value</flag-name>
+	...etc
+</flags>
+-->

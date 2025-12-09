@@ -1,0 +1,150 @@
+cp /home/personalised-datacenter-view/molkobain-datacenter-view/datamodel.molkobain-datacenter-view.xml ./data/production-modules/molkobain-datacenter-view/molkobain-datacenter-view/
+cp /home/personalised-datacenter-view/molkobain-datacenter-view/??.dict.molkobain-datacenter-view.php ./data/production-modules/molkobain-datacenter-view/molkobain-datacenter-view/
+
+
+37d36
+<       const ENUM_PANEL_REAR = 'rear';
+257c256
+<                                       <div class="mdv-filter-container"><input class="mdv-filter-input" type="text" placeholder="{$sFilterInputTooltipAsHTML}" /><span class="mdv-filter-clear-icon fa fa-fw fa-times"></span></div>
+---
+>                                       <div class="mdv-filter-container"><input class="mdv-filter-input" type="search" placeholder="{$sFilterInputTooltipAsHTML}" /></div>
+454d453
+<                                       static::ENUM_PANEL_REAR => Dict::S('Molkobain:DatacenterView:Rack:Panel:Rear:Title'),
+529c528
+<                               'position_p' => $oEnclosure->Get('position_p'),
+---
+>                               'position_p' => static::ENUM_PANEL_FRONT,
+532d530
+<                                       static::ENUM_PANEL_REAR => Dict::S('Molkobain:DatacenterView:Enclosure:Panel:Rear:Title'),
+587c585
+<                               'position_p' => $oDevice->Get('position_p'),
+---
+>                               'position_p' => static::ENUM_PANEL_FRONT,
+704c702
+<                               $sAttributesHTML .= '<div class="mdv-dt-list-wrapper mdv-dt-' . $sAttCategory . '">';
+---
+>                               $sAttributesHTML .= '<div class="mdv-et-list-wrapper mdv-dt-' . $sAttCategory . '">';
+960d957
+<                       static::ENUM_PANEL_REAR,
+
+zorille@Iops-Damien:/TOOLS/php_customer/php_depot/Client/itop/plugins/Facilities/personalised-datacenter-view$ grep -R rear *
+molkobain-datacenter-view/common/datacenterview.class.inc.php:  const ENUM_PANEL_REAR = 'rear';
+molkobain-datacenter-view/datamodel.molkobain-datacenter-view.xml:                              <value id="rear">rear</value>
+molkobain-datacenter-view/datamodel.molkobain-datacenter-view.xml:                              <value id="rear">rear</value>
+molkobain-datacenter-view/datamodel.molkobain-datacenter-view.xml:                              <value id="rear">rear</value>
+molkobain-datacenter-view/en.dict.molkobain-datacenter-view.php:        'Class/Attribute:position_p/Value:rear' => 'Rear',
+molkobain-datacenter-view/en.dict.molkobain-datacenter-view.php:        'Class:PhysicalDevice/Attribute:position_p/Value:rear' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:rear']),
+molkobain-datacenter-view/en.dict.molkobain-datacenter-view.php:        'Class:Enclosure/Attribute:position_p/Value:rear' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:rear']),
+molkobain-datacenter-view/en.dict.molkobain-datacenter-view.php:        'Class:DatacenterDevice/Attribute:position_p/Value:rear' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:rear']),
+molkobain-datacenter-view/en.dict.molkobain-datacenter-view.php:        'Class:PDU/Attribute:position_p/Value:rear' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:rear']),
+molkobain-datacenter-view/fr.dict.molkobain-datacenter-view.php:        'Class/Attribute:position_p/Value:rear' => 'Arrière',
+molkobain-datacenter-view/fr.dict.molkobain-datacenter-view.php:        'Class:PhysicalDevice/Attribute:position_p/Value:rear' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:rear']),
+molkobain-datacenter-view/fr.dict.molkobain-datacenter-view.php:        'Class:Enclosure/Attribute:position_p/Value:rear' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:rear']),
+molkobain-datacenter-view/fr.dict.molkobain-datacenter-view.php:        'Class:DatacenterDevice/Attribute:position_p/Value:rear' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:rear']),
+molkobain-datacenter-view/fr.dict.molkobain-datacenter-view.php:        'Class:PDU/Attribute:position_p/Value:rear' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:rear']),
+molkobain-datacenter-view/Modifications front-rear.txt:<       const ENUM_PANEL_REAR = 'rear';
+
+
+diff molkobain-datacenter-view/datamodel.molkobain-datacenter-view.xml ../old/personalised-datacenter-view/molkobain-datacenter-view/datamodel.molkobain-datacenter-view.xml
+136a137,146
+>                               <field id="position_p" xsi:type="AttributeEnum" _delta="define">
+>                               <values>
+>                               <value id="front">front</value>
+>                               <value id="rear">rear</value>
+>                               </values>
+>                               <sql>position_p</sql>
+>                               <default_value>front</default_value>
+>                               <is_null_allowed>false</is_null_allowed>
+>                               <display_style>list</display_style>
+>                       </field>
+200a211,213
+>                                                                               <item id="position_p">
+>                                                                                       <rank>75</rank>
+>                                                                               </item>
+278a292,294
+>                                               <item id="position_p">
+>                                                       <rank>165</rank>
+>                                               </item>
+294a311,320
+>                               <field id="position_p" xsi:type="AttributeEnum" _delta="define">
+>                               <values>
+>                               <value id="front">front</value>
+>                               <value id="rear">rear</value>
+>                               </values>
+>                               <sql>position_p</sql>
+>                               <default_value>front</default_value>
+>                               <is_null_allowed>false</is_null_allowed>
+>                               <display_style>list</display_style>
+>                       </field>
+336a363,365
+>                                               <item id="position_p" _delta="define">
+>                                                       <rank>85</rank>
+>                                               </item>
+346a376,378
+>                                               <item id="position_p" _delta="define">
+>                                                       <rank>165</rank>
+>                                               </item>
+364a397,399
+>                                                                               <item id="position_p" _delta="define">
+>                                                                                       <rank>74</rank>
+>                                                                               </item>
+383a419,421
+>                                               <item id="position_p" _delta="define">
+>                                                       <rank>165</rank>
+>                                               </item>
+401a440,442
+>                                                                               <item id="position_p" _delta="define">
+>                                                                                       <rank>74</rank>
+>                                                                               </item>
+420a462,464
+>                                               <item id="position_p" _delta="define">
+>                                                       <rank>165</rank>
+>                                               </item>
+438a483,485
+>                                                                               <item id="position_p" _delta="define">
+>                                                                                       <rank>74</rank>
+>                                                                               </item>
+457a505,507
+>                                               <item id="position_p" _delta="define">
+>                                                       <rank>165</rank>
+>                                               </item>
+475a526,528
+>                                                                               <item id="position_p" _delta="define">
+>                                                                                       <rank>74</rank>
+>                                                                               </item>
+494a548,550
+>                                               <item id="position_p" _delta="define">
+>                                                       <rank>165</rank>
+>                                               </item>
+512a569,571
+>                                                                               <item id="position_p" _delta="define">
+>                                                                                       <rank>74</rank>
+>                                                                               </item>
+531a591,593
+>                                               <item id="position_p" _delta="define">
+>                                                       <rank>165</rank>
+>                                               </item>
+549a612,614
+>                                                                               <item id="position_p" _delta="define">
+>                                                                                       <rank>74</rank>
+>                                                                               </item>
+568a634,636
+>                                               <item id="position_p" _delta="define">
+>                                                       <rank>165</rank>
+>                                               </item>
+595a664,673
+>                               <field id="position_p" xsi:type="AttributeEnum" _delta="define">
+>                               <values>
+>                               <value id="front">front</value>
+>                               <value id="rear">rear</value>
+>                               </values>
+>                               <sql>position_p</sql>
+>                               <default_value>front</default_value>
+>                               <is_null_allowed>false</is_null_allowed>
+>                               <display_style>list</display_style>
+>                       </field>
+642a721,723
+>                                               </item>
+>                                               <item id="position_p" _delta="define">
+>                                                       <rank>69</rank>
+

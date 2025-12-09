@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+	<constants>
+	</constants>
+	<classes>
+		<class id="Rack" _delta="merge">
+			<properties _delta="merge">
+				<naming _delta="redefine">
+					<attributes>
+						<attribute id="location_name" />
+						<attribute id="pod_id" />
+						<attribute id="name" />
+						<attribute id="customer_id_friendlyname" />
+					</attributes>
+				</naming>
+				<reconciliation _delta="redefine">
+					<attributes>
+						<attribute id="name" />
+						<attribute id="org_id" />
+						<attribute id="organization_name" />
+						<attribute id="location_id" />
+						<attribute id="location_name" />
+						<attribute id="customer_id" />
+						<attribute id="customer_name" />
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+				<field id="customer_id" xsi:type="AttributeExternalKey"
+					_delta="define">
+					<sql>customer_id</sql>
+					<target_class>Organization</target_class>
+					<is_null_allowed>true</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+					<allow_target_creation>false</allow_target_creation>
+				</field>
+				<field id="customer_name" xsi:type="AttributeExternalField"
+					_delta="define">
+					<extkey_attcode>customer_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+				<field id="PDU_list" xsi:type="AttributeLinkedSet"
+					_delta="define">
+					<linked_class>PDU</linked_class>
+					<ext_key_to_me>rack_id</ext_key_to_me>
+					<edit_mode>add_only</edit_mode>
+					<count_min>0</count_min>
+					<count_max>0</count_max>
+				</field>
+				<field id="pod_id" xsi:type="AttributeString" _delta="define">
+					<sql>pod_id</sql>
+					<default_value></default_value>
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="customer_id" _delta="define">
+							<rank>15</rank>
+						</item>
+						<item id="pod_id" _delta="define">
+							<rank>16</rank>
+						</item>
+						<item id="PDU_list" _delta="define">
+							<rank>195</rank>
+						</item>
+					</items>
+				</details>
+				<default_search _delta="define">
+					<items>
+						<item id="name" _delta="define">
+							<rank>10</rank>
+						</item>
+						<item id="customer_id" _delta="define">
+							<rank>40</rank>
+						</item>
+						<item id="location_id" _delta="define">
+							<rank>50</rank>
+						</item>
+					</items>
+				</default_search>
+				<search _delta="merge">
+					<items>
+						<item id="customer_id" _delta="define">
+							<rank>20</rank>
+						</item>
+						<item id="pod_id" _delta="define">
+							<rank>21</rank>
+						</item>
+					</items>
+				</search>
+				<list _delta="merge">
+					<items>
+						<item id="customer_id" _delta="define">
+							<rank>15</rank>
+						</item>
+						<item id="pod_id" _delta="define">
+							<rank>16</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="PDU" _delta="merge">
+			<properties _delta="merge">
+				<naming _delta="redefine">
+					<attributes>
+						<attribute id="location_name" />
+						<attribute id="rack_pod_name" />
+						<attribute id="rack_name" />
+						<attribute id="name" />
+						<attribute id="rack_customer_name" />
+					</attributes>
+				</naming>
+			</properties>
+			<fields>
+				<field id="rack_pod_name"
+					xsi:type="AttributeExternalField" _delta="define">
+					<extkey_attcode>rack_id</extkey_attcode>
+					<target_attcode>pod_id</target_attcode>
+				</field>
+				<field id="rack_customer_name"
+					xsi:type="AttributeExternalField" _delta="define">
+					<extkey_attcode>rack_id</extkey_attcode>
+					<target_attcode>customer_id_friendlyname</target_attcode>
+				</field>
+			</fields>
+			<methods />
+			<presentation />
+		</class>
+	</classes>
+</itop_design>

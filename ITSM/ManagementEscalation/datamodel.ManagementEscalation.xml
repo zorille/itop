@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+	<constants>
+	</constants>
+	<classes>
+		<class id="UserRequest" _delta="merge">
+			<fields>
+				<field id="management_escalation_day" xsi:type="AttributeInteger" _delta="define">
+					<sql>management_escalation_day</sql>
+					<default_value>6</default_value>
+					<is_null_allowed>false</is_null_allowed>
+				</field>
+				<field id="management_escalation" xsi:type="AttributeStopWatch" _delta="define">
+					<always_load_in_tables>true</always_load_in_tables>
+					<states>
+						<state id="new" />
+						<state id="waiting_for_approval" />
+						<state id="approved" />
+						<state id="dispatched" />
+						<state id="assigned" />
+						<state id="escalated_tto" />
+						<state id="escalated_ttr" />
+						<state id="redispatched" />
+					</states>
+					<working_time />
+					<goal>ManageEscalation</goal>
+					<thresholds>
+						<threshold id="75">
+							<highlight>
+								<code>warning</code>
+								<persistent>false</persistent>
+							</highlight>
+							<actions />
+						</threshold>
+						<threshold id="100">
+							<highlight>
+								<code>critical</code>
+								<persistent>false</persistent>
+							</highlight>
+							<actions />
+						</threshold>
+					</thresholds>
+				</field>
+			</fields>
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="col:col2" _delta="merge">
+							<items _delta="merge">
+								 <item id="fieldset:Ticket:date" _delta="merge">
+									<rank>40</rank>
+									<items>
+										<item id="management_escalation_day" _delta="define">
+											<rank>90</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+	</classes>
+	<user_rights>
+	</user_rights>
+</itop_design>

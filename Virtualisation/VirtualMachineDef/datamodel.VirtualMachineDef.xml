@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+  <constants>
+  </constants>
+  <classes>
+    <class id="VirtualMachine" _delta="must_exist">
+      <properties _delta="merge">
+		<naming _delta="redefine">
+			<attributes>
+				<attribute id="name" />
+				<attribute id="hostname" />
+			</attributes>
+		</naming>
+      </properties>
+      <fields>
+        <field id="powerstate" xsi:type="AttributeEnum" _delta="define">
+          <values>
+            <value id="active">active</value>
+            <value id="inactive">inactive</value>
+          </values>
+          <sql>powerstate</sql>
+          <default_value>active</default_value>
+          <is_null_allowed>false</is_null_allowed>
+          <display_style>list</display_style>
+        </field>
+		<field id="hostname" xsi:type="AttributeString" _delta="define">
+          <sql>hostname</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
+		<!--<field id="backup" xsi:type="AttributeEnum" _delta="define">
+          <values>
+            <value id="enable">enable</value>
+            <value id="disable">disable</value>
+          </values>
+          <sql>backup</sql>
+          <default_value>disable</default_value>
+          <is_null_allowed>false</is_null_allowed>
+          <display_style>list</display_style>
+        </field>
+		<field id="backup_name" xsi:type="AttributeString" _delta="define">
+          <sql>backupname</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
+		<field id="praaas" xsi:type="AttributeEnum" _delta="define">
+          <values>
+            <value id="enable">enable</value>
+            <value id="disable">disable</value>
+          </values>
+          <sql>praaas</sql>
+          <default_value>disable</default_value>
+          <is_null_allowed>false</is_null_allowed>
+          <display_style>list</display_style>
+        </field>
+		<field id="praaas_name" xsi:type="AttributeString" _delta="define">
+          <sql>praaas_name</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>-->
+      </fields>
+      <methods/>
+      <presentation>
+        <details _delta="merge">
+          <items>
+			<item id="col:col2" _delta="merge">
+              <items>
+                <item id="fieldset:Server:guestinfo" _delta="define">
+					<rank>20</rank>
+					<items>
+						<item id="hostname">
+						  <rank>10</rank>
+						</item>
+						<item id="powerstate">
+						  <rank>20</rank>
+						</item>
+						<!--<item id="backup">
+						  <rank>30</rank>
+						</item>
+						<item id="backup_name">
+						  <rank>35</rank>
+						</item>
+						<item id="praaas">
+						  <rank>40</rank>
+						</item>
+						<item id="praaas_name">
+						  <rank>40</rank>
+						</item>-->
+					</items>
+				</item>
+			  </items>
+			</item>
+          </items>
+        </details>
+        <search>
+          <items>
+            <item id="powerstate">
+              <rank>40</rank>
+            </item>
+          </items>
+        </search>
+        <list>
+          <items>
+            <item id="powerstate">
+              <rank>40</rank>
+            </item>
+          </items>
+        </list>
+      </presentation>
+    </class>
+  </classes>
+  <user_rights>
+  </user_rights>
+</itop_design>

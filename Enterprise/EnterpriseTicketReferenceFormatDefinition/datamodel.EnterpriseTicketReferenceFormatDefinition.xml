@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+  <constants>
+  </constants>
+  <classes>
+	<class id="Ticket" _delta="merge">
+		<methods>
+                <method id="MakeTicketRef" _delta="redefine">
+                    <static>false</static>
+                    <access>protected</access>
+                    <type>Overload-DBObject</type>
+                    <code><![CDATA[
+        protected function MakeTicketRef($iNextId)
+        {
+                switch(get_class($this))
+                {
+                        case 'UserRequest':
+                        $sFormat = 'R-CODE-%06d';
+                        break;
+
+                        case 'Incident':
+                        $sFormat = 'I-CODE-%06d';
+                        break;
+
+                        case 'Change':
+                        case 'RoutineChange':
+                        case 'EmergencyChange':
+                        case 'NormalChange':
+                        $sFormat = 'C-CODE-%06d';
+                        break;
+
+                        case 'Problem':
+                        $sFormat = 'P-CODE-%06d';
+                        break;
+
+                        case 'Project':
+                        $sFormat = 'J-CODE-%06d';
+                        break;
+						
+			case 'ProjectChange':
+                        $sFormat = 'JC-CODE-%06d';
+                        break;
+						
+                        default:
+                        $sFormat = 'T-CODE-%06d';
+                }
+                return sprintf($sFormat, $iNextId);
+        }
+        ]]></code>
+                </method>
+            </methods>
+    </class>
+  </classes>
+  <user_rights>
+  </user_rights>
+</itop_design>

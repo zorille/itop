@@ -1,0 +1,2171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+	<classes>
+		<class id="MonitoringModele" _delta="define">
+			<parent>Typology</parent>
+			<properties>
+				<category>bizmodel,searchable</category>
+				<abstract>false</abstract>
+				<key_type>autoincrement</key_type>
+				<db_table>monitoringmodele</db_table>
+				<db_key_field>id</db_key_field>
+				<db_final_class_field />
+				<naming>
+					<attributes>
+						<attribute id="name" />
+					</attributes>
+				</naming>
+				<display_template />
+				<icon />
+				<reconciliation>
+					<attributes>
+						<attribute id="name" />
+					</attributes>
+				</reconciliation>
+				<uniqueness_rules>
+					<rule id="name">
+						<attributes>
+							<attribute id="name" />
+						</attributes>
+						<is_blocking>true</is_blocking>
+					</rule>
+				</uniqueness_rules>
+			</properties>
+			<fields>
+				<field id="monitorings_list" xsi:type="AttributeLinkedSet">
+					<linked_class>BaseMonitoring</linked_class>
+					<ext_key_to_me>modele_id</ext_key_to_me>
+					<edit_mode>add_only</edit_mode>
+					<count_min>0</count_min>
+					<count_max>0</count_max>
+					<duplicates />
+				</field>
+				<field id="controls_list" xsi:type="AttributeLinkedSet">
+					<linked_class>ControlMonitoring</linked_class>
+					<ext_key_to_me>controle_id</ext_key_to_me>
+					<edit_mode>none</edit_mode>
+					<count_min>0</count_min>
+					<count_max>0</count_max>
+					<duplicates />
+				</field>
+				<field id="modeletype" xsi:type="AttributeEnum">
+					<values>
+						<value id="equipment">equipment</value>
+						<value id="service">service</value>
+						<value id="controle">controle</value>
+					</values>
+					<sql>modeletype</sql>
+					<default_value>equipment</default_value>
+					<is_null_allowed>false</is_null_allowed>
+					<display_style>list</display_style>
+				</field>
+				<field id="description" xsi:type="AttributeText">
+					<sql>description</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="modeletype">
+							<rank>20</rank>
+						</item>
+						<item id="description">
+							<rank>25</rank>
+						</item>
+						<item id="monitorings_list">
+							<rank>30</rank>
+						</item>
+						<item id="controls_list">
+							<rank>40</rank>
+						</item>
+					</items>
+				</details>
+				<search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="modeletype">
+							<rank>20</rank>
+						</item>
+					</items>
+				</search>
+				<list>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="modeletype">
+							<rank>20</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="BaseMonitoring" _delta="define">
+			<parent>cmdbAbstractObject</parent>
+			<properties>
+				<category>bizmodel,searchable</category>
+				<abstract>true</abstract>
+				<key_type>autoincrement</key_type>
+				<db_table>basemonitoring</db_table>
+				<db_key_field>id</db_key_field>
+				<db_final_class_field>finalclass</db_final_class_field>
+				<naming>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="functionalci_name" />
+					</attributes>
+				</naming>
+				<display_template />
+				<icon>images/monitoring.jpg</icon>
+				<reconciliation>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="org_id" />
+						<attribute id="organization_name" />
+						<attribute id="functionalci_id" />
+						<attribute id="functionalci_name" />
+					</attributes>
+				</reconciliation>
+				<uniqueness_rules>
+					<rule id="name">
+						<attributes>
+							<attribute id="name" />
+						</attributes>
+						<is_blocking>true</is_blocking>
+					</rule>
+				</uniqueness_rules>
+				<obsolescence>
+          			<condition><![CDATA[status='inactive']]></condition>
+        		</obsolescence>
+			</properties>
+			<fields>
+				<field id="name" xsi:type="AttributeString">
+					<sql>name</sql>
+					<default_value />
+					<is_null_allowed>false</is_null_allowed>
+				</field>
+				<field id="org_id" xsi:type="AttributeExternalKey">
+					<sql>org_id</sql>
+					<target_class>Organization</target_class>
+					<is_null_allowed>false</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+				</field>
+				<field id="organization_name"
+					xsi:type="AttributeExternalField">
+					<extkey_attcode>org_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+				<field id="organization_uniq_id"
+					xsi:type="AttributeExternalField">
+					<extkey_attcode>org_id</extkey_attcode>
+					<target_attcode>code</target_attcode>
+				</field>
+				<field id="business_criticity" xsi:type="AttributeEnum">
+					<values>
+						<value id="high">high</value>
+						<value id="medium">medium</value>
+						<value id="low">low</value>
+					</values>
+					<sql>business_criticity</sql>
+					<default_value>low</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>list</display_style>
+				</field>
+				<field id="status" xsi:type="AttributeEnum">
+					<values>
+						<value id="active">active</value>
+						<value id="inactive">inactive</value>
+					</values>
+					<sql>status</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>list</display_style>
+				</field>
+				<field id="functionalci_id" xsi:type="AttributeExternalKey">
+					<sql>functionalci_id</sql>
+					<target_class>FunctionalCI</target_class>
+					<is_null_allowed>false</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+					<allow_target_creation>false</allow_target_creation>
+				</field>
+				<field id="functionalci_name"
+					xsi:type="AttributeExternalField">
+					<extkey_attcode>functionalci_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+				<field id="modele_id" xsi:type="AttributeExternalKey">
+					<sql>modele_id</sql>
+					<target_class>MonitoringModele</target_class>
+					<is_null_allowed>false</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+				</field>
+				<field id="modele_name" xsi:type="AttributeExternalField">
+					<extkey_attcode>modele_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+				<field id="monitoring_id" xsi:type="AttributeInteger">
+					<sql>monitoring_id</sql>
+					<default_value></default_value>
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+				<field id="monitoring_url" xsi:type="AttributeURL"
+					_delta="define">
+					<sql>monitoring_url</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+					<target>_blank</target>
+				</field>
+				<field id="etiquettes" xsi:type="AttributeText">
+					<sql>etiquettes</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+				<field id="monitoring_box_id" xsi:type="AttributeExternalKey">
+					<sql>monitoring_box_id</sql>
+					<target_class>VirtualMachine</target_class>
+					<is_null_allowed>true</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+					<allow_target_creation>false</allow_target_creation>
+				</field>
+				<field id="monitoring_box_name"
+					xsi:type="AttributeExternalField">
+					<extkey_attcode>monitoring_box_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+			</fields>
+			<methods>
+				<method id="PrefillCreationForm">
+					<comment>/**
+						*
+						* @author Damien Vargas
+						* @return bool Return true on
+						success or false to prevent the transition to happen
+						*/
+					</comment>
+					<static>false</static>
+					<access>public</access>
+					<code><![CDATA[
+					public function PrefillCreationForm(&$aContextParam)
+					{
+						if (empty($this->Get('monitoring_url')))
+						{
+							$sMonitoringURL = MetaModel::GetModuleSetting ( 'Monitoring','monitoring_url','' );
+							$sHostURL = $sMonitoringURL .'main.php';
+							$this->Set('monitoring_url', $sHostURL);
+						}
+						parent::PrefillCreationForm($aContextParam);
+					}
+					]]></code>
+					<arguments>
+						<argument id="1">
+							<mandatory>false</mandatory>
+							<type>attcode</type>
+						</argument>
+					</arguments>
+				</method>
+				<method id="DisplayDetails">
+					<comment>/**
+						*
+						* @author Damien Vargas
+						* @return bool Return true on
+						success or false to prevent the transition to happen
+						*/
+					</comment>
+					<static>false</static>
+					<access>public</access>
+					<code><![CDATA[
+                          public function DisplayDetails(WebPage $oPage, $bEditMode = false)
+                          {
+                            if (empty($this->Get('monitoring_url')) && !empty($this->Get('monitoring_id')))
+                            {
+                               $sMonitoringURL = MetaModel::GetModuleSetting ( 'Monitoring', 'monitoring_url', '' );
+							   $sHostURL = $sMonitoringURL . 'main.php?p=10299&idcompany=2#hostId=' . $this->Get ( 'monitoring_id' );
+                               $this->Set('monitoring_url', $sHostURL);
+                            }
+                            parent::DisplayDetails($oPage, $bEditMode);
+                          }
+                          ]]></code>
+					<arguments>
+						<argument id="1">
+							<mandatory>false</mandatory>
+							<type>attcode</type>
+						</argument>
+					</arguments>
+				</method>
+				<method id="OnUpdate">
+					<static>false</static>
+					<access>protected</access>
+					<code><![CDATA[	protected function OnUpdate()
+					{
+				        //On reset l'url qui est calcule uniquement a l'affichage
+				        $this->Set('monitoring_url', '');
+				        parent::OnUpdate();
+					}]]></code>
+				</method>
+			</methods>
+			<presentation>
+				<list>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="functionalci_id">
+							<rank>40</rank>
+						</item>
+						<item id="modele_id">
+							<rank>50</rank>
+						</item>
+						<item id="monitoring_box_id">
+							<rank>60</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="ControlMonitoring" _delta="define">
+			<parent>BaseMonitoring</parent>
+			<properties>
+				<category>bizmodel,searchable</category>
+				<abstract>true</abstract>
+				<key_type>autoincrement</key_type>
+				<db_table>controlmonitoring</db_table>
+				<db_key_field>id</db_key_field>
+				<db_final_class_field>finalclass</db_final_class_field>
+				<naming>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="functionalci_name" />
+					</attributes>
+				</naming>
+				<display_template />
+				<icon>images/monitoring.jpg</icon>
+				<reconciliation>
+					<attributes>
+						<attribute id="name" />
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+				<field id="controle_id" xsi:type="AttributeExternalKey">
+					<sql>controle_id</sql>
+					<target_class>MonitoringModele</target_class>
+					<filter><![CDATA[SELECT MonitoringModele WHERE name IN ('Ping','Ping_System','Device not pingable')]]></filter>
+					<is_null_allowed>false</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+				</field>
+				<field id="controle_name" xsi:type="AttributeExternalField">
+					<extkey_attcode>controle_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+				<field id="seuil_control_alerte" xsi:type="AttributeInteger">
+					<sql>seuil_control_alerte</sql>
+					<default_value>5</default_value>
+					<is_null_allowed>false</is_null_allowed>
+				</field>
+				<field id="seuil_control_critique" xsi:type="AttributeInteger">
+					<sql>seuil_control_critique</sql>
+					<default_value>8</default_value>
+					<is_null_allowed>false</is_null_allowed>
+				</field>
+			</fields>
+			<methods />
+			<presentation />
+		</class>
+		<class id="AppsMonitoring" _delta="define">
+			<parent>BaseMonitoring</parent>
+			<properties>
+				<category>bizmodel,searchable</category>
+				<abstract>false</abstract>
+				<key_type>autoincrement</key_type>
+				<db_table>appsmonitoring</db_table>
+				<db_key_field>id</db_key_field>
+				<db_final_class_field />
+				<icon>images/appsmonitoring.png</icon>
+				<naming>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="functionalci_name" />
+					</attributes>
+				</naming>
+				<display_template />
+				<reconciliation />
+			</properties>
+			<fields>
+				<field id="monitoring_host_id" xsi:type="AttributeExternalKey">
+					<sql>monitoring_host_id</sql>
+					<target_class>BaseMonitoring</target_class>
+					<!-- <filter><![CDATA[SELECT BaseMonitoring WHERE functionalci_id=:this->functionalci_id]]></filter> 
+						<dependencies> <attribute id="functionalci_id" /> </dependencies> -->
+					<is_null_allowed>false</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+				</field>
+				<field id="monitoring_host_name"
+					xsi:type="AttributeExternalField">
+					<extkey_attcode>monitoring_host_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+				<field id="monitoring_apps_standard_account"
+					xsi:type="AttributeEnum">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>monitoring_apps_standard_account</sql>
+					<default_value>yes</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="service_params" xsi:type="AttributeText">
+					<sql>service_params</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details>
+					<items>
+						<item id="col:col1">
+							<rank>40</rank>
+							<items>
+								<item id="fieldset:BaseMonitoring:baseinfo">
+									<rank>10</rank>
+									<items>
+										<item id="name">
+											<rank>10</rank>
+										</item>
+										<item id="org_id">
+											<rank>20</rank>
+										</item>
+										<item id="organization_uniq_id">
+											<rank>20</rank>
+										</item>
+										<item id="status">
+											<rank>30</rank>
+										</item>
+										<item id="functionalci_id">
+											<rank>40</rank>
+										</item>
+										<item id="monitoring_id">
+											<rank>50</rank>
+										</item>
+									</items>
+								</item>
+
+							</items>
+						</item>
+						<item id="col:col2">
+							<rank>50</rank>
+							<items>
+								<item id="fieldset:AppsMonitoring:modele">
+									<rank>20</rank>
+									<items>
+										<item id="modele_id">
+											<rank>10</rank>
+										</item>
+										<item id="monitoring_host_id">
+											<rank>20</rank>
+										</item>
+										<item id="monitoring_apps_standard_account">
+											<rank>30</rank>
+										</item>
+										<item id="service_params">
+											<rank>40</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+				<default_search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="functionalci_id">
+							<rank>40</rank>
+						</item>
+						<item id="modele_id">
+							<rank>50</rank>
+						</item>
+					</items>
+				</default_search>
+				<search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="functionalci_id">
+							<rank>40</rank>
+						</item>
+						<item id="modele_id">
+							<rank>50</rank>
+						</item>
+					</items>
+				</search>
+				<list>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="functionalci_id">
+							<rank>40</rank>
+						</item>
+						<item id="modele_id">
+							<rank>50</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="FacilitiesMonitoring" _delta="define">
+			<parent>ControlMonitoring</parent>
+			<properties>
+				<category>bizmodel,searchable</category>
+				<abstract>false</abstract>
+				<key_type>autoincrement</key_type>
+				<db_table>facilitiesmonitoring</db_table>
+				<db_key_field>id</db_key_field>
+				<db_final_class_field />
+				<icon>images/facilitiesmonitoring.png</icon>
+				<naming>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="functionalci_name" />
+					</attributes>
+				</naming>
+				<display_template />
+				<reconciliation>
+					<attributes>
+						<attribute id="name" />
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+				<field id="category" xsi:type="AttributeString">
+					<sql>category</sql>
+					<default_value />
+					<is_null_allowed>false</is_null_allowed>
+				</field>
+				<field id="monitoring_host_standard_account"
+					xsi:type="AttributeEnum">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>monitoring_host_standard_account</sql>
+					<default_value>yes</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="monitoring_host_snmp" xsi:type="AttributeEnum">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>monitoring_host_snmp</sql>
+					<default_value>yes</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="monitoring_collecte_elect" xsi:type="AttributeEnum">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>monitoring_collecte_elect</sql>
+					<default_value>no</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<!-- <field id="modele_collect_id" xsi:type="AttributeExternalKey"> -->
+				<!-- <sql>modele_collect_id</sql> -->
+				<!-- <target_class>MonitoringModele</target_class> -->
+				<!-- <filter><![CDATA[SELECT MonitoringModele WHERE name LIKE '%-PDU-ENERGIE']]></filter> -->
+				<!-- <is_null_allowed>true</is_null_allowed> -->
+				<!-- <on_target_delete>DEL_MANUAL</on_target_delete> -->
+				<!-- </field> -->
+				<!-- <field id="modele_collecte_name" -->
+				<!-- xsi:type="AttributeExternalField"> -->
+				<!-- <extkey_attcode>modele_collect_id</extkey_attcode> -->
+				<!-- <target_attcode>name</target_attcode> -->
+				<!-- </field> -->
+				<field id="appsmonitoring_list" xsi:type="AttributeLinkedSet">
+					<linked_class>AppsMonitoring</linked_class>
+					<ext_key_to_me>monitoring_host_id</ext_key_to_me>
+					<edit_mode>add_only</edit_mode>
+					<count_min>0</count_min>
+					<count_max>0</count_max>
+					<duplicates />
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details>
+					<items>
+						<item id="appsmonitoring_list">
+							<rank>10</rank>
+						</item>
+						<item id="col:col1">
+							<rank>40</rank>
+							<items>
+								<item id="fieldset:BaseMonitoring:baseinfo">
+									<rank>10</rank>
+									<items>
+										<item id="name">
+											<rank>10</rank>
+										</item>
+										<item id="org_id">
+											<rank>20</rank>
+										</item>
+										<item id="organization_uniq_id">
+											<rank>20</rank>
+										</item>
+										<item id="status">
+											<rank>30</rank>
+										</item>
+										<item id="functionalci_id">
+											<rank>40</rank>
+										</item>
+										<item id="monitoring_id">
+											<rank>50</rank>
+										</item>
+										<item id="monitoring_url">
+											<rank>55</rank>
+										</item>
+										<item id="category">
+											<rank>60</rank>
+										</item>
+										<item id="monitoring_box_id">
+											<rank>70</rank>
+										</item>
+										<item id="etiquettes">
+											<rank>80</rank>
+										</item>
+									</items>
+								</item>
+								<item id="fieldset:ControlMonitoring:control">
+									<rank>20</rank>
+									<items>
+										<item id="controle_id">
+											<rank>10</rank>
+										</item>
+										<item id="seuil_control_alerte">
+											<rank>20</rank>
+										</item>
+										<item id="seuil_control_critique">
+											<rank>30</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+						<item id="col:col2">
+							<rank>50</rank>
+							<items>
+								<item id="fieldset:FacilitiesMonitoring:modelehost">
+									<rank>10</rank>
+									<items>
+										<item id="modele_id">
+											<rank>10</rank>
+										</item>
+										<item id="monitoring_host_snmp">
+											<rank>20</rank>
+										</item>
+										<item id="monitoring_host_standard_account">
+											<rank>30</rank>
+										</item>
+									</items>
+								</item>
+								<item id="fieldset:FacilitiesMonitoring:collectelect">
+									<rank>20</rank>
+									<items>
+										<item id="monitoring_collecte_elect">
+											<rank>10</rank>
+										</item>
+										<!-- <item id="modele_collect_id"> -->
+										<!-- <rank>20</rank> -->
+										<!-- </item> -->
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+				<default_search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="functionalci_id">
+							<rank>40</rank>
+						</item>
+						<item id="modele_id">
+							<rank>50</rank>
+						</item>
+						<item id="controle_id">
+							<rank>60</rank>
+						</item>
+					</items>
+				</default_search>
+				<search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="functionalci_id">
+							<rank>40</rank>
+						</item>
+						<item id="modele_id">
+							<rank>50</rank>
+						</item>
+						<item id="controle_id">
+							<rank>60</rank>
+						</item>
+					</items>
+				</search>
+				<list>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="functionalci_id">
+							<rank>40</rank>
+						</item>
+						<item id="modele_id">
+							<rank>50</rank>
+						</item>
+						<item id="controle_id">
+							<rank>60</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="NetworkMonitoring" _delta="define">
+			<parent>ControlMonitoring</parent>
+			<properties>
+				<category>bizmodel,searchable</category>
+				<abstract>false</abstract>
+				<key_type>autoincrement</key_type>
+				<db_table>networkmonitoring</db_table>
+				<db_key_field>id</db_key_field>
+				<db_final_class_field />
+				<icon>images/networkmonitoring.png</icon>
+				<naming>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="functionalci_name" />
+					</attributes>
+				</naming>
+				<display_template />
+				<reconciliation>
+					<attributes>
+						<attribute id="name" />
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+				<field id="category" xsi:type="AttributeString">
+					<sql>category</sql>
+					<default_value />
+					<is_null_allowed>false</is_null_allowed>
+				</field>
+				<field id="monitoring_host_standard_account"
+					xsi:type="AttributeEnum">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>monitoring_host_standard_account</sql>
+					<default_value>yes</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="monitoring_host_snmp" xsi:type="AttributeEnum">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>monitoring_host_snmp</sql>
+					<default_value>yes</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="monitoring_host_ssh" xsi:type="AttributeEnum">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>monitoring_host_ssh</sql>
+					<default_value>no</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="appsmonitoring_list" xsi:type="AttributeLinkedSet">
+					<linked_class>AppsMonitoring</linked_class>
+					<ext_key_to_me>monitoring_host_id</ext_key_to_me>
+					<edit_mode>add_only</edit_mode>
+					<count_min>0</count_min>
+					<count_max>0</count_max>
+					<duplicates />
+				</field>
+				<field id="network_monitoring_tools" xsi:type="AttributeEnum">
+					<values>
+						<value id="evobserv">evobserv</value>
+						<value id="librenms">librenms</value>
+					</values>
+					<sql>network_monitoring_tools</sql>
+					<default_value>evobserv</default_value>
+					<is_null_allowed>false</is_null_allowed>
+					<display_style>list</display_style>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details>
+					<items>
+						<item id="appsmonitoring_list">
+							<rank>10</rank>
+						</item>
+						<item id="col:col1">
+							<rank>40</rank>
+							<items>
+								<item id="fieldset:BaseMonitoring:baseinfo">
+									<rank>10</rank>
+									<items>
+										<item id="name">
+											<rank>10</rank>
+										</item>
+										<item id="org_id">
+											<rank>20</rank>
+										</item>
+										<item id="organization_uniq_id">
+											<rank>20</rank>
+										</item>
+										<item id="status">
+											<rank>30</rank>
+										</item>
+										<item id="functionalci_id">
+											<rank>40</rank>
+										</item>
+										<item id="monitoring_id">
+											<rank>50</rank>
+										</item>
+										<item id="monitoring_url">
+											<rank>55</rank>
+										</item>
+										<item id="category">
+											<rank>60</rank>
+										</item>
+										<item id="monitoring_box_id">
+											<rank>70</rank>
+										</item>
+										<item id="etiquettes">
+											<rank>80</rank>
+										</item>
+									</items>
+								</item>
+								<item id="fieldset:ControlMonitoring:control">
+									<rank>20</rank>
+									<items>
+										<item id="controle_id">
+											<rank>10</rank>
+										</item>
+										<item id="seuil_control_alerte">
+											<rank>20</rank>
+										</item>
+										<item id="seuil_control_critique">
+											<rank>30</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+						<item id="col:col2">
+							<rank>50</rank>
+							<items>
+								<item id="fieldset:NetworkMonitoring:modelehost">
+									<rank>10</rank>
+									<items>
+										<item id="modele_id">
+											<rank>10</rank>
+										</item>
+										<item id="monitoring_host_snmp">
+											<rank>20</rank>
+										</item>
+										<item id="monitoring_host_ssh">
+											<rank>30</rank>
+										</item>
+										<item id="monitoring_host_standard_account">
+											<rank>40</rank>
+										</item>
+										<item id="network_monitoring_tools">
+											<rank>50</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+				<default_search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="functionalci_id">
+							<rank>40</rank>
+						</item>
+						<item id="modele_id">
+							<rank>50</rank>
+						</item>
+						<item id="controle_id">
+							<rank>60</rank>
+						</item>
+						<item id="network_monitoring_tools">
+							<rank>70</rank>
+						</item>
+					</items>
+				</default_search>
+				<search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="functionalci_id">
+							<rank>40</rank>
+						</item>
+						<item id="modele_id">
+							<rank>50</rank>
+						</item>
+						<item id="controle_id">
+							<rank>60</rank>
+						</item>
+						<item id="network_monitoring_tools">
+							<rank>70</rank>
+						</item>
+					</items>
+				</search>
+				<list>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="functionalci_id">
+							<rank>40</rank>
+						</item>
+						<item id="modele_id">
+							<rank>50</rank>
+						</item>
+						<item id="controle_id">
+							<rank>60</rank>
+						</item>
+						<item id="network_monitoring_tools">
+							<rank>70</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="OSMonitoring" _delta="define">
+			<parent>ControlMonitoring</parent>
+			<properties>
+				<category>bizmodel,searchable</category>
+				<abstract>false</abstract>
+				<key_type>autoincrement</key_type>
+				<db_table>osmonitoring</db_table>
+				<db_key_field>id</db_key_field>
+				<db_final_class_field />
+				<icon>images/osmonitoring.png</icon>
+				<naming>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="functionalci_name" />
+					</attributes>
+				</naming>
+				<display_template />
+				<reconciliation>
+					<attributes>
+						<attribute id="name" />
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+				<field id="category" xsi:type="AttributeString">
+					<sql>category</sql>
+					<default_value />
+					<is_null_allowed>false</is_null_allowed>
+				</field>
+				<field id="monitoring_host_standard_account"
+					xsi:type="AttributeEnum">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>monitoring_host_standard_account</sql>
+					<default_value>yes</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="monitoring_host_snmp" xsi:type="AttributeEnum">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>monitoring_host_snmp</sql>
+					<default_value>yes</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="monitoring_host_wmi" xsi:type="AttributeEnum">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>monitoring_host_wmi</sql>
+					<default_value>no</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="monitoring_host_ssh" xsi:type="AttributeEnum">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>monitoring_host_ssh</sql>
+					<default_value>no</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="monitoring_host_api" xsi:type="AttributeEnum">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>monitoring_host_api</sql>
+					<default_value>no</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="appsmonitoring_list" xsi:type="AttributeLinkedSet">
+					<linked_class>AppsMonitoring</linked_class>
+					<ext_key_to_me>monitoring_host_id</ext_key_to_me>
+					<edit_mode>add_only</edit_mode>
+					<count_min>0</count_min>
+					<count_max>0</count_max>
+					<duplicates />
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details>
+					<items>
+						<item id="appsmonitoring_list">
+							<rank>10</rank>
+						</item>
+						<item id="col:col1">
+							<rank>40</rank>
+							<items>
+								<item id="fieldset:BaseMonitoring:baseinfo">
+									<rank>10</rank>
+									<items>
+										<item id="name">
+											<rank>10</rank>
+										</item>
+										<item id="org_id">
+											<rank>20</rank>
+										</item>
+										<item id="organization_uniq_id">
+											<rank>20</rank>
+										</item>
+										<item id="status">
+											<rank>30</rank>
+										</item>
+										<item id="functionalci_id">
+											<rank>40</rank>
+										</item>
+										<item id="monitoring_id">
+											<rank>50</rank>
+										</item>
+										<item id="monitoring_url">
+											<rank>55</rank>
+										</item>
+										<item id="category">
+											<rank>60</rank>
+										</item>
+										<item id="monitoring_box_id">
+											<rank>70</rank>
+										</item>
+										<item id="etiquettes">
+											<rank>80</rank>
+										</item>
+									</items>
+								</item>
+								<item id="fieldset:ControlMonitoring:control">
+									<rank>20</rank>
+									<items>
+										<item id="controle_id">
+											<rank>10</rank>
+										</item>
+										<item id="seuil_control_alerte">
+											<rank>20</rank>
+										</item>
+										<item id="seuil_control_critique">
+											<rank>30</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+						<item id="col:col2">
+							<rank>50</rank>
+							<items>
+								<item id="fieldset:OSMonitoring:modelehost">
+									<rank>10</rank>
+									<items>
+										<item id="modele_id">
+											<rank>10</rank>
+										</item>
+										<item id="monitoring_host_snmp">
+											<rank>20</rank>
+										</item>
+										<item id="monitoring_host_api">
+											<rank>30</rank>
+										</item>
+										<item id="monitoring_host_ssh">
+											<rank>40</rank>
+										</item>
+										<item id="monitoring_host_wmi">
+											<rank>50</rank>
+										</item>
+										<item id="monitoring_host_standard_account">
+											<rank>60</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+				<default_search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="functionalci_id">
+							<rank>40</rank>
+						</item>
+						<item id="modele_id">
+							<rank>50</rank>
+						</item>
+						<item id="controle_id">
+							<rank>60</rank>
+						</item>
+					</items>
+				</default_search>
+				<search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="functionalci_id">
+							<rank>40</rank>
+						</item>
+						<item id="modele_id">
+							<rank>50</rank>
+						</item>
+						<item id="controle_id">
+							<rank>60</rank>
+						</item>
+					</items>
+				</search>
+				<list>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="functionalci_id">
+							<rank>40</rank>
+						</item>
+						<item id="modele_id">
+							<rank>50</rank>
+						</item>
+						<item id="controle_id">
+							<rank>60</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="ServerMonitoring" _delta="define">
+			<parent>ControlMonitoring</parent>
+			<properties>
+				<category>bizmodel,searchable</category>
+				<abstract>false</abstract>
+				<key_type>autoincrement</key_type>
+				<db_table>servermonitoring</db_table>
+				<db_key_field>id</db_key_field>
+				<db_final_class_field />
+				<icon>images/servermonitoring.png</icon>
+				<naming>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="functionalci_name" />
+					</attributes>
+				</naming>
+				<display_template />
+				<reconciliation>
+					<attributes>
+						<attribute id="name" />
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+				<field id="category" xsi:type="AttributeString">
+					<sql>category</sql>
+					<default_value />
+					<is_null_allowed>false</is_null_allowed>
+				</field>
+				<field id="monitoring_host_standard_account"
+					xsi:type="AttributeEnum">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>monitoring_host_standard_account</sql>
+					<default_value>yes</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="monitoring_host_snmp" xsi:type="AttributeEnum">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>monitoring_host_snmp</sql>
+					<default_value>yes</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="monitoring_host_idrac" xsi:type="AttributeEnum">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>monitoring_host_idrac</sql>
+					<default_value>no</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="monitoring_host_ssh" xsi:type="AttributeEnum">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>monitoring_host_ssh</sql>
+					<default_value>no</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="monitoring_host_ipmi" xsi:type="AttributeEnum">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>monitoring_host_ipmi</sql>
+					<default_value>no</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="appsmonitoring_list" xsi:type="AttributeLinkedSet">
+					<linked_class>AppsMonitoring</linked_class>
+					<ext_key_to_me>monitoring_host_id</ext_key_to_me>
+					<edit_mode>add_only</edit_mode>
+					<count_min>0</count_min>
+					<count_max>0</count_max>
+					<duplicates />
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details>
+					<items>
+						<item id="appsmonitoring_list">
+							<rank>10</rank>
+						</item>
+						<item id="col:col1">
+							<rank>40</rank>
+							<items>
+								<item id="fieldset:BaseMonitoring:baseinfo">
+									<rank>10</rank>
+									<items>
+										<item id="name">
+											<rank>10</rank>
+										</item>
+										<item id="org_id">
+											<rank>20</rank>
+										</item>
+										<item id="organization_uniq_id">
+											<rank>20</rank>
+										</item>
+										<item id="status">
+											<rank>30</rank>
+										</item>
+										<item id="functionalci_id">
+											<rank>40</rank>
+										</item>
+										<item id="monitoring_id">
+											<rank>50</rank>
+										</item>
+										<item id="monitoring_url">
+											<rank>55</rank>
+										</item>
+										<item id="category">
+											<rank>60</rank>
+										</item>
+										<item id="monitoring_box_id">
+											<rank>70</rank>
+										</item>
+										<item id="etiquettes">
+											<rank>80</rank>
+										</item>
+									</items>
+								</item>
+								<item id="fieldset:ControlMonitoring:control">
+									<rank>20</rank>
+									<items>
+										<item id="controle_id">
+											<rank>10</rank>
+										</item>
+										<item id="seuil_control_alerte">
+											<rank>20</rank>
+										</item>
+										<item id="seuil_control_critique">
+											<rank>30</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+						<item id="col:col2">
+							<rank>50</rank>
+							<items>
+								<item id="fieldset:ServerMonitoring:modelehost">
+									<rank>10</rank>
+									<items>
+										<item id="modele_id">
+											<rank>10</rank>
+										</item>
+										<item id="monitoring_host_snmp">
+											<rank>20</rank>
+										</item>
+										<item id="monitoring_host_ssh">
+											<rank>30</rank>
+										</item>
+										<item id="monitoring_host_idrac">
+											<rank>40</rank>
+										</item>
+										<item id="monitoring_host_ipmi">
+											<rank>50</rank>
+										</item>
+										<item id="monitoring_host_standard_account">
+											<rank>60</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+				<default_search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="functionalci_id">
+							<rank>40</rank>
+						</item>
+						<item id="modele_id">
+							<rank>50</rank>
+						</item>
+						<item id="controle_id">
+							<rank>60</rank>
+						</item>
+					</items>
+				</default_search>
+				<search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="functionalci_id">
+							<rank>40</rank>
+						</item>
+						<item id="modele_id">
+							<rank>50</rank>
+						</item>
+						<item id="controle_id">
+							<rank>60</rank>
+						</item>
+					</items>
+				</search>
+				<list>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="functionalci_id">
+							<rank>40</rank>
+						</item>
+						<item id="modele_id">
+							<rank>50</rank>
+						</item>
+						<item id="controle_id">
+							<rank>60</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="VMMonitoring" _delta="define">
+			<parent>BaseMonitoring</parent>
+			<properties>
+				<category>bizmodel,searchable</category>
+				<abstract>false</abstract>
+				<key_type>autoincrement</key_type>
+				<db_table>vmmonitoring</db_table>
+				<db_key_field>id</db_key_field>
+				<db_final_class_field />
+				<icon>images/vmmonitoring.png</icon>
+				<naming>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="functionalci_name" />
+					</attributes>
+				</naming>
+				<display_template />
+				<reconciliation>
+					<attributes>
+						<attribute id="name" />
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+				<field id="category" xsi:type="AttributeString">
+					<sql>category</sql>
+					<default_value />
+					<is_null_allowed>false</is_null_allowed>
+				</field>
+<!-- 				Trop de class imbriquee avec functionalCI <field id="vcenter_id" xsi:type="AttributeExternalKey"> -->
+<!-- 					<sql>vcenter_id</sql> -->
+<!-- 					<filter><![CDATA[SELECT VCenter WHERE finalclass IN ('VCenter')]]></filter> -->
+<!-- 					<target_class>VCenter</target_class> -->
+<!-- 					<is_null_allowed>true</is_null_allowed> -->
+<!-- 					<on_target_delete>DEL_MANUAL</on_target_delete> -->
+<!-- 				</field> -->
+<!-- 				<field id="vcenter_name" xsi:type="AttributeExternalField"> -->
+<!-- 					<extkey_attcode>vcenter_id</extkey_attcode> -->
+<!-- 					<target_attcode>name</target_attcode> -->
+<!-- 				</field> -->
+				<field id="modele_vmwaretools_id"
+					xsi:type="AttributeExternalKey">
+					<sql>modele_vmwaretools_id</sql>
+					<target_class>MonitoringModele</target_class>
+					<filter><![CDATA[SELECT MonitoringModele WHERE name LIKE '%vmwaretools%']]></filter>
+					<is_null_allowed>true</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+				</field>
+				<field id="modele_vmwaretools_name"
+					xsi:type="AttributeExternalField">
+					<extkey_attcode>modele_vmwaretools_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+				<field id="monitoring_virtu_standard_account"
+					xsi:type="AttributeEnum">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>monitoring_virtu_standard_account</sql>
+					<default_value>yes</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="appsmonitoring_list" xsi:type="AttributeLinkedSet">
+					<linked_class>AppsMonitoring</linked_class>
+					<ext_key_to_me>monitoring_host_id</ext_key_to_me>
+					<edit_mode>add_only</edit_mode>
+					<count_min>0</count_min>
+					<count_max>0</count_max>
+					<duplicates />
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details>
+					<items>
+						<item id="appsmonitoring_list">
+							<rank>10</rank>
+						</item>
+						<item id="col:col1">
+							<rank>40</rank>
+							<items>
+								<item id="fieldset:BaseMonitoring:baseinfo">
+									<rank>10</rank>
+									<items>
+										<item id="name">
+											<rank>10</rank>
+										</item>
+										<item id="org_id">
+											<rank>20</rank>
+										</item>
+										<item id="organization_uniq_id">
+											<rank>20</rank>
+										</item>
+										<item id="status">
+											<rank>30</rank>
+										</item>
+										<item id="functionalci_id">
+											<rank>40</rank>
+										</item>
+										<item id="monitoring_id">
+											<rank>50</rank>
+										</item>
+										<item id="monitoring_url">
+											<rank>55</rank>
+										</item>
+										<item id="category">
+											<rank>60</rank>
+										</item>
+										<item id="monitoring_box_id">
+											<rank>70</rank>
+										</item>
+										<item id="etiquettes">
+											<rank>80</rank>
+										</item>
+									</items>
+								</item>
+
+							</items>
+						</item>
+						<item id="col:col2">
+							<rank>50</rank>
+							<items>
+								<item id="fieldset:VMMonitoring:modelevirtu">
+									<rank>20</rank>
+									<items>
+										<item id="modele_id">
+											<rank>10</rank>
+										</item>
+<!-- 										<item id="vcenter_id"> -->
+<!-- 											<rank>20</rank> -->
+<!-- 										</item> -->
+										<item id="modele_vmwaretools_id">
+											<rank>30</rank>
+										</item>
+										<item id="monitoring_virtu_standard_account">
+											<rank>40</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+				<default_search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="functionalci_id">
+							<rank>40</rank>
+						</item>
+						<item id="modele_id">
+							<rank>50</rank>
+						</item>
+					</items>
+				</default_search>
+				<search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="functionalci_id">
+							<rank>40</rank>
+						</item>
+						<item id="modele_id">
+							<rank>50</rank>
+						</item>
+					</items>
+				</search>
+				<list>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="functionalci_id">
+							<rank>40</rank>
+						</item>
+						<item id="modele_id">
+							<rank>50</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="FunctionalCI" _delta="merge">
+			<fields>
+				<field id="monitoring_list" xsi:type="AttributeLinkedSet"
+					_delta="define">
+					<linked_class>BaseMonitoring</linked_class>
+					<filter><![CDATA[SELECT BaseMonitoring AS BM WHERE BM.functionalci_id = :this->id]]></filter>
+					<ext_key_to_me>functionalci_id</ext_key_to_me>
+					<edit_mode>none</edit_mode>
+					<count_min>0</count_min>
+					<count_max>0</count_max>
+				</field>
+				<field id="needmonitoring" xsi:type="AttributeEnum"
+					_delta="define">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>needmonitoring</sql>
+					<default_value>yes</default_value>
+					<is_null_allowed>false</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="overview" xsi:type="AttributeDashboard"
+					_delta="if_exists">
+					<definition _delta="merge">
+						<cells>
+							<cell id="300" _delta="define">
+								<rank>10</rank>
+								<dashlets>
+									<dashlet id="301" xsi:type="DashletHeaderDynamic"
+										_delta="define">
+										<rank>0</rank>
+										<title>CI:Overview:Monitoring</title>
+										<icon>Monitoring/images/monitoring.jpg</icon>
+										<subtitle>CI:Overview:Monitoring:subtitle</subtitle>
+										<query><![CDATA[SELECT BaseMonitoring AS BM WHERE BM.functionalci_id = :this->id]]></query>
+										<group_by>finalclass</group_by>
+										<values>AppsMonitoring,FacilitiesMonitoring,NetworkMonitoring,OSMonitoring,ServerMonitoring,VMMonitoring</values>
+									</dashlet>
+									<dashlet id="302" xsi:type="DashletObjectList"
+										_delta="define">
+										<rank>2</rank>
+										<title>CI:Overview:Monitoring</title>
+										<query><![CDATA[SELECT BaseMonitoring AS BM WHERE BM.functionalci_id = :this->id]]></query>
+										<menu>false</menu>
+									</dashlet>
+								</dashlets>
+							</cell>
+						</cells>
+					</definition>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="monitoring_list" _delta="define">
+							<rank>300</rank>
+						</item>
+						<item id="needmonitoring" _delta="define">
+							<rank>310</rank>
+						</item>
+						<!-- <item id="monitoring_url" _delta="define"> -->
+						<!-- <rank>320</rank> -->
+						<!-- </item> -->
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="VirtualMachine" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="monitoring_list" _delta="define">
+							<rank>300</rank>
+						</item>
+						<item id="col:col2" _delta="merge">
+							<items>
+								<item id="fieldset:Server:options" _delta="define">
+									<rank>30</rank>
+									<items>
+										<item id="needmonitoring">
+											<rank>10</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="Server" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="monitoring_list" _delta="define">
+							<rank>300</rank>
+						</item>
+						<item id="col:col2" _delta="merge">
+							<items>
+								<item id="fieldset:Server:options" _delta="define">
+									<rank>30</rank>
+									<items>
+										<item id="needmonitoring">
+											<rank>10</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="NetworkDevice" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="monitoring_list" _delta="define">
+							<rank>300</rank>
+						</item>
+						<item id="col:col2" _delta="merge">
+							<items>
+								<item id="fieldset:Server:options" _delta="define">
+									<rank>30</rank>
+									<items>
+										<item id="needmonitoring">
+											<rank>10</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="SANSwitch" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="monitoring_list" _delta="define">
+							<rank>300</rank>
+						</item>
+						<item id="col:col2" _delta="merge">
+							<items>
+								<item id="fieldset:Server:options" _delta="define">
+									<rank>30</rank>
+									<items>
+										<item id="needmonitoring">
+											<rank>10</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="DBServer" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="monitoring_list" _delta="define">
+							<rank>300</rank>
+						</item>
+						<item id="needmonitoring">
+							<rank>30</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="WebServer" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="monitoring_list" _delta="define">
+							<rank>300</rank>
+						</item>
+						<item id="needmonitoring">
+							<rank>30</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="StorageSystem" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="monitoring_list" _delta="define">
+							<rank>300</rank>
+						</item>
+						<item id="col:col2" _delta="merge">
+							<items>
+								<item id="fieldset:Server:options" _delta="define">
+									<rank>30</rank>
+									<items>
+										<item id="needmonitoring">
+											<rank>10</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="NAS" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="monitoring_list" _delta="define">
+							<rank>300</rank>
+						</item>
+						<item id="col:col2" _delta="merge">
+							<items>
+								<item id="fieldset:Server:options" _delta="define">
+									<rank>30</rank>
+									<items>
+										<item id="needmonitoring">
+											<rank>10</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="Hypervisor" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="monitoring_list" _delta="define">
+							<rank>300</rank>
+						</item>
+						<item id="needmonitoring">
+							<rank>10</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="Printer" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="monitoring_list" _delta="define">
+							<rank>300</rank>
+						</item>
+						<item id="col:col2" _delta="merge">
+							<items>
+								<item id="fieldset:Server:options" _delta="define">
+									<rank>30</rank>
+									<items>
+										<item id="needmonitoring">
+											<rank>10</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="PC" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="monitoring_list" _delta="define">
+							<rank>300</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="PDU" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="monitoring_list" _delta="define">
+							<rank>300</rank>
+						</item>
+						<item id="needmonitoring" _delta="define">
+							<rank>30</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="IPPhone" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="monitoring_list" _delta="define">
+							<rank>300</rank>
+						</item>
+						<item id="needmonitoring">
+							<rank>30</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<!-- <class id="ApplicationSolution" _delta="merge"> -->
+		<!-- <fields> -->
+		<!-- <field id="cis_monitoring_list" xsi:type="AttributeLinkedSet" _delta="define"> -->
+		<!-- <linked_class>BaseMonitoring</linked_class> -->
+		<!-- <filter><![CDATA[SELECT BaseMonitoring AS BM JOIN FunctionalCI AS 
+			FCI ON BM.functionalci_id=FCI.id JOIN lnkApplicationSolutionToFunctionalCI 
+			AS LAPS ON LAPS.functionalci_id=FCI.id WHERE LAPS.applicationsolution_id= 
+			:this->id AND BM.org_id= :this->org_id]]></filter> -->
+		<!-- <ext_key_to_me>applicationsolution_id</ext_key_to_me> Pas de key dans 
+			BaseMonitoring pour l'affichage, donc erreur dans l'interface -->
+		<!-- <edit_mode>none</edit_mode> -->
+		<!-- <count_min>0</count_min> -->
+		<!-- <count_max>0</count_max> -->
+		<!-- </field> -->
+		<!-- </fields> -->
+		<!-- <methods /> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="cis_monitoring_list" _delta="define"> -->
+		<!-- <rank>300</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+	</classes>
+	<menus>
+		<menu id="ConfigManagementOverview" xsi:type="DashboardMenuNode"
+			_delta="must_exist">
+			<definition>
+				<cells>
+					<!-- On s'ajoute a la software -->
+					<cell id="3" _delta="merge">
+						<dashlets>
+							<!-- <dashlet id="100" xsi:type="DashletHeaderStatic" -->
+							<!-- _delta="define"> -->
+							<!-- <rank>0</rank> -->
+							<!-- <title>Menu:ConfigManagement:Cablage</title> -->
+							<!-- <icon>../images/icons/icons8-cablage.svg</icon> -->
+							<!-- <subtitle>Menu_ConfigManagement_cablage</subtitle> -->
+							<!-- </dashlet> -->
+							<dashlet id="300" xsi:type="DashletBadge" _delta="define">
+								<rank>300</rank>
+								<class>AppsMonitoring</class>
+							</dashlet>
+							<dashlet id="301" xsi:type="DashletBadge" _delta="define">
+								<rank>301</rank>
+								<class>VMMonitoring</class>
+							</dashlet>
+							<dashlet id="302" xsi:type="DashletBadge" _delta="define">
+								<rank>302</rank>
+								<class>OSMonitoring</class>
+							</dashlet>
+							<dashlet id="303" xsi:type="DashletBadge" _delta="define">
+								<rank>303</rank>
+								<class>ServerMonitoring</class>
+							</dashlet>
+							<dashlet id="304" xsi:type="DashletBadge" _delta="define">
+								<rank>304</rank>
+								<class>NetworkMonitoring</class>
+							</dashlet>
+							<dashlet id="305" xsi:type="DashletBadge" _delta="define">
+								<rank>305</rank>
+								<class>FacilitiesMonitoring</class>
+							</dashlet>
+						</dashlets>
+					</cell>
+				</cells>
+			</definition>
+		</menu>
+		<menu id="Typology" xsi:type="DashboardMenuNode"
+			_delta="must_exist">
+			<definition>
+				<cells>
+					<cell id="0" _delta="merge">
+						<dashlets>
+							<dashlet id="100" xsi:type="DashletBadge" _delta="define">
+								<rank>100</rank>
+								<class>MonitoringModele</class>
+							</dashlet>
+						</dashlets>
+					</cell>
+				</cells>
+			</definition>
+		</menu>
+	</menus>
+	<user_rights>
+		<groups>
+			<group id="lnkMonitoring" _delta="define">
+				<classes>
+					<class id="MonitoringModele" />
+					<class id="BaseMonitoring" />
+					<class id="ControlMonitoring" />
+					<class id="AppsMonitoring" />
+					<class id="VMMonitoring" />
+					<class id="OSMonitoring" />
+					<class id="ServerMonitoring" />
+					<class id="NetworkMonitoring" />
+					<class id="FacilitiesMonitoring" />
+				</classes>
+			</group>
+		</groups>
+		<profiles>
+			<profile id="3" _delta="must_exist">
+				<groups _delta="merge">
+					<group id="lnkMonitoring" _delta="define">
+						<actions>
+							<action id="action:read">allow</action>
+							<action id="action:bulk read">allow</action>
+							<action id="action:write">allow</action>
+							<action id="action:bulk write">allow</action>
+							<action id="action:delete">allow</action>
+						</actions>
+					</group>
+				</groups>
+			</profile>
+		</profiles>
+	</user_rights>
+</itop_design>

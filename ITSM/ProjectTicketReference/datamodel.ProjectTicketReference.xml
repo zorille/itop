@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+  <constants>
+  </constants>
+  <classes>
+	<class id="Incident" _delta="must_exist">
+		<presentation>
+			<details _delta="merge">
+				<items>
+					<item id="col:col3" _delta="merge">
+						<items _delta="merge">
+							<item id="fieldset:Ticket:relation" _delta="merge">
+								<items>
+									<item id="related_project_id">
+										<rank>40</rank>
+									</item>
+								</items>
+							</item>
+						</items>
+					</item>
+				</items>
+			</details>
+		</presentation>
+	</class>
+	<class id="NormalChange" _delta="must_exist">
+		<presentation>
+			<details _delta="merge">
+				<items>
+					<item id="col:col2" _delta="merge">
+						<items _delta="merge">
+							<item id="fieldset:Ticket:relation" _delta="merge">
+								<items>
+									<item id="related_project_id">
+										<rank>20</rank>
+									</item>
+								</items>
+							</item>
+						</items>
+					</item>
+				</items>
+			</details>
+		</presentation>
+	</class>
+	<class id="EmergencyChange" _delta="must_exist">
+		<presentation>
+			<details _delta="merge">
+				<items>
+					<item id="col:col2" _delta="merge">
+						<items _delta="merge">
+							<item id="fieldset:Ticket:relation" _delta="merge">
+								<items>
+									<item id="related_project_id">
+										<rank>20</rank>
+									</item>
+								</items>
+							</item>
+						</items>
+					</item>
+				</items>
+			</details>
+		</presentation>
+	</class>
+	<class id="RoutineChange" _delta="must_exist">
+		<presentation>
+			<details _delta="merge">
+				<items>
+					<item id="col:col2" _delta="merge">
+						<items _delta="merge">
+							<item id="fieldset:Ticket:relation" _delta="merge">
+								<items>
+									<item id="related_project_id">
+										<rank>20</rank>
+									</item>
+								</items>
+							</item>
+						</items>
+					</item>
+				</items>
+			</details>
+		</presentation>
+	</class>
+	<class id="UserRequest" _delta="must_exist">
+		<presentation>
+			<details _delta="merge">
+				<items>
+					<item id="col:col3" _delta="merge">
+						<items _delta="merge">
+							<item id="fieldset:Ticket:relation" _delta="merge">
+								<items>
+									<item id="related_project_id">
+										<rank>40</rank>
+									</item>
+								</items>
+							</item>
+						</items>
+					</item>
+				</items>
+			</details>
+		</presentation>
+	</class>
+  </classes>
+  <user_rights>
+  </user_rights>
+</itop_design>

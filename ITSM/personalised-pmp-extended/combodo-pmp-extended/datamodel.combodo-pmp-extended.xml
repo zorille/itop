@@ -1,0 +1,2850 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+	<classes>
+		<class id="ProjectChange" _delta="define">
+			<parent>Change</parent>
+			<properties>
+				<category>bizmodel,searchable</category>
+				<abstract>false</abstract>
+				<db_table>projectchange</db_table>
+				<icon>../combodo-pmp-extended/asset/img/project_change.png</icon>
+				<naming>
+					<attributes>
+						<attribute id="ref"/>
+					</attributes>
+				</naming>
+				<reconciliation>
+					<attributes>
+						<attribute id="ref"/>
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+				<field id="project_id" xsi:type="AttributeExternalKey">
+					<sql>project_id</sql>
+					<filter>SELECT Project WHERE org_id=:this-&gt;org_id</filter>
+					<dependencies>
+						<attribute id="org_id"/>
+						<attribute id="ref"/>
+					</dependencies>
+					<is_null_allowed>true</is_null_allowed>
+					<target_class>Project</target_class>
+					<on_target_delete>DEL_AUTO</on_target_delete>
+					<label>project name</label>
+				</field>
+				<field id="wbss_list" xsi:type="AttributeLinkedSetIndirect" _delta="define_if_not_exists">
+					<ext_key_to_remote>wbs_id</ext_key_to_remote>
+					<ext_key_to_me>projectchange_id</ext_key_to_me>
+					<linked_class>lnkProjectChangeToWBS</linked_class>
+					<count_min>0</count_min>
+					<count_max>0</count_max>
+					<label>Deliverables list</label>
+				</field>
+				<field id="impact_project" xsi:type="AttributeEnum">
+					<sql>impact_project</sql>
+					<values>
+						<value id="scope">scope</value>
+						<value id="schedule">schedule</value>
+						<value id="cost">cost</value>
+					</values>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>list</display_style>
+					<dependencies/>
+				</field>
+				<field id="resolution_plan" xsi:type="AttributeTemplateText">
+					<sql>resolution_plan</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<validation_pattern/>
+					<width/>
+					<height/>
+				</field>
+        <field id="approval_date" xsi:type="AttributeDateTime">
+          <sql>approval_date</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
+        <field id="approval_comment" xsi:type="AttributeString">
+          <sql>approval_comment</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
+			</fields>
+			<lifecycle>
+				<attribute>status</attribute>
+				<highlight_scale>
+				</highlight_scale>
+				<states>
+					<state id="new">
+						<flags>
+							<attribute id="approval_date">
+								<hidden/>
+							</attribute>
+							<attribute id="close_date">
+								<hidden/>
+							</attribute>
+							<attribute id="creation_date">
+								<read_only/>
+							</attribute>
+							<attribute id="end_date"/>
+							<attribute id="last_update">
+								<hidden/>
+							</attribute>
+							<attribute id="ref">
+								<hidden/>
+							</attribute>
+							<attribute id="reason">
+								<hidden/>
+							</attribute>
+							<attribute id="caller_id">
+								<mandatory/>
+							</attribute>
+							<attribute id="description">
+								<mandatory/>
+							</attribute>
+							<attribute id="org_id">
+								<mandatory/>
+							</attribute>
+							<attribute id="title">
+								<mandatory/>
+							</attribute>
+							<attribute id="project_id">
+								<mandatory/>
+							</attribute>
+							<attribute id="resolution_plan">
+								<hidden/>
+							</attribute>
+						</flags>
+						<transitions>
+							<transition id="ev_approve">
+								<stimulus>ev_approve</stimulus>
+								<target>approved</target>
+								<actions>
+									<action>
+										<verb>SetCurrentDate</verb>
+										<params>
+											<param xsi:type="attcode">approval_date</param>
+										</params>
+									</action>
+								</actions>
+								<flags>
+									<attribute id="private_log">
+										<must_prompt/>
+									</attribute>
+								</flags>
+							</transition>
+							<transition id="ev_reject">
+								<stimulus>ev_reject</stimulus>
+								<target>rejected</target>
+								<actions/>
+							</transition>
+						</transitions>
+					</state>
+					<state id="assigned">
+						<flags>
+							<attribute id="agent_id"/>
+							<attribute id="ref">
+								<read_only/>
+							</attribute>
+							<attribute id="last_update">
+								<read_only/>
+							</attribute>
+							<attribute id="creation_date">
+								<read_only/>
+							</attribute>
+						</flags>
+						<transitions/>
+						<inherit_flags_from>new</inherit_flags_from>
+					</state>
+					<state id="planned">
+						<flags>
+							<attribute id="manager_group_id">
+								<mandatory/>
+								<must_prompt/>
+							</attribute>
+							<attribute id="manager_id">
+								<mandatory/>
+								<must_prompt/>
+							</attribute>
+						</flags>
+						<transitions/>
+						<inherit_flags_from>assigned</inherit_flags_from>
+					</state>
+					<state id="approved">
+						<flags>
+							<attribute id="approval_date">
+								<read_only/>
+							</attribute>
+							<attribute id="resolution_plan">
+								<mandatory/>
+								<must_prompt/>
+							</attribute>
+						</flags>
+						<transitions>
+							<transition id="ev_close">
+								<stimulus>ev_close</stimulus>
+								<target>closed</target>
+								<actions>
+									<action>
+										<verb>SetCurrentDate</verb>
+										<params>
+											<param xsi:type="attcode">close_date</param>
+										</params>
+									</action>
+								</actions>
+							</transition>
+						</transitions>
+						<inherit_flags_from>planned</inherit_flags_from>
+					</state>
+					<state id="rejected">
+						<flags>
+							<attribute id="reason">
+								<mandatory/>
+								<must_prompt/>
+							</attribute>
+						</flags>
+						<transitions>
+							<transition id="ev_reopen">
+								<stimulus>ev_reopen</stimulus>
+								<target>new</target>
+								<actions/>
+							</transition>
+						</transitions>
+						<inherit_flags_from>planned</inherit_flags_from>
+					</state>
+					<state id="closed">
+						<flags>
+							<attribute id="close_date">
+								<read_only/>
+							</attribute>
+						</flags>
+						<transitions>
+						</transitions>
+						<inherit_flags_from>approved</inherit_flags_from>
+					</state>
+				</states>
+				<stimuli>
+					<stimulus id="ev_assign" xsi:type="StimulusUserAction"/>
+					<stimulus id="ev_plan" xsi:type="StimulusUserAction"/>
+					<stimulus id="ev_reject" xsi:type="StimulusUserAction"/>
+					<stimulus id="ev_approve" xsi:type="StimulusUserAction"/>
+					<stimulus id="ev_close" xsi:type="StimulusUserAction"/>
+					<stimulus id="ev_reopen" xsi:type="StimulusUserAction"/>
+				</stimuli>
+			</lifecycle>
+			<methods>
+							<method id="DisplayBareRelations">
+					<comment>/**
+						*
+						* @author Axelle Bost
+						*/
+					</comment>
+					<static>false</static>
+					<access>public</access>
+					<code><![CDATA[
+						public function DisplayBareRelations(WebPage $oPage, $bEditMode = false)
+						{
+						    $oPage->RemoveTab('Ticket:ImpactAnalysis');
+					    }
+				]]></code>
+				</method>
+			</methods>
+			<presentation>
+				<list>
+					<items>
+						<item id="title">
+							<rank>10</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="start_date">
+							<rank>30</rank>
+						</item>
+						<item id="end_date">
+							<rank>40</rank>
+						</item>
+						<item id="status">
+							<rank>50</rank>
+						</item>
+						<item id="impact_project">
+							<rank>60</rank>
+						</item>
+						<item id="agent_id">
+							<rank>70</rank>
+						</item>
+					</items>
+				</list>
+				<search>
+					<items>
+						<item id="ref">
+							<rank>10</rank>
+						</item>
+						<item id="title">
+							<rank>20</rank>
+						</item>
+						<item id="org_id">
+							<rank>30</rank>
+						</item>
+						<item id="status">
+							<rank>40</rank>
+						</item>
+						<item id="operational_status">
+							<rank>50</rank>
+						</item>
+						<item id="start_date">
+							<rank>60</rank>
+						</item>
+						<item id="end_date">
+							<rank>70</rank>
+						</item>
+						<item id="creation_date">
+							<rank>80</rank>
+						</item>
+						<item id="last_update">
+							<rank>90</rank>
+						</item>
+						<item id="close_date">
+							<rank>100</rank>
+						</item>
+						<item id="team_id">
+							<rank>110</rank>
+						</item>
+						<item id="agent_id">
+							<rank>120</rank>
+						</item>
+						<item id="manager_group_id">
+							<rank>125</rank>
+						</item>
+						<item id="manager_id">
+							<rank>130</rank>
+						</item>
+						<item id="project_id">
+							<rank>140</rank>
+						</item>
+						<item id="impact_project">
+							<rank>150</rank>
+						</item>
+					</items>
+				</search>
+				<details>
+					<items>
+						<item id="col:col0">
+							<items>
+								<item id="fieldset:Ticket:baseinfo">
+									<items>
+										<item id="ref">
+											<rank>10</rank>
+										</item>
+										<item id="org_id">
+											<rank>20</rank>
+										</item>
+										<item id="caller_id">
+											<rank>30</rank>
+										</item>
+										<item id="project_id">
+											<rank>40</rank>
+										</item>
+										<item id="manager_group_id">
+											<rank>45</rank>
+										</item>
+										<item id="manager_id">
+											<rank>50</rank>
+										</item>
+										<item id="impact_project">
+											<rank>60</rank>
+										</item>
+										<item id="status">
+											<rank>70</rank>
+										</item>
+										<item id="title">
+											<rank>80</rank>
+										</item>
+										<item id="description">
+											<rank>90</rank>
+										</item>
+										<item id="fallback">
+											<rank>100</rank>
+										</item>
+									</items>
+									<rank>10</rank>
+								</item>
+							</items>
+							<rank>10</rank>
+						</item>
+						<item id="col:col1">
+							<items>
+								<item id="fieldset:Ticket:relation">
+									<items>
+										<item id="parent_id">
+											<rank>10</rank>
+										</item>
+									</items>
+									<rank>10</rank>
+								</item>
+								<item id="fieldset:Ticket:resolution">
+									<items>
+										<item id="reason">
+											<rank>10</rank>
+										</item>
+										<item id="resolution_plan">
+											<rank>20</rank>
+										</item>
+									</items>
+									<rank>20</rank>
+								</item>
+							</items>
+							<rank>20</rank>
+						</item>
+						<item id="col:col2">
+							<items>
+								<item id="fieldset:Ticket:date">
+									<items>
+										<item id="creation_date">
+											<rank>10</rank>
+										</item>
+										<item id="last_update">
+											<rank>20</rank>
+										</item>
+										<item id="approval_date">
+											<rank>30</rank>
+										</item>
+										<item id="close_date">
+											<rank>40</rank>
+										</item>
+									</items>
+									<rank>10</rank>
+								</item>
+							</items>
+							<rank>30</rank>
+						</item>
+						<item id="functionalcis_list">
+							<rank>40</rank>
+						</item>
+						<item id="contacts_list">
+							<rank>50</rank>
+						</item>
+						<item id="child_changes_list">
+							<rank>60</rank>
+						</item>
+						<item id="wbss_list">
+							<rank>70</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+			<parent>Change</parent>
+		</class>
+		<class id="Project" _delta="must_exist">
+			<fields>
+				<field id="contingency_reserve" xsi:type="AttributeDecimal" _delta="define">
+					<sql>contingency_reserve</sql>
+					<default_value>0</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<digits>8</digits>
+					<decimals>2</decimals>
+				</field>
+				<field id="risks_costs" xsi:type="AttributeDecimal" _delta="define">
+					<sql>risks_costs</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<digits>8</digits>
+					<decimals>2</decimals>
+				</field>
+				<field id="costs_spent" xsi:type="AttributeDecimal" _delta="define">
+					<sql>costs_spent</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<digits>10</digits>
+					<decimals>2</decimals>
+				</field>
+				<field id="projectchanges_list" xsi:type="AttributeLinkedSet" _delta="define">
+					<linked_class>ProjectChange</linked_class>
+					<ext_key_to_me>project_id</ext_key_to_me>
+					<tracking_level/>
+					<edit_mode/>
+					<label>List of project Changes</label>
+				</field>
+				<field id="risks_list" xsi:type="AttributeLinkedSet" _delta="define">
+					<linked_class>Risk</linked_class>
+					<ext_key_to_me>project_id</ext_key_to_me>
+					<tracking_level/>
+					<edit_mode/>
+				</field>
+			</fields>
+			<lifecycle>
+			<states>
+				<state id="initiated" delta="redefine">
+					<flags>
+						<attribute id="creation_date">
+							<hidden/>
+						</attribute>
+						<attribute id="last_update">
+							<hidden/>
+						</attribute>
+						<attribute id="contingency_reserve">
+							<hidden/>
+						</attribute>
+						<attribute id="costs_spent">
+							<hidden/>
+						</attribute>
+						<attribute id="wbs_cost">
+							<hidden/>
+						</attribute>
+						<attribute id="close_date">
+							<hidden/>
+						</attribute>
+						<attribute id="calculated_end_date">
+							<read_only/>
+						</attribute>
+						<attribute id="revised_end_date">
+							<hidden/>
+						</attribute>
+						<attribute id="end_date">
+							<mandatory/>
+						</attribute>
+            <attribute id="risks_list">
+              <read_only/>
+            </attribute>
+            <attribute id="wbss_list">
+              <read_only/>
+            </attribute>
+            <attribute id="projectchanges_list">
+              <read_only/>
+            </attribute>
+					</flags>
+					<transitions>
+						<transition id="ev_plan">
+							<stimulus>ev_plan</stimulus>
+							<target>planned</target>
+							<actions/>
+						</transition>
+						<transition id="ev_cancel">
+							<stimulus>ev_cancel</stimulus>
+							<target>cancelled</target>
+							<actions>
+								<action>
+									<verb>SetCurrentDate</verb>
+									<params>
+										<param xsi:type="attcode">close_date</param>
+									</params>
+								</action>
+							</actions>
+							<flags>
+								<attribute id="private_log">
+									<must_prompt/>
+								</attribute>
+							</flags>
+						</transition>
+					</transitions>
+				</state>
+				<state id="planned" delta="redefine">
+					<flags>
+						<attribute id="creation_date">
+							<read_only/>
+						</attribute>
+						<attribute id="last_update">
+							<read_only/>
+						</attribute>
+						<attribute id="contingency_reserve">
+							<read_only/>
+						</attribute>
+						<attribute id="costs_spent">
+							<hidden/>
+						</attribute>
+						<attribute id="wbs_cost">
+							<read_only/>
+						</attribute>
+						<attribute id="agent_id">
+							<must_prompt/>
+						</attribute>
+						<attribute id="revised_end_date"/>
+						<attribute id="constraints">
+							<must_prompt/>
+						</attribute>
+						<attribute id="exclusions">
+							<must_prompt/>
+						</attribute>
+						<attribute id="requirement">
+							<must_prompt/>
+						</attribute>
+					</flags>
+					<transitions>
+						<transition id="ev_execute">
+							<stimulus>ev_execute</stimulus>
+							<target>executed</target>
+							<actions/>
+							<flags>
+								<attribute id="private_log">
+									<must_prompt/>
+								</attribute>
+							</flags>
+						</transition>
+						<transition id="ev_cancel">
+							<stimulus>ev_cancel</stimulus>
+							<target>cancelled</target>
+							<actions>
+								<action>
+									<verb>SetCurrentDate</verb>
+									<params>
+										<param xsi:type="attcode">close_date</param>
+									</params>
+								</action>
+							</actions>
+							<flags>
+								<attribute id="private_log">
+									<must_prompt/>
+								</attribute>
+							</flags>
+						</transition>
+					</transitions>
+					<inherit_flags_from>initiated</inherit_flags_from>
+				</state>
+				<state id="executed">
+					<flags delta="redefine">
+						<attribute id="costs_spent">
+							<read_only/>
+						</attribute>
+					</flags>
+				</state>
+				<state id="closed" delta="redefine">
+					<flags>
+						<attribute id="agent_id">
+							<read_only/>
+						</attribute>
+						<attribute id="calculated_end_date">
+							<read_only/>
+						</attribute>
+						<attribute id="caller_id">
+							<read_only/>
+						</attribute>
+						<attribute id="close_date">
+							<read_only/>
+						</attribute>
+						<attribute id="constraints">
+							<read_only/>
+						</attribute>
+						<attribute id="contacts_list">
+							<read_only/>
+						</attribute>
+						<attribute id="contingency_reserve">
+							<read_only/>
+						</attribute>
+						<attribute id="costs_spent">
+							<read_only/>
+						</attribute>
+						<attribute id="creation_date">
+							<read_only/>
+						</attribute>
+						<attribute id="description">
+							<read_only/>
+						</attribute>
+						<attribute id="end_date">
+							<read_only/>
+						</attribute>
+						<attribute id="estimated_budget">
+							<read_only/>
+						</attribute>
+						<attribute id="exclusions">
+							<read_only/>
+						</attribute>
+						<attribute id="functionalcis_list">
+							<read_only/>
+						</attribute>
+						<attribute id="last_update">
+							<read_only/>
+						</attribute>
+						<attribute id="mgt_reserve_budget">
+							<read_only/>
+						</attribute>
+						<attribute id="org_id">
+							<read_only/>
+						</attribute>
+						<attribute id="private_log">
+							<read_only/>
+						</attribute>
+						<attribute id="projectchanges_list">
+							<read_only/>
+						</attribute>
+						<attribute id="requirement">
+							<read_only/>
+						</attribute>
+						<attribute id="revised_end_date">
+							<read_only/>
+						</attribute>
+						<attribute id="risks_list">
+							<read_only/>
+						</attribute>
+						<attribute id="start_date">
+							<read_only/>
+						</attribute>
+						<attribute id="team_id">
+							<read_only/>
+						</attribute>
+						<attribute id="title">
+							<read_only/>
+						</attribute>
+						<attribute id="wbss_list">
+							<read_only/>
+						</attribute>
+						<attribute id="wbs_cost">
+							<read_only/>
+						</attribute>
+					</flags>
+					<transitions/>
+				</state>
+			</states>
+			</lifecycle>
+			<methods>
+				<method id="DisplayBareRelations" _delta="redefine">
+					<comment>/**
+						*
+						* @author Axelle Bost
+						*/
+					</comment>
+					<static>false</static>
+					<access>public</access>
+					<code><![CDATA[
+						public function DisplayBareRelations(WebPage $oPage, $bEditMode = false)
+						{
+
+		            $iProjectid = $this->GetKey();
+		            $sOQLRisk =  "SELECT Risk WHERE project_id = :project AND type ='risk' AND status NOT IN ('rejected','closed') AND (response_strategy NOT IN ('avoid','transfer') OR ISNULL(response_strategy)) UNION SELECT Risk AS r JOIN lnkRiskToWBS AS l ON l.risk_id= r.id JOIN WBS AS wbs ON l.wbs_id=wbs.id WHERE wbs.status NOT IN ('cancel','closed') AND r.type ='risk' AND r.status NOT IN ('rejected','closed') AND (r.response_strategy NOT IN ('avoid','transfer') OR ISNULL(r.response_strategy)) AND wbs.project_id=:project";
+		            $sOQLIssue = "SELECT Risk WHERE project_id = :project AND type ='issue' AND status NOT IN ('rejected','closed') AND (response_strategy NOT IN ('avoid','transfer') OR ISNULL(response_strategy)) UNION SELECT Risk AS r JOIN lnkRiskToWBS AS l ON l.risk_id= r.id JOIN WBS AS wbs ON l.wbs_id=wbs.id WHERE wbs.status NOT IN ('cancel','closed') AND r.type ='issue' AND r.status NOT IN ('rejected','closed') AND (r.response_strategy NOT IN ('avoid','transfer') OR ISNULL(r.response_strategy)) AND wbs.project_id=:project";
+		            $sOQLWBS = "SELECT WBS WHERE project_id = :project AND status !='closed'";
+			    $sOQLWBSCost = "SELECT WBS WHERE project_id = :project";
+		            $sOQLChange = "SELECT ProjectChange WHERE project_id = :project AND status NOT IN ('rejected','closed') UNION SELECT ProjectChange AS c JOIN lnkProjectChangeToWBS AS l ON l.projectchange_id= c.id JOIN WBS AS wbs ON l.wbs_id=wbs.id WHERE wbs.status NOT IN ('cancel','closed') AND c.status NOT IN ('rejected','closed') AND wbs.project_id=:project";
+		            $sOQLContactProject = "SELECT lnkContactToTicket AS l1 WHERE l1.ticket_id = :project";
+		            $sOQLContactWBS = "SELECT lnkContactToWBS AS l2 JOIN WBS AS wbs ON l2.wbs_id=wbs.id WHERE wbs.status NOT IN ('cancel','closed') AND wbs.project_id=:project";
+
+		            $oRiskSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQLRisk), array(), array('project' => $iProjectid));
+		            $oIssueSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQLIssue), array(), array('project' => $iProjectid));
+		            $oWBSSet =   new CMDBObjectSet(DBObjectSearch::FromOQL($sOQLWBS), array(), array('project' => $iProjectid));
+                            $oWBSCostSet =   new CMDBObjectSet(DBObjectSearch::FromOQL($sOQLWBSCost), array(), array('project' => $iProjectid));
+		            $oChangeSet =   new CMDBObjectSet(DBObjectSearch::FromOQL($sOQLChange), array(), array('project' => $iProjectid));
+		            $oContactProjectSet =   new CMDBObjectSet(DBObjectSearch::FromOQL($sOQLContactProject), array(), array('project' => $iProjectid));
+		            $oContactWBSSet =   new CMDBObjectSet(DBObjectSearch::FromOQL($sOQLContactWBS), array(), array('project' => $iProjectid));
+
+		            $iRiskSet = $oRiskSet->Count();
+		            $iIssueSet = $oIssueSet->Count();
+		            $iWBSSet = $oWBSSet->Count();
+		            $iChangeSet = $oChangeSet->Count();
+		            $iContactProjectSet = $oContactProjectSet->Count();
+		            $iContactWBSSet = $oContactWBSSet->Count();
+		            $iRiskCosts=0;
+		            $iIssueCosts=0;
+		            $iWBSCosts=0;
+
+		            while ($oRisk = $oRiskSet->Fetch())
+		            {
+		                $iRiskCosts += $oRisk->Get('revised_risk_EMV');
+		            }
+
+		            while ($oIssue = $oIssueSet->Fetch())
+		            {
+		                $iIssueCosts += $oIssue->Get('revised_risk_EMV');
+		            }
+		            while ($oWBS = $oWBSCostSet->Fetch())
+		            {
+		                $iWBSCosts += $oWBS->Get('wbs_cost');
+		            }
+								$oPage->add_linked_stylesheet('../css/font-awesome/css/all.min.css');
+
+		            $oPage->SetCurrentTab(Dict::S('Class:Project/Tab:Summary'));
+		            $oPage->p(MetaModel::GetClassIcon('DocumentNote').'&nbsp;'.Dict::Format('Class:Project/Tab:Summary+'));
+
+								$oPage->add('<table style="vertical-align:top" class="n-cols-details 2-cols-details" data-mode="view">');
+								$oPage->add('<tbody><tr>');
+								$oPage->add('<td style="vertical-align:top; width:50%" class="">');
+								$oPage->add('<fieldset>');
+								$oPage->add('<legend>'.Dict::S('Class:Project:Summary_general').'</legend>');
+								$oPage->add('<div class="details">');
+								$oPage->add('<div class="field_container field_small" data-attcode="title">');
+								$oPage->add('<div class="field_label label"><span title="">'.MetaModel::GetLabel('Project', 'title').'</span></div>');
+								$oPage->add('<div class="field_data"><div class="field_value">'.$this->GetAsHTML('title').'</div></div>');
+								$oPage->add('</div>');
+								$oPage->add('<div class="field_container field_small" data-attcode="status">');
+								$oPage->add('<div class="field_label label"><span title="">'.MetaModel::GetLabel('Project', 'status').'</span></div>');
+								$oPage->add('<div class="field_data"><div class="field_value">'.$this->GetAsHTML('status').'</div></div>');
+								$oPage->add('</div>');
+								$oPage->add('<div class="field_container field_small" data-attcode="agent_id">');
+								$oPage->add('<div class="field_label label"><span title="">'.MetaModel::GetLabel('Project', 'agent_id').'</span></div>');
+								$oPage->add('<div class="field_data"><div class="field_value">'.$this->GetAsHTML('agent_id').'</div></div>');
+								$oPage->add('</div>');
+								$oPage->add('<div class="field_container field_small" data-attcode="revised_end_date">');
+								$oPage->add('<div class="field_label label"><span title="">'.MetaModel::GetLabel('Project', 'revised_end_date').'</span></div>');
+								$oPage->add('<div class="field_data"><div class="field_value">'.$this->GetAsHTML('revised_end_date').'</div></div>');
+								$oPage->add('</div>');
+								$oPage->add('<div class="field_container field_small" data-attcode="calculated_end_date">');
+								$oPage->add('<div class="field_label label"><span title="">'.MetaModel::GetLabel('Project', 'calculated_end_date').'</span></div>');
+								$oPage->add('<div class="field_data"><div class="field_value">'.$this->GetAsHTML('calculated_end_date').'</div></div>');
+								$oPage->add('</div>');
+								$oPage->add('</div></div>');
+								$oPage->add('</fieldset>');
+								$oPage->add('</td>');
+								$oPage->add('<td style="vertical-align:top; width:50%" class="">');
+								$oPage->add('<fieldset>');
+								$oPage->add('<legend>'.Dict::S('Class:Project:Summary_costs').'</legend>');
+								$oPage->add('<div class="details">');
+								$oPage->add('<div class="field_container field_small" data-attcode="estimated_budget">');
+								$oPage->add('<div class="field_label label"><span title="">'.MetaModel::GetLabel('Project', 'estimated_budget').'</span></div>');
+								$oPage->add('<div class="field_data"><div class="field_value">'.$this->GetAsHTML('estimated_budget').'</div></div>');
+								$oPage->add('</div>');
+								$oPage->add('<div class="field_container field_small" data-attcode="costs_spent">');
+								$oPage->add('<div class="field_label label"><span title="">'.MetaModel::GetLabel('Project', 'costs_spent').'</span></div>');
+								$oPage->add('<div class="field_data"><div class="field_value">'.$this->GetAsHTML('costs_spent').'</div></div>');
+								$oPage->add('</div>');
+								$oPage->add('<div class="field_container field_small" data-attcode="accepted_risks">');
+								$oPage->add('<div class="field_label label"><span title="">' . Dict::S('Class:Project:Display:accepted_risks').'</span></div>');
+								$oPage->add('<div class="field_data"><div class="field_value">'.$iRiskCosts.'</div></div>');
+								$oPage->add('</div>');
+								$oPage->add('<div class="field_container field_small" data-attcode="issue_costs">');
+								$oPage->add('<div class="field_label label"><span title="">'. Dict::S('Class:Project:Display:issue_costs').'</span></div>');
+								$oPage->add('<div class="field_data"><div class="field_value">'.$iIssueCosts.'</div></div>');
+								$oPage->add('</div>');
+								$oPage->add('<div class="field_container field_small" data-attcode="delivrables_costs">');
+								$oPage->add('<div class="field_label label"><span title="">'. Dict::S('Class:Project:Display:delivrables_costs').'</span></div>');
+								$oPage->add('<div class="field_data"><div class="field_value">'.$iWBSCosts.'</div></div>');
+								$oPage->add('</div>');
+								$oPage->add('</div></div>');
+								$oPage->add('</fieldset>');
+								$oPage->add('</td>');
+								$oPage->add('</tr></tbody></table>');
+
+		            if ( $iContactProjectSet> 0)
+		            {
+		                $aDetails = array();
+		                $aExtraParam = array ('menu'=>true,
+		                  'zlist' => false,
+		                  'display_limit'=>false,
+		                  'view_link'=>false,
+		                  'extra_fields' => 'category,contact_id,influence,power,allocated_percent,allocated_days',
+		                );
+		                $oPage->p(MetaModel::GetClassIcon('Contact').'&nbsp;'.Dict::S('Class:WBS/Attribute:contacts_list_proj_displaybare'));
+		                $oBlock = new DisplayBlock($oContactProjectSet->GetFilter(), 'list', false);
+		                $oBlock->Display($oPage, 'project_contacts', $aExtraParam);
+		            }
+		            if ( $iContactWBSSet> 0)
+		            {
+		                $aDetails = array();
+		                $aExtraParam = array ('menu'=>true,
+		                  'zlist' => false,
+		                  'display_limit'=>false,
+		                  'view_link'=>false,
+		                  'extra_fields' => 'category,contact_id,wbs_id,influence,power,allocated_percent,allocated_days',
+		                );
+		                $oPage->p(MetaModel::GetClassIcon('Contact').'&nbsp;'.Dict::S('Class:WBS/Attribute:contacts_list_wbs_displaybare'));
+		                $oBlock = new DisplayBlock($oContactWBSSet->GetFilter(), 'list', false);
+		                $oBlock->Display($oPage, 'WBS_contacts', $aExtraParam);
+		            }
+
+		            if ($iRiskSet > 0)
+		            {
+		                $aDetails = array();
+		                $aExtraParam = array ('menu'=>true, 'display_limit'=>false);
+		                $oPage->p(MetaModel::GetClassIcon('Risk').'&nbsp;'.Dict::S('Class:Project/Attribute:risks_list_displaybare'));
+		                $oBlock = new DisplayBlock($oRiskSet->GetFilter(), 'list', false);
+		                $oBlock->Display($oPage, 'project_open_Risks', $aExtraParam);
+
+		            }
+		            if ($iIssueSet > 0)
+		            {
+		                $aDetails = array();
+		                $aExtraParam = array ('menu'=>true, 'display_limit'=>false);
+		                $oPage->p(MetaModel::GetClassIcon('Risk').'&nbsp;'.Dict::S('Class:Project/Attribute:issues_list_displaybare'));
+		                $oBlock = new DisplayBlock($oIssueSet->GetFilter(), 'list', false);
+		                $oBlock->Display($oPage, 'project_open_Issues', $aExtraParam);
+		            }
+		            if ($iChangeSet > 0)
+		            {
+		                $aDetails = array();
+		                $aExtraParam = array ('menu'=>true, 'display_limit'=>false);
+		                $oPage->p(MetaModel::GetClassIcon('ProjectChange').'&nbsp;'.Dict::S('Class:Project/Attribute:projectchanges_list_displaybare'));
+		                $oBlock = new DisplayBlock($oChangeSet->GetFilter(), 'list', false);
+		                $oBlock->Display($oPage, 'project_open_change', $aExtraParam);
+		            }
+		            if ($iWBSSet > 0)
+		            {
+		                $aDetails = array();
+		                $aExtraParam = array ('menu'=>true, 'display_limit'=>false);
+		                $oPage->p(MetaModel::GetClassIcon('WBS').'&nbsp;'.Dict::S('Class:Project/Attribute:wbss_list_displaybare'));
+		                $oBlock = new DisplayBlock($oWBSSet->GetFilter(), 'list', false);
+		                $oBlock->Display($oPage, 'project_open_deliverables', $aExtraParam);
+
+		                $aScope = array(
+											'title' => Dict::S('GanttDashlet/Label'),
+											'oql' =>  'SELECT WBS WHERE project_id = '.$iProjectid.' AND status !=\'cancel\'',
+											'extra_params'=>'',
+											'depends_on' => 'wbss_parent_list',
+											'target_depends_on' =>'parent_wbs_id',
+											'label' => 'name',
+											'start_date' => 're_estimated_start_date',
+											'end_date' =>'re_estimated_end_date',
+											'additional_info1' => 'wbs_owner_id_friendlyname',
+											'additional_info2' => '',
+											'percentage' => 'completion',
+											'parent' => 'project_id',
+											'class' => 'WBS',
+											'status' => 'status',
+											'save_allowed' => false,
+											'parent_fields'=>array(
+													'class' => 'Project',
+													'label' => 'title',
+													'start_date' => 'start_date',
+													'end_date' =>'end_date',
+													'status' => 'status',
+													'additional_info1' => 'agent_id_friendlyname',
+													'additional_info2' => '',
+													'percentage' => '',
+													'parent' => '',
+											)
+										);
+										$oPage->add('<fieldset>');
+										$oPage->add('<legend>'.Dict::S('GanttDashlet/Label').'</legend>');
+										$oView = new Gantt($aScope);
+										$oView->Display($oPage);
+										if($oPage->isPrintableVersion())
+										{
+										     $oPage->add_ready_script('$(".gant-container").css("max-width",$(".printable-content").width()-24);');
+										     $oPage->add_ready_script('$("[name=text]").on("click", function() {  $(".gant-container").css("max-width",$(".printable-content").width()-24);});');
+										}
+										$oPage->add('</fieldset>');
+		            }
+
+					parent::DisplayBareRelations($oPage, $bEditMode);
+					$oPage->RemoveTab('Ticket:ImpactAnalysis');
+				}
+				]]></code>
+				</method>
+			</methods>
+			<presentation>
+				<search _delta="redefine">
+					<items>
+						<item id="org_id">
+							<rank>10</rank>
+						</item>
+						<item id="agent_id">
+							<rank>20</rank>
+						</item>
+						<item id="description">
+							<rank>30</rank>
+						</item>
+						<item id="start_date">
+							<rank>40</rank>
+						</item>
+						<item id="end_date">
+							<rank>50</rank>
+						</item>
+						<item id="last_update">
+							<rank>60</rank>
+						</item>
+						<item id="estimated_budget">
+							<rank>70</rank>
+						</item>
+						<item id="caller_id">
+							<rank>80</rank>
+						</item>
+						<item id="requirement">
+							<rank>90</rank>
+						</item>
+						<item id="exclusions">
+							<rank>100</rank>
+						</item>
+						<item id="constraints">
+							<rank>110</rank>
+						</item>
+						<item id="status">
+							<rank>120</rank>
+						</item>
+						<item id="creation_date">
+							<rank>130</rank>
+						</item>
+						<item id="title">
+							<rank>140</rank>
+						</item>
+						<item id="revised_end_date">
+							<rank>150</rank>
+						</item>
+						<item id="mgt_reserve_budget">
+							<rank>160</rank>
+						</item>
+						<item id="contingency_reserve">
+							<rank>170</rank>
+						</item>
+						<item id="costs_spent">
+							<rank>180</rank>
+						</item>
+						<item id="risks_costs">
+							<rank>190</rank>
+						</item>
+						<item id="calculated_end_date">
+							<rank>200</rank>
+						</item>
+						<item id="ref">
+							<rank>210</rank>
+						</item>
+					</items>
+				</search>
+				<details _delta="redefine">
+					<items>
+						<item id="col:col0">
+							<items>
+								<item id="fieldset:Project:GeneralInfo">
+									<items>
+										<item id="title">
+											<rank>10</rank>
+										</item>
+										<item id="org_id">
+											<rank>20</rank>
+										</item>
+										<item id="status">
+											<rank>30</rank>
+										</item>
+									</items>
+									<rank>10</rank>
+								</item>
+								<item id="fieldset:Project:Contacts">
+									<items>
+										<item id="caller_id">
+											<rank>10</rank>
+										</item>
+										<item id="team_id">
+											<rank>20</rank>
+										</item>
+										<item id="agent_id">
+											<rank>30</rank>
+										</item>
+									</items>
+									<rank>20</rank>
+								</item>
+								<item id="fieldset:Project:Budget">
+									<items>
+										<item id="estimated_budget">
+											<rank>10</rank>
+										</item>
+										<item id="mgt_reserve_budget">
+											<rank>20</rank>
+										</item>
+										<item id="contingency_reserve">
+											<rank>30</rank>
+										</item>
+										<item id="costs_spent">
+											<rank>40</rank>
+										</item>
+										<item id="wbs_cost">
+											<rank>50</rank>
+										</item>
+									</items>
+									<rank>30</rank>
+								</item>
+							</items>
+							<rank>10</rank>
+						</item>
+						<item id="col:col1">
+							<items>
+								<item id="fieldset:Project:Details">
+									<items>
+										<item id="description">
+											<rank>10</rank>
+										</item>
+										<item id="requirement">
+											<rank>20</rank>
+										</item>
+										<item id="constraints">
+											<rank>30</rank>
+										</item>
+										<item id="exclusions">
+											<rank>40</rank>
+										</item>
+									</items>
+									<rank>10</rank>
+								</item>
+							</items>
+							<rank>20</rank>
+						</item>
+						<item id="col:col2">
+							<items>
+								<item id="fieldset:Project:Dates">
+									<items>
+										<item id="start_date">
+											<rank>10</rank>
+										</item>
+										<item id="end_date">
+											<rank>20</rank>
+										</item>
+										<item id="revised_end_date">
+											<rank>30</rank>
+										</item>
+										<item id="calculated_end_date">
+											<rank>40</rank>
+										</item>
+										<item id="creation_date">
+											<rank>50</rank>
+										</item>
+										<item id="last_update">
+											<rank>60</rank>
+										</item>
+									</items>
+									<rank>10</rank>
+								</item>
+							</items>
+							<rank>30</rank>
+						</item>
+						<item id="wbss_list">
+							<rank>40</rank>
+						</item>
+						<item id="contacts_list">
+							<rank>50</rank>
+						</item>
+						<item id="projectchanges_list">
+							<rank>60</rank>
+						</item>
+						<item id="risks_list">
+							<rank>70</rank>
+						</item>
+						<item id="functionalcis_list">
+							<rank>80</rank>
+						</item>
+						<item id="gant_wbs">
+							<rank>90</rank>
+						</item>
+						<item id="tickets_list">
+							<rank>100</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="Risk" _delta="define">
+			<parent>cmdbAbstractObject</parent>
+			<properties>
+				<category>bizmodel,searchable</category>
+				<abstract>false</abstract>
+				<db_table>risk</db_table>
+				<naming>
+					<attributes>
+						<attribute id="ref"/>
+					</attributes>
+				</naming>
+				<icon>../combodo-pmp-extended/asset/img/risk.png</icon>
+				<reconciliation>
+					<attributes>
+						<attribute id="ref"/>
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+				<field id="ref" xsi:type="AttributeString">
+					<sql>ref</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<validation_pattern/>
+				</field>
+				<field id="project_id" xsi:type="AttributeExternalKey">
+					<sql>project_id</sql>
+					<filter/>
+					<dependencies>
+						<attribute id="ref"/>
+					</dependencies>
+					<is_null_allowed>true</is_null_allowed>
+					<target_class>Project</target_class>
+					<on_target_delete>DEL_AUTO</on_target_delete>
+					<label>project name</label>
+				</field>
+				<field id="int_ext" xsi:type="AttributeEnum">
+					<sql>int_ext</sql>
+					<values>
+						<value id="internal">internal</value>
+						<value id="external">external</value>
+					</values>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>list</display_style>
+					<dependencies/>
+				</field>
+				<field id="title" xsi:type="AttributeString">
+					<sql>title</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<validation_pattern/>
+				</field>
+				<field id="start_date" xsi:type="AttributeDateTime">
+					<sql>start_date</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+				<field id="next_update" xsi:type="AttributeDateTime">
+					<sql>next_update</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+				<field id="last_update" xsi:type="AttributeDateTime">
+					<sql>last_update</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+				<field id="threat_opportunity" xsi:type="AttributeEnum">
+					<sql>threat_opportunity</sql>
+					<values>
+						<value id="threat">threat</value>
+						<value id="opportunity">opportunity</value>
+					</values>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>list</display_style>
+					<dependencies/>
+				</field>
+				<field id="description" xsi:type="AttributeHTML">
+					<sql>description</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<validation_pattern/>
+					<width/>
+					<height/>
+				</field>
+				<field id="identifier_id" xsi:type="AttributeExternalKey">
+					<sql>identifier_id</sql>
+					<filter/>
+					<dependencies>
+						<attribute id="ref"/>
+					</dependencies>
+					<is_null_allowed>true</is_null_allowed>
+					<target_class>Person</target_class>
+					<on_target_delete>DEL_AUTO</on_target_delete>
+					<label>identified by</label>
+				</field>
+				<field id="owner_id" xsi:type="AttributeExternalKey">
+					<sql>owner_id</sql>
+					<filter/>
+					<dependencies>
+						<attribute id="ref"/>
+					</dependencies>
+					<is_null_allowed>true</is_null_allowed>
+					<target_class>Person</target_class>
+					<on_target_delete>DEL_AUTO</on_target_delete>
+					<label>owner</label>
+				</field>
+				<field id="impact" xsi:type="AttributeHTML">
+					<sql>impact</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<validation_pattern/>
+					<width/>
+					<height/>
+				</field>
+				<field id="cost_impact" xsi:type="AttributeDecimal">
+					<sql>cost_impact</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<digits>8</digits>
+					<decimals>2</decimals>
+				</field>
+				<field id="response_strategy" xsi:type="AttributeEnum">
+					<sql>response_strategy</sql>
+					<values>
+						<value id="avoid">avoid</value>
+						<value id="accept">accept</value>
+						<value id="mitigate">mitigate</value>
+						<value id="transfer">transfer</value>
+					</values>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>list</display_style>
+					<dependencies/>
+				</field>
+				<field id="response_description" xsi:type="AttributeHTML">
+					<sql>response_description</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<validation_pattern/>
+					<width/>
+					<height/>
+				</field>
+				<field id="private_log" xsi:type="AttributeCaseLog">
+					<sql>private_log</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+				<field id="close_date" xsi:type="AttributeDateTime">
+					<sql>close_date</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+				<field id="impact_rating" xsi:type="AttributeEnum">
+					<sql>impact_rating</sql>
+					<values>
+						<value id="1">1</value>
+						<value id="2">2</value>
+						<value id="3">3</value>
+					</values>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>list</display_style>
+					<dependencies/>
+				</field>
+				<field id="reject_reason" xsi:type="AttributeText">
+					<sql>reject_reason</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<validation_pattern/>
+					<width/>
+					<height/>
+				</field>
+				<field id="wbss_list" xsi:type="AttributeLinkedSetIndirect">
+					<ext_key_to_remote>wbs_id</ext_key_to_remote>
+					<ext_key_to_me>risk_id</ext_key_to_me>
+					<linked_class>lnkRiskToWBS</linked_class>
+					<count_min>0</count_min>
+					<count_max>0</count_max>
+				</field>
+				<field id="status" xsi:type="AttributeEnum">
+					<sql>status</sql>
+					<values>
+						<value id="analysed">analysed</value>
+						<value id="inprogress">inprogress</value>
+						<value id="closed">closed</value>
+						<value id="rejected">rejected</value>
+						<value id="new">new</value>
+					</values>
+					<default_value>new</default_value>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style/>
+					<dependencies/>
+				</field>
+				<field id="trigger_date" xsi:type="AttributeDateTime">
+					<sql>trigger_date</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+				<field id="trigger_description" xsi:type="AttributeHTML">
+					<sql>trigger_description</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<validation_pattern/>
+					<width/>
+					<height/>
+				</field>
+				<field id="probability_rating" xsi:type="AttributeEnum">
+					<sql>probability_rating</sql>
+					<values>
+						<value id="1">1</value>
+						<value id="2">2</value>
+						<value id="3">3</value>
+					</values>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style/>
+					<dependencies/>
+				</field>
+				<field id="overall_rating" xsi:type="AttributeEnum">
+					<sql>overall_rating</sql>
+					<values>
+						<value id="1">1</value>
+						<value id="2">2</value>
+						<value id="3">3</value>
+						<value id="4">4</value>
+					</values>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>list</display_style>
+					<dependencies>
+						<attribute id="impact_rating"/>
+						<attribute id="probability_rating"/>
+					</dependencies>
+				</field>
+				<field id="risk_probability" xsi:type="AttributePercentage">
+					<sql>risk_probability</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+				<field id="risk_calculated_EMV" xsi:type="AttributeDecimal">
+					<sql>risk_calculated_emv</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<digits>7</digits>
+					<decimals>2</decimals>
+				</field>
+				<field id="revised_risk_EMV" xsi:type="AttributeInteger">
+					<sql>revised_risk_emv</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<digits>8</digits>
+					<decimals>2</decimals>
+				</field>
+				<field id="resolution_code" xsi:type="AttributeEnum">
+					<sql>resolution</sql>
+					<values>
+						<value id="issue">issue</value>
+						<value id="notoccured">notoccured</value>
+						<value id="rejected">rejected</value>
+						<value id="transferred">transferred</value>
+						<value id="avoided">avoided</value>
+					</values>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>list</display_style>
+					<dependencies/>
+				</field>
+				<field id="CheckTriggerdate" xsi:type="AttributeStopWatch">
+					<states>
+						<state id="analysed">analysed</state>
+						<state id="inprogress">inprogress</state>
+						<state id="new">new</state>
+					</states>
+					<working_time>DefaultWorkingTimeComputer</working_time>
+					<thresholds>
+						<threshold id="75">
+							<actions/>
+							<highlight>
+								<code>warning</code>
+								<persistent>false</persistent>
+							</highlight>
+						</threshold>
+						<threshold id="100">
+							<actions>
+								<action>
+									<verb>Set</verb>
+									<params>
+										<param xsi:type="string">type</param>
+										<param xsi:type="string">issue</param>
+									</params>
+								</action>
+							</actions>
+							<highlight>
+								<code>critical</code>
+								<persistent>false</persistent>
+							</highlight>
+						</threshold>
+					</thresholds>
+					<always_load_in_tables>true</always_load_in_tables>
+					<goal>ComputeRiskTriggerDate</goal>
+				</field>
+				<field id="CheckNextUpdate" xsi:type="AttributeStopWatch">
+					<states>
+						<state id="analysed">analysed</state>
+						<state id="inprogress">inprogress</state>
+						<state id="new">new</state>
+					</states>
+					<working_time>DefaultWorkingTimeComputer</working_time>
+					<thresholds>
+						<threshold id="75">
+							<actions/>
+							<highlight>
+								<code>warning_update</code>
+								<persistent>false</persistent>
+							</highlight>
+						</threshold>
+						<threshold id="100">
+							<actions/>
+							<highlight>
+								<code>critical_update</code>
+								<persistent>false</persistent>
+							</highlight>
+						</threshold>
+					</thresholds>
+					<always_load_in_tables>true</always_load_in_tables>
+					<goal>ComputeNextUpdateDate</goal>
+				</field>
+				<field id="type" xsi:type="AttributeEnum">
+					<sql>type</sql>
+					<values>
+						<value id="risk">risk</value>
+						<value id="issue">issue</value>
+					</values>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+					<display_style>list</display_style>
+					<dependencies/>
+					<tracking_level>all</tracking_level>
+				</field>
+			</fields>
+			<lifecycle>
+				<attribute>status</attribute>
+				<highlight_scale>
+					<item id="warning">
+						<rank>1</rank>
+						<color>HIGHLIGHT_CLASS_WARNING</color>
+						<icon>../combodo-pmp-extended/asset/img/risk_to_issue.png"</icon>
+					</item>
+					<item id="critical">
+						<rank>2</rank>
+						<color>HIGHLIGHT_CLASS_CRITICAL</color>
+						<icon>../combodo-pmp-extended/asset/img/risk_to_issue_critical.png</icon>
+					</item>
+					<item id="warning_update">
+						<rank>3</rank>
+						<color>HIGHLIGHT_CLASS_WARNING</color>
+						<icon>../combodo-pmp-extended/asset/img/risk-nextupdate.png</icon>
+					</item>
+					<item id="critical_update">
+						<rank>4</rank>
+						<color>HIGHLIGHT_CLASS_CRITICAL</color>
+						<icon>../combodo-pmp-extended/asset/img/risk-nextupdate.png</icon>
+					</item>
+				</highlight_scale>
+				<states>
+					<state id="new">
+						<flags>
+							<attribute id="resolution_code">
+								<hidden/>
+							</attribute>
+							<attribute id="close_date">
+								<hidden/>
+							</attribute>
+							<attribute id="risk_calculated_EMV">
+								<read_only/>
+							</attribute>
+							<attribute id="title">
+								<mandatory/>
+							</attribute>
+							<attribute id="project_id">
+								<mandatory/>
+							</attribute>
+							<attribute id="identifier_id">
+								<mandatory/>
+							</attribute>
+							<attribute id="reject_reason">
+								<hidden/>
+							</attribute>
+							<attribute id="description">
+								<mandatory/>
+							</attribute>
+							<attribute id="start_date">
+								<hidden/>
+							</attribute>
+							<attribute id="last_update">
+								<hidden/>
+							</attribute>
+							<attribute id="overall_rating">
+								<read_only/>
+							</attribute>
+							<attribute id="type">
+								<mandatory/>
+							</attribute>
+						</flags>
+						<transitions>
+							<transition id="ev_analyse">
+								<stimulus>ev_analyse</stimulus>
+								<target>analysed</target>
+								<actions/>
+							</transition>
+						</transitions>
+					</state>
+					<state id="analysed">
+						<flags>
+							<attribute id="resolution_code">
+								<hidden/>
+							</attribute>
+							<attribute id="close_date">
+								<hidden/>
+							</attribute>
+							<attribute id="impact">
+								<mandatory/>
+							</attribute>
+							<attribute id="impact_rating">
+								<mandatory/>
+							</attribute>
+							<attribute id="owner_id">
+								<mandatory/>
+							</attribute>
+							<attribute id="response_strategy">
+								<mandatory/>
+							</attribute>
+							<attribute id="start_date">
+								<read_only/>
+							</attribute>
+							<attribute id="next_update">
+								<mandatory/>
+								<must_prompt/>
+							</attribute>
+							<attribute id="trigger_date">
+								<mandatory/>
+								<must_prompt/>
+							</attribute>
+							<attribute id="last_update">
+								<read_only/>
+							</attribute>
+						</flags>
+						<transitions>
+							<transition id="ev_progress">
+								<stimulus>ev_progress</stimulus>
+								<target>inprogress</target>
+								<actions/>
+								<flags>
+									<attribute id="private_log">
+										<must_prompt/>
+									</attribute>
+								</flags>
+							</transition>
+							<transition id="ev_reject">
+								<stimulus>ev_reject</stimulus>
+								<target>rejected</target>
+								<actions/>
+							</transition>
+							<transition id="ev_autoclose">
+								<stimulus>ev_autoclose</stimulus>
+								<target>closed</target>
+								<actions/>
+							</transition>
+						</transitions>
+						<inherit_flags_from>new</inherit_flags_from>
+					</state>
+					<state id="inprogress">
+						<flags>
+							<attribute id="resolution_code">
+								<hidden/>
+							</attribute>
+							<attribute id="risk_calculated_EMV">
+								<read_only/>
+							</attribute>
+							<attribute id="reject_reason">
+								<hidden/>
+							</attribute>
+							<attribute id="start_date">
+								<read_only/>
+							</attribute>
+							<attribute id="next_update">
+								<mandatory/>
+								<must_prompt/>
+							</attribute>
+							<attribute id="trigger_date">
+								<mandatory/>
+								<must_prompt/>
+							</attribute>
+							<attribute id="last_update">
+								<read_only/>
+							</attribute>
+							<attribute id="overall_rating">
+								<read_only/>
+							</attribute>
+							<attribute id="type">
+								<must_prompt/>
+							</attribute>
+						</flags>
+						<transitions>
+							<transition id="ev_close">
+								<stimulus>ev_close</stimulus>
+								<target>closed</target>
+								<actions>
+									<action>
+										<verb>SetCurrentDate</verb>
+										<params>
+											<param xsi:type="attcode">close_date</param>
+										</params>
+									</action>
+									<action>
+										<verb>AddIssueCostToProject</verb>
+									</action>
+								</actions>
+								<flags>
+									<attribute id="type">
+										<mandatory/>
+										<must_prompt/>
+									</attribute>
+								</flags>
+							</transition>
+							<transition id="ev_autoclose">
+								<stimulus>ev_autoclose</stimulus>
+								<target>closed</target>
+								<actions/>
+							</transition>
+						</transitions>
+					</state>
+					<state id="closed">
+						<flags>
+							<attribute id="resolution_code">
+								<mandatory/>
+								<must_prompt/>
+							</attribute>
+							<attribute id="risk_calculated_EMV">
+								<read_only/>
+							</attribute>
+							<attribute id="reject_reason">
+								<hidden/>
+							</attribute>
+							<attribute id="start_date">
+								<read_only/>
+							</attribute>
+							<attribute id="next_update">
+								<read_only/>
+							</attribute>
+							<attribute id="trigger_date">
+								<read_only/>
+							</attribute>
+							<attribute id="last_update">
+								<read_only/>
+							</attribute>
+							<attribute id="overall_rating">
+								<read_only/>
+							</attribute>
+						</flags>
+						<transitions>
+							<transition id="ev_reopen">
+								<stimulus>ev_reopen</stimulus>
+								<target>inprogress</target>
+								<actions>
+									<action>
+										<verb>RemoveIssueCostToProject</verb>
+									</action>
+								</actions>
+							</transition>
+						</transitions>
+					</state>
+					<state id="rejected">
+						<flags>
+							<attribute id="risk_calculated_EMV">
+								<read_only/>
+							</attribute>
+							<attribute id="reject_reason">
+								<mandatory/>
+								<must_prompt/>
+							</attribute>
+							<attribute id="start_date">
+								<read_only/>
+							</attribute>
+							<attribute id="next_update">
+								<read_only/>
+							</attribute>
+							<attribute id="trigger_date">
+								<read_only/>
+							</attribute>
+							<attribute id="last_update">
+								<read_only/>
+							</attribute>
+							<attribute id="overall_rating">
+								<read_only/>
+							</attribute>
+						</flags>
+						<transitions/>
+					</state>
+				</states>
+				<stimuli>
+					<stimulus id="ev_analyse" xsi:type="StimulusUserAction"/>
+					<stimulus id="ev_progress" xsi:type="StimulusUserAction"/>
+					<stimulus id="ev_close" xsi:type="StimulusUserAction"/>
+					<stimulus id="ev_reopen" xsi:type="StimulusUserAction"/>
+					<stimulus id="ev_reject" xsi:type="StimulusUserAction"/>
+					<stimulus id="ev_autoclose" xsi:type="StimulusInternal"/>
+				</stimuli>
+			</lifecycle>
+			<methods>
+				<method id="DBInsertNoReload">
+					<comment>/**
+						*
+						* @author Axelle Bost
+						*/
+					</comment>
+					<static>false</static>
+					<access>public</access>
+					<code><![CDATA[
+						public function DBInsertNoReload()
+	          {
+								$iNextId = ItopCounter::incClass(get_class($this));
+								$sRef = $this->MakeTicketRef($iNextId);
+								$this->Set('ref', $sRef);
+								$iKey = parent::DBInsertNoReload();
+								return $iKey;
+	          }
+					]]></code>
+				</method>
+				<method id="MakeTicketRef">
+					<comment>/**
+						*
+						* @author Axelle Bost
+						*/
+					</comment>
+					<static>false</static>
+					<access>public</access>
+					<code><![CDATA[
+							public function MakeTicketRef($iNextId)
+            	{
+            			switch (get_class($this))
+                  {
+                      case 'Risk':
+                      $sFormat = 'Risk-%06d';
+                      break;
+                  }
+                  return sprintf($sFormat, $iNextId);
+            	}
+				]]></code>
+				</method>
+				<method id="OnUpdate">
+					<comment>/**
+						*
+						* @author Axelle Bost
+						*/
+					</comment>
+					<static>false</static>
+					<access>public</access>
+					<code><![CDATA[
+							public function OnUpdate()
+							{
+							    parent::OnUpdate();
+
+									$this->Set('last_update', time());
+									$aChanges = $this->ListChanges();
+					        if (array_key_exists('response_strategy', $aChanges) || array_key_exists('revised_risk_EMV', $aChanges))
+					        {
+					            $this->SetProjectRiskEMVcalculated();
+					        }
+							}
+					]]></code>
+				</method>
+				<method id="OnInsert">
+					<comment>/**
+						*
+						* @author Axelle Bost
+						*/
+					</comment>
+					<static>false</static>
+					<access>public</access>
+					<code><![CDATA[
+						public function OnInsert()
+						{
+								parent::OnInsert();
+
+								$this->Set('last_update', time());
+								$this->Set('start_date', time());
+								if ( ($this->Get('risk_probability') != NULL) && ($this->Get('cost_impact') != NULL ) )
+				        {
+			              $iEMV= ($this->Get('risk_probability')/100) * $this->Get('cost_impact');
+			              $this->Set('risk_calculated_EMV', $iEMV);
+			              if ($this->Get('revised_risk_EMV') == NULL)
+			              {
+					              $this->Set('revised_risk_EMV', $iEMV);
+					              $this->SetProjectRiskEMVcalculated();
+			              }
+				        }
+						}
+					]]></code>
+				</method>
+				<method id="ComputeRiskRating">
+					<comment>/**
+						*
+						* @author Axelle Bost
+						*/
+					</comment>
+					<static>false</static>
+					<access>public</access>
+					<code><![CDATA[
+						public function ComputeRiskRating($iImpact_rating = null)
+						{
+		            // overall_rating[impact_rating][probability_rating]
+                $aOverall_ratings = array(
+                    // High
+                    1 => array(
+                          1 => 1,
+                          2 => 2,
+                          3 => 3,
+                    ),
+                    // Medium
+                    2 => array(
+                          1 => 2,
+                          2 => 3,
+                          3 => 4,
+                    ),
+                    // Low
+                    3 => array(
+                          1 => 3,
+                          2 => 4,
+                          3 => 4,
+                    ),
+                );
+	              if (is_null($iImpact_rating))
+	              {
+	                  $iImpact_rating = $this->Get('impact_rating');
+	              }
+                $iOverall_Rating = $aOverall_ratings[(int)$iImpact_rating][(int)$this->Get('probability_rating')];
+                return $iOverall_Rating;
+					}
+				]]></code>
+				</method>
+				<method id="ComputeValues">
+					<comment>/**
+						*
+						* @author Axelle Bost
+						*/
+					</comment>
+					<static>false</static>
+					<access>public</access>
+					<code><![CDATA[
+						public function ComputeValues()
+						{
+					      parent::ComputeValues();
+					      $this->Set('overall_rating', $this->ComputeRiskRating());
+						}
+					]]></code>
+				</method>
+				<method id="SetProjectRiskEMVcalculated">
+					<comment>/**
+						*
+						* @author Axelle Bost
+						*/
+					</comment>
+					<static>false</static>
+					<access>public</access>
+					<code><![CDATA[
+						public function SetProjectRiskEMVcalculated()
+						{
+						    // As soon as risk is accepted, its associated cost (revised_risk_emv) is added to contingency reserve on Project
+						    $iProjectId = $this->Get('project_id');
+						    $sOQLRisk =  "SELECT Risk WHERE project_id = :project AND type='risk' AND status NOT IN ('rejected','closed') AND response_strategy NOT IN ('avoid','transfer')  AND id != :id";
+						    $oRiskSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQLRisk), array(), array('project' => $iProjectId, 'id' => $this->GetKey()));
+						    $iRiskCosts = $this->Get('revised_risk_EMV');
+						    while ($oRisk = $oRiskSet->Fetch())
+				        {
+				            $iRiskCosts += $oRisk->Get('revised_risk_EMV');
+				        }
+						    $oProject = MetaModel::GetObject('Project', $iProjectId, false);
+
+				        $oProject->Set('contingency_reserve',$iRiskCosts);
+				        $oProject->DBUpdate();
+						}
+				]]></code>
+				</method>
+				<method id="AddIssueCostToProject">
+					<comment>/**
+						*
+						* @author Axelle Bost
+						* @return bool Return true on success or false to prevent the transition to happen
+						*/
+					</comment>
+					<static>false</static>
+					<access>public</access>
+					<code><![CDATA[
+							public function AddIssueCostToProject()
+							{
+						      if ($this->Get('type') =='issue')
+						      {
+							        $sOQL = "SELECT Project WHERE id = :project_id";
+							        $oProjectSet = new DBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('project_id' => $this->Get('project_id')));
+						          while ($oProject = $oProjectSet->Fetch())
+						          {
+						              $iTotalCost = ($oProject->Get('costs_spent') + $this->Get('cost_impact'));
+						              $oProject->Set('costs_spent',$iTotalCost);
+						              $oProject->DBUpdate();
+						          }
+						      }
+									return true;
+							}
+					]]></code>
+					<arguments/>
+				</method>
+				<method id="RemoveIssueCostToProject">
+					<comment>/**
+						*
+						* @author Axelle Bost
+						* @return bool Return true on success or false to prevent the transition to happen
+						*/
+					</comment>
+					<static>false</static>
+					<access>public</access>
+					<code><![CDATA[
+							public function RemoveIssueCostToProject()
+							{
+						      if ($this->Get('type') =='issue')
+						      {
+												$sOQL = "SELECT Project WHERE id = :project_id";
+						            $oProjectSet = new DBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('project_id' => $this->Get('project_id')));
+				                while ($oProject = $oProjectSet->Fetch())
+						            {
+					                  $iTotalCost = ($oProject->Get('costs_spent') - $this->Get('cost_impact'));
+				                    $oProject->Set('costs_spent',$iTotalCost);
+				                    $oProject->DBUpdate();
+				                }
+						      }
+									return true;
+							}
+					]]></code>
+					<arguments/>
+				</method>
+			</methods>
+			<presentation>
+				<list>
+					<items>
+						<item id="ref">
+							<rank>10</rank>
+						</item>
+						<item id="title">
+							<rank>20</rank>
+						</item>
+						<item id="project_id">
+							<rank>30</rank>
+						</item>
+						<item id="owner_id">
+							<rank>40</rank>
+						</item>
+						<item id="status">
+							<rank>50</rank>
+						</item>
+						<item id="type">
+						  <rank>60</rank>
+						</item>
+						<item id="response_strategy">
+						  <rank>70</rank>
+						</item>
+						<item id="revised_risk_EMV">
+						  <rank>80</rank>
+						</item>
+						<item id="trigger_date">
+						  <rank>90</rank>
+						</item>
+						<item id="risk_calculated_EMV">
+						  <rank>100</rank>
+						</item>
+						<item id="threat_opportunity">
+						  <rank>110</rank>
+						</item>
+					</items>
+				</list>
+				<search>
+					<items>
+						<item id="ref">
+							<rank>10</rank>
+						</item>
+						<item id="project_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="overall_rating">
+							<rank>40</rank>
+						</item>
+						<item id="impact_rating">
+							<rank>50</rank>
+						</item>
+						<item id="probability_rating">
+							<rank>60</rank>
+						</item>
+						<item id="resolution_code">
+							<rank>70</rank>
+						</item>
+						<item id="close_date">
+							<rank>80</rank>
+						</item>
+						<item id="start_date">
+							<rank>90</rank>
+						</item>
+						<item id="int_ext">
+							<rank>100</rank>
+						</item>
+						<item id="owner_id">
+							<rank>110</rank>
+						</item>
+						<item id="identifier_id">
+							<rank>120</rank>
+						</item>
+					</items>
+				</search>
+				<details>
+					<items>
+						<item id="col:col0">
+							<items>
+								<item id="fieldset:Risk:Info">
+									<items>
+										<item id="title">
+											<rank>10</rank>
+										</item>
+										<item id="status">
+											<rank>20</rank>
+										</item>
+										<item id="int_ext">
+											<rank>30</rank>
+										</item>
+										<item id="threat_opportunity">
+											<rank>40</rank>
+										</item>
+										<item id="project_id">
+											<rank>50</rank>
+										</item>
+										<item id="description">
+											<rank>60</rank>
+										</item>
+									</items>
+									<rank>10</rank>
+								</item>
+								<item id="fieldset:Risk:Qualification">
+									<items>
+										<item id="type">
+											<rank>10</rank>
+										</item>
+										<item id="impact_rating">
+											<rank>20</rank>
+										</item>
+										<item id="probability_rating">
+											<rank>30</rank>
+										</item>
+										<item id="overall_rating">
+											<rank>40</rank>
+										</item>
+										<item id="impact">
+											<rank>50</rank>
+										</item>
+										<item id="risk_probability">
+											<rank>60</rank>
+										</item>
+										<item id="cost_impact">
+											<rank>70</rank>
+										</item>
+										<item id="risk_calculated_EMV">
+											<rank>80</rank>
+										</item>
+									</items>
+									<rank>20</rank>
+								</item>
+							</items>
+							<rank>10</rank>
+						</item>
+						<item id="col:col1">
+							<items>
+								<item id="fieldset:Risk:Contacts">
+									<items>
+										<item id="identifier_id">
+											<rank>10</rank>
+										</item>
+										<item id="owner_id">
+											<rank>20</rank>
+										</item>
+									</items>
+									<rank>10</rank>
+								</item>
+								<item id="fieldset:Risk:Date">
+									<items>
+										<item id="start_date">
+											<rank>10</rank>
+										</item>
+										<item id="next_update">
+											<rank>20</rank>
+										</item>
+										<item id="trigger_date">
+											<rank>30</rank>
+										</item>
+										<item id="trigger_description">
+											<rank>40</rank>
+										</item>
+										<item id="last_update">
+											<rank>50</rank>
+										</item>
+										<item id="close_date">
+											<rank>60</rank>
+										</item>
+									</items>
+									<rank>20</rank>
+								</item>
+								<item id="fieldset:Risk:ResponsePlan">
+									<items>
+										<item id="response_strategy">
+											<rank>10</rank>
+										</item>
+										<item id="response_description">
+											<rank>20</rank>
+										</item>
+										<item id="revised_risk_EMV">
+											<rank>30</rank>
+										</item>
+										<item id="resolution_code">
+											<rank>40</rank>
+										</item>
+										<item id="reject_reason">
+											<rank>50</rank>
+										</item>
+									</items>
+									<rank>30</rank>
+								</item>
+							</items>
+							<rank>20</rank>
+						</item>
+						<item id="wbss_list">
+							<rank>30</rank>
+						</item>
+					</items>
+				</details>
+				<default_search>
+					<items>
+						<item id="ref">
+							<rank>10</rank>
+						</item>
+						<item id="project_id">
+							<rank>20</rank>
+						</item>
+						<item id="owner_id">
+							<rank>30</rank>
+						</item>
+						<item id="status">
+							<rank>40</rank>
+						</item>
+						<item id="response_strategy">
+							<rank>50</rank>
+						</item>
+					</items>
+				</default_search>
+			</presentation>
+			<parent>cmdbAbstractObject</parent>
+		</class>
+		<class id="WBS" _delta="must_exist">
+			<fields>
+				<field id="projectchanges_list" xsi:type="AttributeLinkedSetIndirect" _delta="define">
+					<ext_key_to_me>wbs_id</ext_key_to_me>
+					<ext_key_to_remote>projectchange_id</ext_key_to_remote>
+					<linked_class>lnkProjectChangeToWBS</linked_class>
+					<count_min>0</count_min>
+					<count_max>0</count_max>
+					<label>Project Changes</label>
+				</field>
+				<field id="risks_list" xsi:type="AttributeLinkedSetIndirect" _delta="define">
+					<ext_key_to_me>wbs_id</ext_key_to_me>
+					<ext_key_to_remote>risk_id</ext_key_to_remote>
+					<linked_class>lnkRiskToWBS</linked_class>
+					<count_min>0</count_min>
+					<count_max>0</count_max>
+					<label>Issue or Risk</label>
+				</field>
+			</fields>
+			<presentation>
+				<search _delta="redefine">
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="project_id">
+							<rank>20</rank>
+						</item>
+						<item id="start_date">
+							<rank>30</rank>
+						</item>
+						<item id="description">
+							<rank>40</rank>
+						</item>
+						<item id="end_date">
+							<rank>50</rank>
+						</item>
+						<item id="wbs_owner_id">
+							<rank>60</rank>
+						</item>
+						<item id="wbs_budget">
+							<rank>70</rank>
+						</item>
+						<item id="acceptance">
+							<rank>80</rank>
+						</item>
+						<item id="technical_info">
+							<rank>90</rank>
+						</item>
+						<item id="wbs_cost">
+							<rank>100</rank>
+						</item>
+						<item id="labor_cost">
+							<rank>110</rank>
+						</item>
+						<item id="material_cost">
+							<rank>120</rank>
+						</item>
+						<item id="re_estimated_end_date">
+							<rank>130</rank>
+						</item>
+						<item id="status">
+							<rank>140</rank>
+						</item>
+						<item id="completion">
+							<rank>150</rank>
+						</item>
+						<item id="freetime">
+							<rank>160</rank>
+						</item>
+						<item id="re_estimated_start_date">
+							<rank>170</rank>
+						</item>
+						<item id="available_budget">
+							<rank>180</rank>
+						</item>
+						<item id="time_planned">
+							<rank>190</rank>
+						</item>
+						<item id="delay">
+							<rank>200</rank>
+						</item>
+					</items>
+				</search>
+				<details _delta="redefine">
+					<items>
+						<item id="col:col0">
+							<items>
+								<item id="fieldset:WBS:Info">
+									<items>
+										<item id="name">
+											<rank>10</rank>
+										</item>
+										<item id="project_id">
+											<rank>20</rank>
+										</item>
+										<item id="wbs_owner_id">
+											<rank>30</rank>
+										</item>
+										<item id="status">
+											<rank>40</rank>
+										</item>
+										<item id="description">
+											<rank>50</rank>
+										</item>
+										<item id="acceptance">
+											<rank>60</rank>
+										</item>
+										<item id="technical_info">
+											<rank>70</rank>
+										</item>
+									</items>
+									<rank>10</rank>
+								</item>
+							</items>
+							<rank>10</rank>
+						</item>
+						<item id="col:col1">
+							<items>
+								<item id="fieldset:WBS:Cost">
+									<items>
+										<item id="wbs_budget">
+											<rank>10</rank>
+										</item>
+										<item id="labor_cost">
+											<rank>20</rank>
+										</item>
+										<item id="material_cost">
+											<rank>30</rank>
+										</item>
+										<item id="wbs_cost">
+											<rank>40</rank>
+										</item>
+										<item id="available_budget">
+											<rank>50</rank>
+										</item>
+									</items>
+									<rank>10</rank>
+								</item>
+								<item id="fieldset:WBS:Execution">
+									<items>
+										<item id="time_planned">
+											<rank>10</rank>
+										</item>
+										<item id="completion">
+											<rank>20</rank>
+										</item>
+									</items>
+									<rank>20</rank>
+								</item>
+							</items>
+							<rank>20</rank>
+						</item>
+						<item id="col:col2">
+							<items>
+								<item id="fieldset:WBS:Dates">
+									<items>
+										<item id="start_date">
+											<rank>10</rank>
+										</item>
+										<item id="end_date">
+											<rank>20</rank>
+										</item>
+										<item id="re_estimated_start_date">
+											<rank>30</rank>
+										</item>
+										<item id="re_estimated_end_date">
+											<rank>40</rank>
+										</item>
+										<item id="freetime">
+											<rank>50</rank>
+										</item>
+									</items>
+									<rank>10</rank>
+								</item>
+							</items>
+							<rank>30</rank>
+						</item>
+						<item id="wbss_child_list">
+							<rank>40</rank>
+						</item>
+						<item id="wbss_parent_list">
+							<rank>50</rank>
+						</item>
+						<item id="projectchanges_list">
+							<rank>60</rank>
+						</item>
+						<item id="risks_list">
+							<rank>70</rank>
+						</item>
+						<item id="contacts_list">
+							<rank>80</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="lnkProjectChangeToWBS" _delta="define">
+			<properties>
+				<category>bizmodel</category>
+				<abstract>false</abstract>
+				<db_table>lnkprojectchangetowbs</db_table>
+				<is_link>1</is_link>
+				<naming>
+					<attributes>
+						<attribute id="projectchange_id"/>
+						<attribute id="wbs_id"/>
+					</attributes>
+				</naming>
+				<reconciliation>
+					<attributes>
+						<attribute id="projectchange_id"/>
+						<attribute id="wbs_id"/>
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+				<field id="projectchange_id" xsi:type="AttributeExternalKey">
+					<sql>projectchange_id</sql>
+					<filter/>
+					<dependencies/>
+					<is_null_allowed>false</is_null_allowed>
+					<target_class>ProjectChange</target_class>
+					<on_target_delete>DEL_AUTO</on_target_delete>
+				</field>
+				<field id="wbs_id" xsi:type="AttributeExternalKey">
+					<sql>wbs_id</sql>
+					<filter/>
+					<dependencies/>
+					<is_null_allowed>false</is_null_allowed>
+					<target_class>WBS</target_class>
+					<on_target_delete>DEL_AUTO</on_target_delete>
+				</field>
+			</fields>
+			<methods/>
+			<presentation>
+				<list>
+					<items>
+						<item id="projectchange_id">
+							<rank>10</rank>
+						</item>
+						<item id="wbs_id">
+							<rank>20</rank>
+						</item>
+					</items>
+				</list>
+				<search>
+					<items>
+						<item id="projectchange_id">
+							<rank>10</rank>
+						</item>
+						<item id="wbs_id">
+							<rank>20</rank>
+						</item>
+					</items>
+				</search>
+				<details>
+					<items>
+						<item id="projectchange_id">
+							<rank>10</rank>
+						</item>
+						<item id="wbs_id">
+							<rank>20</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+			<parent>cmdbAbstractObject</parent>
+		</class>
+		<class id="lnkRiskToWBS" _delta="define">
+			<properties>
+				<category>bizmodel</category>
+				<abstract>false</abstract>
+				<db_table>lnkrisktowbs</db_table>
+				<is_link>1</is_link>
+				<naming>
+					<attributes>
+						<attribute id="risk_id"/>
+						<attribute id="wbs_id"/>
+					</attributes>
+				</naming>
+				<reconciliation>
+					<attributes>
+						<attribute id="risk_id"/>
+						<attribute id="wbs_id"/>
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+				<field id="risk_id" xsi:type="AttributeExternalKey">
+					<sql>risk_id</sql>
+					<filter/>
+					<dependencies/>
+					<is_null_allowed>false</is_null_allowed>
+					<target_class>Risk</target_class>
+					<on_target_delete>DEL_AUTO</on_target_delete>
+				</field>
+				<field id="title" xsi:type="AttributeExternalField">
+					<extkey_attcode>risk_id</extkey_attcode>
+					<target_attcode>title</target_attcode>
+				</field>
+				<field id="project_id" xsi:type="AttributeExternalField">
+					<extkey_attcode>risk_id</extkey_attcode>
+					<target_attcode>project_id</target_attcode>
+				</field>
+				<field id="wbs_id" xsi:type="AttributeExternalKey">
+					<sql>wbs_id</sql>
+					<filter/>
+					<dependencies/>
+					<is_null_allowed>false</is_null_allowed>
+					<target_class>WBS</target_class>
+					<on_target_delete>DEL_AUTO</on_target_delete>
+				</field>
+				<field id="title_wbs" xsi:type="AttributeExternalField">
+					<extkey_attcode>wbs_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+				<field id="project_wbs_id" xsi:type="AttributeExternalField">
+					<extkey_attcode>wbs_id</extkey_attcode>
+					<target_attcode>project_id</target_attcode>
+				</field>
+			</fields>
+			<methods/>
+			<presentation>
+				<list>
+					<items>
+						<item id="risk_id">
+							<rank>10</rank>
+						</item>
+						<item id="wbs_id">
+							<rank>20</rank>
+						</item>
+						<item id="title">
+							<rank>30</rank>
+						</item>
+						<item id="project_id">
+							<rank>40</rank>
+						</item>
+						<item id="title_wbs">
+							<rank>50</rank>
+						</item>
+						<item id="project_wbs_id">
+							<rank>60</rank>
+						</item>
+					</items>
+				</list>
+				<search>
+					<items>
+						<item id="risk_id">
+							<rank>10</rank>
+						</item>
+						<item id="wbs_id">
+							<rank>20</rank>
+						</item>
+						<item id="project_id">
+							<rank>40</rank>
+						</item>
+						<item id="title_wbs">
+							<rank>50</rank>
+						</item>
+						<item id="project_wbs_id">
+							<rank>60</rank>
+						</item>
+					</items>
+				</search>
+				<details>
+					<items>
+						<item id="risk_id">
+							<rank>10</rank>
+						</item>
+						<item id="wbs_id">
+							<rank>20</rank>
+						</item>
+						<item id="title">
+							<rank>30</rank>
+						</item>
+						<item id="project_id">
+							<rank>40</rank>
+						</item>
+						<item id="title_wbs">
+							<rank>50</rank>
+						</item>
+						<item id="project_wbs_id">
+							<rank>60</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+			<parent>cmdbAbstractObject</parent>
+		</class>
+	</classes>
+	<menus>
+		<menu xsi:type="DashboardMenuNode" id="Project:Overview" _created_in="combodo-pmp-light" _delta="redefine">
+			<parent>ProjectManagement</parent>
+			<rank>10</rank>
+			<definition>
+				<layout>DashboardLayoutTwoCols</layout>
+				<title>UI:ProjectMgmtMenuOverview:Title</title>
+				<auto_reload>
+					<enabled>false</enabled>
+					<interval>300</interval>
+				</auto_reload>
+				<cells>
+					<cell id="1">
+						<rank>10</rank>
+						<dashlets>
+							<dashlet id="1" xsi:type="DashletGroupByBars">
+								<rank>10</rank>
+								<title>UI-ProjectManagementOverview-Last-12Months</title>
+								<query>SELECT Project WHERE start_date &gt;= DATE(DATE_SUB(NOW(), INTERVAL 12 MONTH)) AND start_date &lt;=
+									DATE(DATE_ADD(NOW(), INTERVAL 1 MONTH))
+								</query>
+								<group_by>start_date:month</group_by>
+								<style>bars</style>
+								<aggregation_function>count</aggregation_function>
+								<aggregation_attribute/>
+								<limit/>
+								<order_by/>
+								<order_direction/>
+							</dashlet>
+						</dashlets>
+					</cell>
+					<cell id="2">
+						<rank>20</rank>
+						<dashlets>
+							<dashlet id="2" xsi:type="DashletGroupByPie">
+								<rank>10</rank>
+								<title>UI-ProjectManagementOverview-Last-3Months</title>
+								<query>SELECT Project WHERE start_date &gt;= DATE(DATE_SUB(NOW(), INTERVAL 3 MONTH)) AND start_date &lt;= DATE(DATE_ADD(NOW(),
+									INTERVAL 1 MONTH))
+								</query>
+								<group_by>org_id</group_by>
+								<style>pie</style>
+								<aggregation_function>count</aggregation_function>
+								<aggregation_attribute/>
+								<limit/>
+								<order_by/>
+								<order_direction/>
+							</dashlet>
+						</dashlets>
+					</cell>
+					<cell id="3">
+						<rank>30</rank>
+						<dashlets>
+							<dashlet id="3" xsi:type="DashletGroupByTable">
+								<rank>10</rank>
+								<title>UI-ProjectManagementOverview-OpenProjectByStatus</title>
+								<query>SELECT Project WHERE status NOT IN ('closed','resolved')</query>
+								<group_by>status</group_by>
+								<style>table</style>
+							</dashlet>
+						</dashlets>
+					</cell>
+					<cell id="4">
+						<rank>40</rank>
+						<dashlets>
+							<dashlet id="4" xsi:type="DashletGroupByTable">
+								<rank>10</rank>
+								<title>UI-WBSManagementOverview-OpenWBSByProject</title>
+								<query>SELECT WBS WHERE status NOT IN ('cancel','closed')</query>
+								<group_by>project_id</group_by>
+								<style>table</style>
+								<aggregation_function>count</aggregation_function>
+								<aggregation_attribute/>
+								<limit/>
+								<order_by/>
+								<order_direction/>
+							</dashlet>
+						</dashlets>
+					</cell>
+					<cell id="5">
+						<rank>50</rank>
+						<dashlets>
+							<dashlet id="5" xsi:type="DashletGroupByTable">
+								<rank>20</rank>
+								  <title>UI-RiskManagementOverview-OpenRiskByProject</title>
+								  <query>SELECT Risk WHERE status NOT IN ('closed','rejected') AND type='risk'</query>
+								  <group_by>project_id</group_by>
+								  <style>table</style>
+								  <aggregation_function>count</aggregation_function>
+								  <aggregation_attribute></aggregation_attribute>
+								  <limit></limit>
+								  <order_by>attribute</order_by>
+								  <order_direction>desc</order_direction>
+							</dashlet>
+						</dashlets>
+					</cell>
+					<cell id="6">
+						<rank>60</rank>
+						<dashlets>
+							<dashlet id="6" xsi:type="DashletGroupByTable">
+								<rank>20</rank>
+								  <title>UI-IssueManagementOverview-OpenIssueByProject</title>
+								  <query>SELECT Risk WHERE status NOT IN ('resolved','closed') AND type='issue'</query>
+								  <group_by>project_id</group_by>
+								  <style>table</style>
+								  <aggregation_function>count</aggregation_function>
+								  <aggregation_attribute></aggregation_attribute>
+								  <limit></limit>
+								  <order_by>attribute</order_by>
+								  <order_direction>desc</order_direction>
+							</dashlet>
+						</dashlets>
+					</cell>
+					<cell id="7">
+						<rank>70</rank>
+						<dashlets>
+							<dashlet id="7" xsi:type="DashletObjectList">
+								<rank>30</rank>
+								<title>UI-RiskManagementOverview-RiskToUpdate</title>
+								<query>SELECT Risk WHERE next_update &lt;DATE(DATE_ADD(NOW(), INTERVAL 7 DAY))</query>
+								<menu>true</menu>
+							</dashlet>
+						</dashlets>
+					</cell>
+					<cell id="8">
+						<rank>80</rank>
+						<dashlets>
+							<dashlet id="8" xsi:type="DashletObjectList">
+								<rank>30</rank>
+								<title>UI-RiskManagementOverview-RiskToIssue</title>
+								<query>SELECT Risk WHERE trigger_date &lt;DATE(DATE_ADD(NOW(), INTERVAL 7 DAY))</query>
+								<menu>true</menu>
+							</dashlet>
+						</dashlets>
+					</cell>
+				</cells>
+			</definition>
+		</menu>
+		<menu xsi:type="TemplateMenuNode" id="RiskMenu" _delta="define">
+			<parent>ProjectManagement</parent>
+			<rank>30</rank>
+		</menu>
+		<menu xsi:type="NewObjectMenuNode" id="NewRisk" _delta="define">
+			<parent>RiskMenu</parent>
+			<rank>0</rank>
+			<class>Risk</class>
+		</menu>
+		<menu xsi:type="SearchMenuNode" id="SearchRisk" _delta="define">
+			<parent>RiskMenu</parent>
+			<rank>10</rank>
+			<class>Risk</class>
+		</menu>
+		<menu xsi:type="OQLMenuNode" id="MyRisk" _delta="define">
+			<parent>RiskMenu</parent>
+			<rank>20</rank>
+			<oql>SELECT Risk WHERE owner_id = :current_contact_id AND status != "closed"</oql>
+			<do_search>1</do_search>
+		</menu>
+		<menu id="ChangeManagement" xsi:type="MenuGroup" _created_in="itop-change-mgmt" _delta="must_exist">
+			<rank _delta="redefine">40</rank>
+			<enable_class _delta="define">ProjectChange</enable_class>
+			<enable_action _delta="define">UR_ACTION_MODIFY</enable_action>
+		</menu>
+		<menu id="RequestManagement" xsi:type="MenuGroup" _created_in="itop-request-mgmt" _delta="must_exist">
+			<enable_class _delta="define">UserRequest</enable_class>
+			<enable_action _delta="define">UR_ACTION_MODIFY</enable_action>
+		</menu>
+		<menu id="ServiceManagement" xsi:type="MenuGroup" _created_in="itop-service-mgmt" _delta="must_exist">
+			<rank _delta="redefine">60</rank>
+			<enable_class _delta="define">Service</enable_class>
+			<enable_action _delta="define">UR_ACTION_MODIFY</enable_action>
+		</menu>
+		<menu xsi:type="TemplateMenuNode" id="ProjectChangeMenu" _delta="define">
+			<parent>ProjectManagement</parent>
+			<rank>81</rank>
+		</menu>
+		<menu xsi:type="NewObjectMenuNode" id="NewProjectChange" _delta="define">
+			<parent>ProjectChangeMenu</parent>
+			<rank>0</rank>
+			<class>ProjectChange</class>
+		</menu>
+		<menu xsi:type="SearchMenuNode" id="SearchProjectChange" _delta="define">
+			<parent>ProjectChangeMenu</parent>
+			<rank>1</rank>
+			<class>ProjectChange</class>
+		</menu>
+		<menu xsi:type="OQLMenuNode" id="MyProjectChange" _delta="define">
+		<parent>ProjectChangeMenu</parent>
+		<rank>2</rank>
+		<oql>SELECT ProjectChange WHERE agent_id = :current_contact_id AND status NOT IN ("closed","rejected")</oql>
+		<do_search>1</do_search>
+	</menu>
+	</menus>
+	<meta>
+		<classes>
+			<class id="ComputeRiskTriggerDate" _delta="define">
+				<interfaces>
+					<interface id="iMetricComputer"/>
+				</interfaces>
+			</class>
+			<class id="ComputeNextUpdateDate" _delta="define">
+				<interfaces>
+					<interface id="iMetricComputer"/>
+				</interfaces>
+			</class>
+		</classes>
+	</meta>
+	<user_rights _created_in="core">
+		<profiles>
+			<profile id="9" _delta="must_exist">
+				<groups>
+					<group id="Project" _delta="define">
+						<actions>
+							<action id="stimulus:ev_approve">allow</action>
+							<action id="stimulus:ev_reject">allow</action>
+							<action id="action:read">allow</action>
+							<action id="action:write">allow</action>
+							<action id="action:bulk write">allow</action>
+						</actions>
+					</group>
+				</groups>
+			</profile>
+			<profile id="1025" _delta="redefine">
+				<name>Project Manager</name>
+				<description>Person dealing with projects/risks/issues/WBS</description>
+				<groups>
+					<group id="Project">
+						<actions>
+              <action id="action:read">allow</action>
+              <action id="action:bulk read">allow</action>
+              <action id="action:write">allow</action>
+              <action id="action:bulk write">allow</action>
+              <action id="action:delete">allow</action>
+							<action id="stimulus:ev_analyse">allow</action>
+							<action id="stimulus:ev_approve">allow</action>
+							<action id="stimulus:ev_cancel">allow</action>
+							<action id="stimulus:ev_close">allow</action>
+							<action id="stimulus:ev_closed">allow</action>
+							<action id="stimulus:ev_execute">allow</action>
+							<action id="stimulus:ev_monitor">allow</action>
+							<action id="stimulus:ev_pending_parent">allow</action>
+							<action id="stimulus:ev_plan">allow</action>
+							<action id="stimulus:ev_progress">allow</action>
+							<action id="stimulus:ev_reexecute">allow</action>
+							<action id="stimulus:ev_reject">allow</action>
+							<action id="stimulus:ev_reopen">allow</action>
+						</actions>
+					</group>
+					<group id="*">
+						<actions>
+							<action id="action:read">allow</action>
+							<action id="action:bulk read">allow</action>
+						</actions>
+					</group>
+				</groups>
+			</profile>
+		</profiles>
+		<groups>
+			<group id="Project" _delta="redefine">
+				<classes>
+					<class id="Project"/>
+					<class id="WBS"/>
+					<class id="Risk"/>
+					<class id="ProjectChange"/>
+					<class id="lnkRiskToWBS"/>
+					<class id="lnkWBSToWBS"/>
+					<class id="lnkProjectChangeToWBS"/>
+					<class id="lnkContactToTicket"/>
+					<class id="lnkContactToWBS"/>
+				</classes>
+			</group>
+		</groups>
+	</user_rights>
+</itop_design>

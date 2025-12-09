@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+	<constants>
+	</constants>
+	<classes>
+		<class id="Location" _delta="must_exist">
+			<properties _delta="merge">
+				<naming _delta="redefine">
+					<attributes>
+						<attribute id="name" />
+						<attribute id="public_name" />
+					</attributes>
+				</naming>
+			</properties>
+			<fields>
+				<field id="public_name" xsi:type="AttributeString" _delta="define">
+					<sql>public_name</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="public_name" _delta="define">
+							<rank>15</rank>
+						</item>
+					</items>
+				</details>
+				<list _delta="merge">
+					<items>
+						<item id="public_name" _delta="define">
+							<rank>15</rank>
+						</item>
+					</items>
+				</list>
+				<search _delta="merge">
+					<items>
+						<item id="public_name" _delta="define">
+							<rank>15</rank>
+						</item>
+					</items>
+				</search>
+				<default_search _delta="merge">
+					<items>
+						<item id="public_name" _delta="define">
+							<rank>15</rank>
+						</item>
+					</items>
+				</default_search>
+			</presentation>
+		</class>
+	</classes>
+	<user_rights>
+	</user_rights>
+</itop_design>

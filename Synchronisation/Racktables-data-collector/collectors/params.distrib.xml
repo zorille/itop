@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Default values for parameters. Do NOT alter this file, copy its content 
+	to conf/params.local.xml and edit it instead -->
+<parameters>
+	<!-- RT Database -->
+	<sql_host>localhost</sql_host>
+	<sql_database>racktables;charset=UTF8</sql_database>
+	<sql_login>root</sql_login>
+	<sql_password>root</sql_password>
+	
+	<!-- iTop Application -->
+	<default_org_id>Demo</default_org_id>
+	<default_status>production</default_status>
+	<NetworkDeviceCollection>yes</NetworkDeviceCollection>
+	<RackCollection>yes</RackCollection>
+	<HypervisorCollection>yes</HypervisorCollection>
+	<VMCollection>yes</VMCollection>
+	
+	<!-- Data synchro parameters -->
+	<json_placeholders type="hash">
+		<prefix>RackTable</prefix>
+		<full_load_interval>604800</full_load_interval><!-- 7 days (in seconds): 7*24*60*60 -->
+		<synchro_status>production</synchro_status>
+		<delete_policy>update</delete_policy>l
+		<delete_policy_update>status:obsolete</delete_policy_update>
+		<delete_policy_retention>0</delete_policy_retention>
+	</json_placeholders>
+	
+	<!-- Brand -->
+	<RTBrandCollector_query>
+	SELECT DISTINCT B.value as primary_key, 
+	B.value as name 
+	FROM (
+	  SELECT DISTINCT REPLACE(IF(LOCATE('%GSKIP%',L2.value) > 0,SUBSTRING(L2.value,1,LOCATE('%GSKIP%',L2.value)-1),L2.value),'[[','') as value 
+	  FROM (
+	   SELECT DISTINCT IF(LOCATE('%GPASS%',L1.value) > 0,SUBSTRING(L1.value,1,LOCATE('%GPASS%',L1.value)-1),L1.value) as value 
+	   FROM (
+	    SELECT D.dict_value as value FROM AttributeValue AV JOIN Attribute A ON AV.attr_id=A.id LEFT JOIN Dictionary D ON AV.uint_value=D.dict_key 
+	    WHERE A.name IN ('SW type','HW type')
+	   ) L1
+	  ) L2
+	) B
+	</RTBrandCollector_query>
+	
+	<!-- Model -->
+	<RTModelCollector_query>
+	SELECT CONCAT(P.brand_value,P.model_value) AS primary_key,
+	P.brand_value AS brand_id, 
+	P.model_value AS name, 
+	'Server' As type
+	FROM (
+	  SELECT DISTINCT REPLACE(IF(LOCATE('%GPASS%', L2.model_value) > 0,SUBSTRING(L2.model_value, LOCATE('%GPASS%',L2.model_value)+7),L2.model_value),'[[','') as model_value,
+	  REPLACE(IF(LOCATE('%GSKIP%',L2.brand_value) > 0,SUBSTRING(L2.brand_value,1,LOCATE('%GSKIP%',L2.brand_value)-1),L2.brand_value),'[[','') as brand_value 
+	  FROM (
+	   SELECT DISTINCT IF(LOCATE('%GPASS%', L1.value) > 0,SUBSTRING(L1.value, LOCATE('%GPASS%',L1.value)+7),L1.value) as model_value,
+	   IF(LOCATE('%GPASS%',L1.value) > 0,SUBSTRING(L1.value,1,LOCATE('%GPASS%',L1.value)-1),L1.value) as brand_value
+	   FROM (
+	    SELECT DISTINCT IF(LOCATE(' | ', D.dict_value) > 0,SUBSTRING(D.dict_value,1, LOCATE(' | ', D.dict_value)),D.dict_value) as value
+	    FROM AttributeValue AV JOIN Attribute A ON AV.attr_id=A.id LEFT JOIN Dictionary D ON AV.uint_value=D.dict_key 
+	    WHERE A.name IN ('HW type')
+	   ) L1
+	  ) L2
+	) P
+	</RTModelCollector_query>
+	
+	<!-- OSFamily -->
+	<RTOSFamilyCollector_query>
+	SELECT DISTINCT REPLACE(B.value,'[[','') as primary_key, REPLACE(B.value,'[[','') as name 
+	FROM (
+	 SELECT DISTINCT IF(LOCATE('%GSKIP%',D.dict_value) > 0,SUBSTRING(D.dict_value,1,LOCATE('%GSKIP%',D.dict_value)-1),D.dict_value) as value 
+	 FROM AttributeValue AV join Dictionary D on AV.uint_value=D.dict_key 
+	 WHERE AV.attr_id=4
+	) as B
+	</RTOSFamilyCollector_query>
+	
+	<!-- OSVersion -->
+	<RTOSVersionCollector_query>
+	SELECT CONCAT(P.osfamily,P.osversion) AS primary_key,
+	P.osfamily AS osfamily_id, P.osversion AS name 
+	FROM (
+  	 SELECT DISTINCT IF(LOCATE('%GSKIP%', M.sub_mod) > 0,SUBSTRING(M.sub_mod, LOCATE('%GSKIP%',M.sub_mod)+7),M.sub_mod) as osversion, 
+	 REPLACE(IF(LOCATE('%GSKIP%',M.sub_mod) > 0,SUBSTRING(M.sub_mod,1,LOCATE('%GSKIP%',M.sub_mod)-1),M.sub_mod),'[[','') as osfamily 
+     FROM (
+      SELECT DISTINCT IF(LOCATE(' | ', D.dict_value) > 0,SUBSTRING(D.dict_value,1, LOCATE(' | ', D.dict_value)),D.dict_value) as sub_mod FROM AttributeValue AV join Dictionary D on AV.uint_value=D.dict_key WHERE AV.attr_id=4 
+     ) as M
+    ) as P
+	</RTOSVersionCollector_query>
+	
+	<!-- Location -->
+	<RTLocationCollector_query>
+	SELECT DISTINCT IF(name REGEXP '-', SUBSTRING_INDEX(name,'-',1), name) as primary_key,
+	IF(name REGEXP '-', SUBSTRING_INDEX(name,'-',1), name) as name,
+	'active' as status, 
+	'$default_org_id$' as org_id 
+	FROM Location
+	</RTLocationCollector_query>
+	
+	<!-- Rack -->
+	<RTRackCollector_query>
+	SELECT id as primary_key, 
+	name as name, 
+	'' as brand_id, 
+	'' as model_id, 
+	id as serialnumber, 
+	asset_no as asset_number,
+	IF(location_name REGEXP '-', SUBSTRING_INDEX(location_name,'-',1), location_name) as location_id,
+	height as nb_u,
+	'$default_status$' as status, 
+	'$default_org_id$' as org_id, 
+	comment as description 
+	FROM Rack
+	</RTRackCollector_query>
+	
+	<!-- VM Farm -->
+	<RTFarmCollector_query>
+	SELECT id as primary_key,
+	name as name, 
+	'$default_status$' as status, 
+	'$default_org_id$' as org_id, 
+	comment as description 
+	FROM  Object 
+	WHERE objtype_id=1505
+	</RTFarmCollector_query>
+	
+	<!-- Hypervisor -->
+	<RTHypervisorCollector_query>
+	SELECT id as primary_key, 
+	name as name,
+	name as server_id,
+	VMC.farm_name as farm_id,
+	'$default_status$' as status, 
+	'$default_org_id$' as org_id, 
+	comment as description  
+	FROM Object O JOIN AttributeValue AV ON O.id=AV.object_id LEFT JOIN (
+	 SELECT DISTINCT child_entity_id as vmc_id, O.id as farm_id, name as farm_name FROM Object O JOIN EntityLink EL ON EL.parent_entity_id=O.id WHERE O.objtype_id=1505
+	) as VMC ON O.id=VMC.vmc_id
+	JOIN Dictionary D on AV.uint_value=D.dict_key 
+	WHERE AV.attr_id=26 AND D.dict_value='Yes'
+	</RTHypervisorCollector_query>
+	
+	<!-- OSVersion -->
+	<RTIOSVersionCollector_query>
+	SELECT DISTINCT CONCAT(MV.dict_value,AV.string_value) as primary_key,
+	MV.dict_value as brand_id, 
+	AV.string_value as name 
+	FROM AttributeValue AV JOIN 
+	 ( SELECT DISTINCT AV.object_id, D.dict_value 
+	  FROM AttributeValue AV JOIN Attribute A ON AV.attr_id=A.id LEFT JOIN Dictionary D ON AV.uint_value=D.dict_key 
+	  WHERE A.name='SW type'
+	) MV ON AV.object_id=MV.object_id JOIN Attribute A ON AV.attr_id=A.id 
+	WHERE A.name='SW version'
+	</RTIOSVersionCollector_query>
+	
+	<!-- Network Device Type -->
+	<RTNetworkDeviceTypeCollector_query>
+	SELECT dict_key as primary_key, 
+	dict_value as name
+	FROM Dictionary 
+	WHERE dict_value IN ('Router','FC switch','KVM switch','Network switch')
+	</RTNetworkDeviceTypeCollector_query>
+	
+	<!-- Network Device -->
+	<RTNetworkDeviceCollector_query>
+	SELECT DISTINCT CONCAT(O.id,O.name) as primary_key,
+	O.name as name, 
+	IOSV.iosversion as iosversion_id,
+	NDT.ndt_device_type as networkdevicetype_id, 
+	'' as ram, 
+	'' as managementip, 
+	B.brand as brand_id, 
+	B.model as model_id,
+	IF(RS.location_name REGEXP '-', SUBSTRING_INDEX(RS.location_name,'-',1), RS.location_name) as location_id,
+	CONCAT(O.id,O.name) as serialnumber, 
+	O.asset_no as asset_number,
+	RS.name as rack_id, 
+	IF(RS.rs_nb_u is NULL, 0, RS.rs_nb_u) as nb_u,
+	CONCAT(FQDN.fqdn,'\n\r', O.comment) as description,
+	'$default_status$' as status, 
+	'$default_org_id$' as org_id
+	FROM 
+	( SELECT O.id as ndt_obj_id, D.dict_value as ndt_device_type 
+	 FROM Object O JOIN Dictionary D ON O.objtype_id=D.dict_key 
+	 WHERE D.dict_value IN ('Router','FC switch','KVM switch','Network switch')
+	 ) as NDT JOIN Object O ON NDT.ndt_obj_id=O.id LEFT JOIN 
+	( SELECT DISTINCT M.object_id as object_id, M.model_value as model, M.brand_value as brand 
+	 FROM ( SELECT DISTINCT L2.object_id as object_id,
+	  REPLACE(IF(LOCATE('%GPASS%', L2.model_value) > 0,SUBSTRING(L2.model_value, LOCATE('%GPASS%',L2.model_value)+7),L2.model_value),'[[','') as model_value,
+	  REPLACE(IF(LOCATE('%GSKIP%',L2.brand_value) > 0,SUBSTRING(L2.brand_value,1,LOCATE('%GSKIP%',L2.brand_value)-1),L2.brand_value),'[[','') as brand_value 
+	  FROM (
+	   SELECT DISTINCT L1.object_id as object_id,
+	   IF(LOCATE('%GPASS%', L1.value) > 0,SUBSTRING(L1.value, LOCATE('%GPASS%',L1.value)+7),L1.value) as model_value,
+	   IF(LOCATE('%GPASS%',L1.value) > 0,SUBSTRING(L1.value,1,LOCATE('%GPASS%',L1.value)-1),L1.value) as brand_value
+	   FROM (
+	    SELECT DISTINCT AV.object_id as object_id,
+	    IF(LOCATE(' | ', D.dict_value) > 0,SUBSTRING(D.dict_value,1, LOCATE(' | ', D.dict_value)),D.dict_value) as value
+	    FROM AttributeValue AV JOIN Attribute A ON AV.attr_id=A.id LEFT JOIN Dictionary D ON AV.uint_value=D.dict_key 
+	    WHERE A.name IN ('HW type')
+	   ) L1
+	  ) L2
+	 ) M
+	) as B ON O.id=B.object_id LEFT JOIN 
+	 ( SELECT RackSpace.object_id, Rack.id as rs_rack_id, Rack.name, Rack.location_name, RackSpace.unit_no, count(DISTINCT RackSpace.unit_no) as rs_nb_u 
+	 FROM Rack JOIN RackSpace ON Rack.id=RackSpace.rack_id
+	 GROUP BY RackSpace.object_id ORDER BY Rack.name
+	) RS on O.id=RS.object_id LEFT JOIN (
+	 SELECT DISTINCT AV.object_id as object_id, AV.string_value as fqdn 
+	 FROM AttributeValue AV JOIN Attribute A ON AV.attr_id=A.id 
+	 WHERE A.name='FQDN'
+	) FQDN ON O.id=FQDN.object_id LEFT JOIN 
+	 ( SELECT DISTINCT MV.object_id, MV.dict_value as iosbrand, AV.string_value as iosversion   
+	  FROM AttributeValue AV JOIN   
+	  ( SELECT DISTINCT AV.object_id, D.dict_value    
+	   FROM AttributeValue AV JOIN Attribute A ON AV.attr_id=A.id LEFT JOIN Dictionary D ON AV.uint_value=D.dict_key    
+	   WHERE A.name='SW type'  
+	  ) MV ON AV.object_id=MV.object_id JOIN Attribute A ON AV.attr_id=A.id   
+	  WHERE A.name='SW version'
+	 ) as IOSV ON O.id=IOSV.object_id
+	 </RTNetworkDeviceCollector_query>
+	 
+	<!-- Server -->
+	<RTServerCollector_query>
+	SELECT CONCAT(O.id,O.name) as primary_key,
+	O.name as name, OS.osfamily as osfamily_id, 
+	OS.osversion as osversion_id, 
+	'' as oslicence_id,
+	'' as cpu, '' as ram, 
+	'' as managementip, 
+	B.brand as brand_id, 
+	B.model as model_id,
+	IF(RS.location_name REGEXP '-', SUBSTRING_INDEX(RS.location_name,'-',1), RS.location_name) as location_id,
+	CONCAT(O.id,O.name) as serialnumber, O.asset_no as asset_number,
+	RS.name as rack_id, IF(RS.rs_nb_u is NULL, 0, RS.rs_nb_u) as nb_u,
+	CONCAT(FQDN.fqdn,'\n\r', O.comment) as description,
+	'$default_status$' as status, 
+	'$default_org_id$' as org_id
+	FROM Object O LEFT JOIN 
+	( SELECT DISTINCT M.object_id as object_id, 
+	 IF(LOCATE('%GPASS%', M.sub_mod) > 0,SUBSTRING(M.sub_mod, LOCATE('%GPASS%',M.sub_mod)+7),M.sub_mod) as model, 
+	 REPLACE(IF(LOCATE('%GPASS%',M.sub_mod) > 0,SUBSTRING(M.sub_mod,1,LOCATE('%GPASS%',M.sub_mod)-1),M.sub_mod),'[[','') as brand 
+     FROM (
+      SELECT DISTINCT AV.object_id as object_id, 
+	  IF(LOCATE(' | ', D.dict_value) > 0,SUBSTRING(D.dict_value,1, LOCATE(' | ', D.dict_value)),D.dict_value) as sub_mod 
+	  FROM AttributeValue AV join Dictionary D on AV.uint_value=D.dict_key WHERE AV.attr_id=2 
+     ) as M 
+	) as B ON O.id=B.object_id LEFT JOIN 
+	(  SELECT DISTINCT M.object_id as object_id,
+	 IF(LOCATE('%GSKIP%', M.sub_mod) > 0,SUBSTRING(M.sub_mod, LOCATE('%GSKIP%',M.sub_mod)+7),M.sub_mod) as osversion,
+	 REPLACE(IF(LOCATE('%GSKIP%',M.sub_mod) > 0,SUBSTRING(M.sub_mod,1,LOCATE('%GSKIP%',M.sub_mod)-1),M.sub_mod),'[[','') as osfamily
+	 FROM (
+	  SELECT DISTINCT AV.object_id as object_id,    IF(LOCATE(' | ', D.dict_value) > 0,SUBSTRING(D.dict_value,1, LOCATE(' | ', D.dict_value)),D.dict_value) as sub_mod 
+	  FROM AttributeValue AV join Dictionary D on AV.uint_value=D.dict_key WHERE AV.attr_id=4
+	  ) as M
+	) as OS ON O.id=OS.object_id LEFT JOIN (
+	 SELECT DISTINCT AV.object_id as object_id, AV.string_value as fqdn 
+	 FROM AttributeValue AV JOIN Attribute A ON AV.attr_id=A.id 
+	 WHERE A.name='FQDN'
+	) FQDN ON O.id=FQDN.object_id LEFT JOIN (
+	 SELECT RackSpace.object_id, Rack.id as rs_rack_id, Rack.name, Rack.location_name, RackSpace.unit_no, count(DISTINCT RackSpace.unit_no) as rs_nb_u 
+	 FROM Rack JOIN RackSpace ON Rack.id=RackSpace.rack_id
+	 GROUP BY RackSpace.object_id ORDER BY Rack.name
+	) RS on O.id=RS.object_id
+	WHERE `objtype_id` = 4
+	</RTServerCollector_query>
+	
+	<!-- Virtual Machine -->
+	<RTVirtualMachineCollector_query>
+	SELECT CONCAT(O.id,O.name) as primary_key, 
+	O.name as name, 
+	OS.osfamily as osfamily_id, 
+	OS.osversion as osversion_id, 
+	'' as oslicence_id,
+	'' as cpu, 
+	'' as ram, 
+	'' as managementip, 
+	farm_name as virtualhost_id, 
+	CONCAT(FQDN.fqdn,'\n\r', O.comment) as description,
+	'$default_status$' as status, 
+	'$default_org_id$' as org_id
+	FROM Object O LEFT JOIN 
+	(  SELECT DISTINCT M.object_id as object_id,
+	 IF(LOCATE('%GSKIP%', M.sub_mod) > 0,SUBSTRING(M.sub_mod, LOCATE('%GSKIP%',M.sub_mod)+7),M.sub_mod) as osversion,
+	 REPLACE(IF(LOCATE('%GSKIP%',M.sub_mod) > 0,SUBSTRING(M.sub_mod,1,LOCATE('%GSKIP%',M.sub_mod)-1),M.sub_mod),'[[','') as osfamily
+	 FROM (
+	  SELECT DISTINCT AV.object_id as object_id,    IF(LOCATE(' | ', D.dict_value) > 0,SUBSTRING(D.dict_value,1, LOCATE(' | ', D.dict_value)),D.dict_value) as sub_mod 
+	  FROM AttributeValue AV join Dictionary D on AV.uint_value=D.dict_key WHERE AV.attr_id=4
+	  ) as M
+	) as OS ON O.id=OS.object_id LEFT JOIN 
+	( SELECT VM.id as obj_id,ESX.name as farm_name FROM Object VM LEFT JOIN EntityLink VMEL ON VM.id=VMEL.child_entity_id LEFT JOIN 
+	 ( SELECT id, name FROM Object where Object.objtype_id=1505 UNION SELECT id, name FROM Object O JOIN AttributeValue AV ON O.id=AV.object_id JOIN Dictionary D on AV.uint_value=D.dict_key  WHERE AV.attr_id=26 AND D.dict_value='Yes'
+	 ) ESX ON VMEL.parent_entity_id=ESX.id 
+	 WHERE VM.objtype_id = 1504
+	) as FARM ON O.id=FARM.obj_id  LEFT JOIN (
+	 SELECT DISTINCT AV.object_id as object_id, AV.string_value as fqdn 
+	 FROM AttributeValue AV JOIN Attribute A ON AV.attr_id=A.id 
+	 WHERE A.name='FQDN'
+	) FQDN ON O.id=FQDN.object_id
+	WHERE `objtype_id` = 1504
+	</RTVirtualMachineCollector_query>
+	
+</parameters>

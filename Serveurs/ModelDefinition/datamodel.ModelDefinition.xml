@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+  <constants>
+  </constants>
+  <classes>
+    <class id="Model" _delta="must_exist">
+      <properties/>
+      <fields>
+        <field id="type" xsi:type="AttributeEnum" _delta="delete"/>
+        <field id="type" xsi:type="AttributeEnum" _delta="define">
+          <values>
+			<value id="ArmoireClim">ArmoireClim</value>
+			<value id="ArmoireDistributionElect">ArmoireDistributionElect</value>
+			<value id="ArmoireTGBT">ArmoireTGBT</value>
+			<value id="BallonEauGlace">BallonEauGlace</value>
+			<value id="BoitierGTC">BoitierGTC</value>
+			<value id="CameraVideo">CameraVideo</value>
+			<value id="CentraleAlarme">CentraleAlarme</value>
+			<value id="CentraleIncendie">CentraleIncendie</value>
+			<value id="CircuitEauGlace">CircuitEauGlace</value>
+			<value id="CoffretControleur">CoffretControleur</value>
+            <value id="DiskArray">DiskArray</value>
+            <value id="Enclosure">Enclosure</value>
+			<value id="EnregistreurCCTV">EnregistreurCCTV</value>
+			<value id="ExtinctionIncendie">ExtinctionIncendie</value>
+			<value id="GroupeEauGlace">GroupeEauGlace</value>
+			<value id="GroupeElectrogene">GroupeElectrogene</value>
+            <value id="IPPhone">IPPhone</value>
+			<value id="InverseurSource">InverseurSource</value>
+            <value id="MobilePhone">MobilePhone</value>
+            <value id="NAS">NAS</value>
+            <value id="NetworkDevice">NetworkDevice</value>
+			<value id="Onduleur">Onduleur</value>
+            <value id="PC">PC</value>
+            <value id="PDU">PDU</value>
+            <value id="Peripheral">Peripheral</value>
+            <value id="Phone">Phone</value>
+			<value id="PompeClim">PompeClim</value>
+			<value id="PowerConnection">PowerConnection</value>
+            <value id="PowerSource">PowerSource</value>
+            <value id="Printer">Printer</value>
+            <value id="Rack">Rack</value>
+            <value id="SANSwitch">SANSwitch</value>
+            <value id="Server">Server</value>
+            <value id="StorageSystem">StorageSystem</value>
+            <value id="Tablet">Tablet</value>
+            <value id="TapeLibrary">TapeLibrary</value>
+			<value id="Transformateur">Transformateur</value>
+          </values>
+          <sql>type</sql>
+          <default_value/>
+          <is_null_allowed>false</is_null_allowed>
+          <display_style>list</display_style>
+        </field>
+      </fields>
+      <methods/>
+      <presentation/>
+    </class>
+  </classes>
+  <user_rights>
+  </user_rights>
+</itop_design>

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+	<constants>
+	</constants>
+	<classes>
+		<class id="Person" _delta="merge">
+			<properties>
+				<uniqueness_rules _delta="merge">
+					<rule id="email" _delta="define">
+						<attributes>
+							<attribute id="email" />
+<!-- 							<attribute id="org_id" /> -->
+						</attributes>
+						<is_blocking>true</is_blocking>
+					</rule>
+				</uniqueness_rules>
+			</properties>
+			<fields>
+				<field id="is_support_team" xsi:type="AttributeEnum"
+					_delta="define">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>is_support_team</sql>
+					<default_value>no</default_value>
+					<is_null_allowed>false</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="receive_maintenance" xsi:type="AttributeEnum"
+					_delta="define">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>receive_maintenance</sql>
+					<default_value>no</default_value>
+					<is_null_allowed>false</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="receive_incident" xsi:type="AttributeEnum"
+					_delta="define">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>receive_incident</sql>
+					<default_value>no</default_value>
+					<is_null_allowed>false</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="havebadge_flag" xsi:type="AttributeEnum"
+					_delta="define">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>havebadge_flag</sql>
+					<default_value>no</default_value>
+					<is_null_allowed>false</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="badge_number" xsi:type="AttributeString"
+					_delta="define">
+					<sql>badge_number</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+				<!--<field id="techprincipal_flag" xsi:type="AttributeEnum"
+					_delta="define">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>techprincipal_flag</sql>
+					<default_value>no</default_value>
+					<is_null_allowed>false</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="techintervention_flag" xsi:type="AttributeEnum"
+					_delta="define">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>techintervention_flag</sql>
+					<default_value>no</default_value>
+					<is_null_allowed>false</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="techremoveequipment_flag" xsi:type="AttributeEnum"
+					_delta="define">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>techremoveequipment_flag</sql>
+					<default_value>no</default_value>
+					<is_null_allowed>false</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="virtu_flag" xsi:type="AttributeEnum"
+					_delta="define">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>virtu_flag</sql>
+					<default_value>no</default_value>
+					<is_null_allowed>false</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="backup_flag" xsi:type="AttributeEnum"
+					_delta="define">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>backup_flag</sql>
+					<default_value>no</default_value>
+					<is_null_allowed>false</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>
+				<field id="portail_flag" xsi:type="AttributeEnum"
+					_delta="define">
+					<values>
+						<value id="yes">yes</value>
+						<value id="no">no</value>
+					</values>
+					<sql>portail_flag</sql>
+					<default_value>yes</default_value>
+					<is_null_allowed>false</is_null_allowed>
+					<display_style>radio_horizontal</display_style>
+				</field>-->
+				<field id="description" xsi:type="AttributeText"
+					_delta="define">
+					<sql>description</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="col:col1" _delta="merge">
+							<items>
+								<item id="fieldset:Person:info" _delta="merge">
+									<items>
+										<item id="is_support_team" _delta="define">
+											<rank>90</rank>
+										</item>
+									</items>
+								</item>
+								<item id="fieldset:Person:enterprise" _delta="define">
+									<rank>20</rank>
+									<items>
+										<item id="havebadge_flag" _delta="define">
+											<rank>10</rank>
+										</item>
+										<item id="badge_number" _delta="define">
+											<rank>15</rank>
+										</item>
+										<!--<item id="techprincipal_flag" _delta="define">
+											<rank>20</rank>
+										</item>
+										<item id="techintervention_flag" _delta="define">
+											<rank>30</rank>
+										</item>
+										<item id="techremoveequipment_flag" _delta="define">
+											<rank>40</rank>
+										</item>
+										<item id="portail_flag" _delta="define">
+											<rank>44</rank>
+										</item>
+										<item id="virtu_flag" _delta="define">
+											<rank>45</rank>
+										</item>
+										<item id="backup_flag" _delta="define">
+											<rank>47</rank>
+										</item>-->
+										<item id="description" _delta="define">
+											<rank>50</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+						<item id="col:col2" _delta="merge">
+							<items>
+								<item id="fieldset:Person:notifiy" _delta="merge">
+									<items>
+										<item id="receive_maintenance" _delta="define">
+											<rank>50</rank>
+										</item>
+										<item id="receive_incident" _delta="define">
+											<rank>60</rank>
+										</item>
+									</items>
+								</item>
+							</items>
+						</item>
+					</items>
+				</details>
+				<search _delta="merge">
+					<items>
+						<item id="havebadge_flag" _delta="define">
+							<rank>120</rank>
+						</item>
+						<item id="badge_number" _delta="define">
+							<rank>125</rank>
+						</item>
+						<!--<item id="techprincipal_flag" _delta="define">
+							<rank>
+						<item id="techintervention_flag" _delta="define">
+							<rank>140</rank>
+						</item>
+						<item id="techremoveequipment_flag" _delta="define">
+							<rank>150</rank>
+						</item>
+						<item id="virtu_flag" _delta="define">
+							<rank>160</rank>
+						</item>
+						<item id="backup_flag" _delta="define">
+							<rank>170</rank>
+						</item>-->
+					</items>
+				</search>
+				<list _delta="merge">
+					<items>
+						<item id="havebadge_flag" _delta="define">
+							<rank>70</rank>
+						</item>
+						<item id="badge_number" _delta="define">
+							<rank>75</rank>
+						</item>
+						<!--<item id="techprincipal_flag" _delta="define">
+							<rank>80</rank>
+						</item>-
+						<item id="techintervention_flag" _delta="define">
+							<rank>90</rank>
+						</item>
+						<item id="techremoveequipment_flag" _delta="define">
+							<rank>100</rank>
+						</item>
+						<item id="virtu_flag" _delta="define">
+							<rank>110</rank>
+						</item>
+						<item id="backup_flag" _delta="define">
+							<rank>120</rank>
+						</item>-->
+					</items>
+				</list>
+			</presentation>
+		</class>
+	</classes>
+	<user_rights>
+	</user_rights>
+</itop_design>

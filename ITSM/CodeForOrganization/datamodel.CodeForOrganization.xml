@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+	<constants>
+	</constants>
+	<classes>
+		<class id="Organization" _delta="merge">
+			<properties _delta="merge">
+				<naming _delta="redefine">
+					<attributes>
+						<attribute id="code" />
+						<attribute id="name" />
+					</attributes>
+				</naming>
+				<reconciliation>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="code" />
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+				<field id="overview" xsi:type="AttributeDashboard"
+					_delta="must_exist">
+					<definition>
+						<cells _delta="merge">
+							<cell id="0" _delta="redefine">
+								<rank>0</rank>
+								<dashlets>
+									<dashlet id="11" xsi:type="DashletHeaderDynamic">
+										<rank>0</rank>
+										<title>Organization:Overview:FunctionalCIs</title>
+										<icon>itop-config-mgmt/images/server.png</icon>
+										<subtitle>Organization:Overview:FunctionalCIs:subtitle</subtitle>
+										<query>SELECT FunctionalCI WHERE org_id=:this-&gt;id</query>
+										<group_by>finalclass</group_by>
+										<values>NetworkDevice,Server,VirtualMachine,ApplicationSolution</values>
+									</dashlet>
+								</dashlets>
+							</cell>
+							<cell id="1" _delta="redefine">
+								<rank>10</rank>
+								<dashlets>
+									<dashlet id="9" xsi:type="DashletHeaderDynamic">
+										<rank>0</rank>
+										<title>Organization:Overview:UserRequests</title>
+										<icon>itop-welcome-itil/images/user-request-deadline.png</icon>
+										<subtitle>Menu:UserRequest:OpenRequests</subtitle>
+										<query>SELECT UserRequest WHERE status != "closed" AND
+											org_id=:this-&gt;id</query>
+										<group_by>status</group_by>
+										<values>new,dispatched,assigned,escalated_tto,escalated_ttr,resolved</values>
+									</dashlet>
+									<dashlet id="23" xsi:type="DashletObjectList" _delta="define">
+										<rank>2</rank>
+										<title>Organization:Overview:Project</title>
+										<query>SELECT Project WHERE org_id=:this-&gt;id</query>
+										<menu>false</menu>
+									</dashlet>
+								</dashlets>
+							</cell>
+							<cell id="4" _delta="define">
+								<rank>40</rank>
+								<dashlets>
+									<dashlet id="14" xsi:type="DashletObjectList">
+										<rank>0</rank>
+										<title>Organization:Overview:Contacts</title>
+										<query>SELECT Contact WHERE org_id=:this-&gt;id</query>
+										<menu>false</menu>
+									</dashlet>
+								</dashlets>
+							</cell>
+							<cell id="5" _delta="define">
+								<rank>50</rank>
+								<dashlets>
+									<dashlet id="17" xsi:type="DashletObjectList">
+										<rank>0</rank>
+										<title>Organization:Overview:CustomerContract</title>
+										<query><![CDATA[SELECT CustomerContract WHERE org_id=:this->id]]></query>
+										<menu>false</menu>
+									</dashlet>
+									<dashlet id="18" xsi:type="DashletObjectList">
+										<rank>1</rank>
+										<title>Organization:Overview:CustomerServices</title>
+										<query><![CDATA[SELECT Service AS S JOIN lnkCustomerContractToService AS LCSS ON LCSS.service_id=S.id JOIN
+											CustomerContract AS CC ON LCSS.customercontract_id=CC.id
+											WHERE CC.org_id=:this->id]]></query>
+										<menu>false</menu>
+									</dashlet>
+								</dashlets>
+							</cell>
+							<cell id="6" _delta="define">
+								<rank>60</rank>
+								<dashlets>
+									<dashlet id="18" xsi:type="DashletObjectList">
+										<rank>0</rank>
+										<title>Organization:Overview:FiberPanel</title>
+										<query>SELECT FiberPanel WHERE customer_id=:this-&gt;id</query>
+										<menu>false</menu>
+									</dashlet>
+									<dashlet id="19" xsi:type="DashletObjectList">
+										<rank>0</rank>
+										<title>Organization:Overview:Trunk</title>
+										<query>SELECT lnkRearFiberPanels WHERE
+											operator_id=:this-&gt;id</query>
+										<menu>false</menu>
+									</dashlet>
+								</dashlets>
+							</cell>
+							<cell id="7" _delta="define">
+								<rank>70</rank>
+								<dashlets>
+									<dashlet id="20" xsi:type="DashletObjectList">
+										<rank>0</rank>
+										<title>Organization:Overview:Rack</title>
+										<query>SELECT Rack WHERE customer_id=:this-&gt;id</query>
+										<menu>false</menu>
+									</dashlet>
+								</dashlets>
+							</cell>
+							<cell id="8" _delta="define">
+								<rank>80</rank>
+								<dashlets>
+									<dashlet id="21" xsi:type="DashletObjectList">
+										<rank>0</rank>
+										<title>Organization:Overview:Server</title>
+										<query>SELECT Server WHERE org_id=:this-&gt;id</query>
+										<menu>false</menu>
+									</dashlet>
+								</dashlets>
+							</cell>
+							<cell id="9" _delta="define">
+								<rank>90</rank>
+								<dashlets>
+									<dashlet id="22" xsi:type="DashletObjectList">
+										<rank>0</rank>
+										<title>Organization:Overview:VirtualMachine</title>
+										<query>SELECT VirtualMachine WHERE org_id=:this-&gt;id</query>
+										<menu>false</menu>
+									</dashlet>
+								</dashlets>
+							</cell>
+						</cells>
+					</definition>
+				</field>
+			</fields>
+			<presentation>
+			</presentation>
+		</class>
+	</classes>
+	<user_rights>
+	</user_rights>
+</itop_design>

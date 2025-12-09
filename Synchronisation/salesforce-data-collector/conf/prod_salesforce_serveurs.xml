@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+    <salesforce_machines using="oui">
+        <serveur>
+            <serveurSfdcSandbox>
+                <host>company--uat.sandbox.my.salesforce.com</host>
+                <nom>10000_sandbox_salesforce</nom>
+                <client>Customer</client>
+                <port>443</port>
+                <utilisateur>dv-sfdc-company-sandbox</utilisateur>
+                <RequestTimeout>12000</RequestTimeout>
+                <useSSL>oui</useSSL>
+                <url>/services</url>
+                <methode>curl</methode>
+                <protocole>rest</protocole>
+                <grant_type>client_credentials</grant_type>
+            </serveurSfdcSandbox>
+
+            <serveurSfdcProd>
+                <host>company.my.salesforce.com</host>
+                <nom>10000_prod_salesforce</nom>
+                <client>Company</client>
+                <port>443</port>
+                <utilisateur>dv-sfdc-company-prod</utilisateur>
+                <RequestTimeout>12000</RequestTimeout>
+                <useSSL>oui</useSSL>
+                <url>/services</url>
+                <methode>curl</methode>
+                <protocole>rest</protocole>
+                <grant_type>client_credentials</grant_type>
+            </serveurSfdcProd>
+        </serveur>
+
+        <wsdl>
+            <itopService>salesforce.wsdl.php</itopService>
+        </wsdl>
+    </salesforce_machines>
+</xml>

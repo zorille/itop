@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+  <constants>
+  </constants>
+  <classes>
+	<class id="Ticket" _delta="merge">
+      <fields>
+        <field id="problemstartdate" xsi:type="AttributeDateTime" _delta="define">
+          <sql>problemstartdate</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
+        <field id="problemenddate" xsi:type="AttributeDateTime" _delta="define">
+          <sql>problemenddate</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
+        <field id="reeloutage" xsi:type="AttributeInteger" _delta="define">
+          <sql>reeloutage</sql>
+           <default_value>0</default_value>
+          <is_null_allowed>false</is_null_allowed>
+        </field>
+		<field id="location_id" xsi:type="AttributeExternalKey" _revision_id="609" _delta="define">
+          <sql _revision_id="609">location_id</sql>
+          <filter _revision_id="609">SELECT Location WHERE org_id=:this-&gt;org_id</filter>
+          <dependencies _revision_id="609">
+            <attribute id="org_id"/>
+          </dependencies>
+          <is_null_allowed _revision_id="609">true</is_null_allowed>
+          <target_class _revision_id="609">Location</target_class>
+          <on_target_delete _revision_id="609">DEL_AUTO</on_target_delete>
+          <tracking_level _revision_id="609">all</tracking_level>
+        </field>
+      </fields>
+    </class>
+    <class id="Change" _delta="merge">
+      <fields>
+      </fields>
+      <presentation>
+        <details _delta="merge">
+          <items>
+			<item id="location_id" _delta="define">
+              <rank>160</rank>
+            </item>
+            <item id="col:col3" _delta="merge">
+              <items _delta="merge">
+                <item id="fieldset:Ticket:outage" _delta="define">
+                  <rank>20</rank>
+                  <items>
+                    <item id="plannedoutage">
+                      <rank>10</rank>
+                    </item>
+                    <item id="reeloutage">
+                      <rank>20</rank>
+                    </item>
+                  </items>
+                </item>
+              </items>
+            </item>
+          </items>
+        </details>
+      </presentation>
+    </class>
+	<class id="RoutineChange" _delta="merge">
+      <fields>
+      </fields>
+      <presentation>
+        <details _delta="merge">
+          <items>
+			<item id="location_id" _delta="define">
+              <rank>160</rank>
+            </item>
+            <item id="col:col3" _delta="merge">
+              <items _delta="merge">
+                <item id="fieldset:Ticket:outage" _delta="define">
+                  <rank>20</rank>
+                  <items>
+                    <item id="plannedoutage">
+                      <rank>10</rank>
+                    </item>
+                    <item id="reeloutage">
+                      <rank>20</rank>
+                    </item>
+                  </items>
+                </item>
+              </items>
+            </item>
+          </items>
+        </details>
+      </presentation>
+    </class>
+	<class id="ApprovedChange" _delta="merge">
+      <fields>
+      </fields>
+      <presentation>
+        <details _delta="merge">
+          <items>
+			<item id="location_id" _delta="define">
+              <rank>160</rank>
+            </item>
+            <item id="col:col3" _delta="merge">
+              <items _delta="merge">
+                <item id="fieldset:Ticket:outage" _delta="define">
+                  <rank>20</rank>
+                  <items>
+                    <item id="plannedoutage">
+                      <rank>10</rank>
+                    </item>
+                    <item id="reeloutage">
+                      <rank>20</rank>
+                    </item>
+                  </items>
+                </item>
+              </items>
+            </item>
+          </items>
+        </details>
+      </presentation>
+    </class>
+	<class id="NormalChange" _delta="merge">
+      <fields>
+      </fields>
+      <presentation>
+        <details _delta="merge">
+          <items>
+			<item id="location_id" _delta="define">
+              <rank>160</rank>
+            </item>
+            <item id="col:col3" _delta="merge">
+              <items _delta="merge">
+                <item id="fieldset:Ticket:outage" _delta="define">
+                  <rank>20</rank>
+                  <items>
+                    <item id="plannedoutage">
+                      <rank>10</rank>
+                    </item>
+                    <item id="reeloutage">
+                      <rank>20</rank>
+                    </item>
+                  </items>
+                </item>
+              </items>
+            </item>
+          </items>
+        </details>
+      </presentation>
+    </class>
+    <class id="Problem" _delta="merge">
+      <fields>
+      </fields>
+      <presentation>
+        <details _delta="merge">
+          <items>
+			<item id="location_id" _delta="define">
+              <rank>160</rank>
+            </item>
+            <item id="col:col2" _delta="merge">
+              <items _delta="merge">
+                <item id="fieldset:Ticket:incidentperiod" _delta="define">
+                  <rank>40</rank>
+                  <items>
+                    <item id="problemstartdate">
+                      <rank>10</rank>
+                    </item>
+                    <item id="problemenddate">
+                      <rank>20</rank>
+                    </item>
+                    <item id="reeloutage">
+                      <rank>30</rank>
+                    </item>
+                  </items>
+                </item>
+              </items>
+            </item>
+          </items>
+        </details>
+      </presentation>
+    </class>
+	<class id="Incident" _delta="merge">
+      <fields>
+      </fields>
+      <presentation>
+        <details _delta="merge">
+          <items>
+			<item id="location_id" _delta="define">
+              <rank>160</rank>
+            </item>
+            <item id="col:col2" _delta="merge">
+              <items _delta="merge">
+                <item id="fieldset:Ticket:incidentperiod" _delta="define">
+                  <rank>40</rank>
+                  <items>
+                    <item id="problemstartdate">
+                      <rank>10</rank>
+                    </item>
+                    <item id="problemenddate">
+                      <rank>20</rank>
+                    </item>
+                    <item id="reeloutage">
+                      <rank>30</rank>
+                    </item>
+                  </items>
+                </item>
+              </items>
+            </item>
+          </items>
+        </details>
+      </presentation>
+    </class>
+	<class id="UserRequest" _delta="merge">
+      <fields>
+      </fields>
+      <presentation>
+        <details _delta="merge">
+          <items>
+			<item id="location_id" _delta="define">
+              <rank>160</rank>
+            </item>
+          </items>
+        </details>
+      </presentation>
+    </class>
+  </classes>
+  <user_rights>
+  </user_rights>
+</itop_design>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+  <classes/>
+  <menus/>
+  <user_rights>
+     <profiles>
+      <profile id="50" _delta="define">
+        <name>User Request Approver</name>
+        <description>Users with this profile are allowed to approved User Request/Helpdesk requests</description>
+        <groups>
+			<group id="UserRequest">
+              <actions>
+                  <action id="action:read">allow</action>
+				  <action id="action:bulk read">allow</action>
+				  <action id="action:write">allow</action>
+				  <action id="action:bulk write">allow</action>
+                  <action id="ev_approve" xsi:type="stimulus">allow</action>
+              </actions>
+          </group>
+        </groups>
+      </profile>
+    </profiles>
+  </user_rights>
+</itop_design>

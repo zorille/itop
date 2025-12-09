@@ -1,0 +1,1998 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+	<constants>
+	</constants>
+	<classes>
+		<class id="AutomatismePhysical" _delta="define">
+			<parent>PhysicalDevice</parent>
+			<properties>
+				<category>bizmodel,searchable,structure</category>
+				<abstract>true</abstract>
+				<key_type>autoincrement</key_type>
+				<db_table>automatismephysical</db_table>
+				<db_key_field>id</db_key_field>
+				<db_final_class_field>finalclass</db_final_class_field>
+				<naming>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="location_name" />
+						<attribute id="facilities_id" />
+					</attributes>
+				</naming>
+				<display_template />
+				<icon></icon>
+				<reconciliation>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="org_id" />
+						<attribute id="organization_name" />
+						<attribute id="location_id" />
+						<attribute id="location_name" />
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+				<field id="powerstart_id" xsi:type="AttributeExternalKey">
+					<filter><![CDATA[SELECT PowerConnection WHERE id != :this->id AND location_id = :this->location_id  AND finalclass IN ('PowerSource','Transformateur','ArmoireTGBT','ArmoireDistributionElect')]]></filter>
+					<dependencies>
+						<attribute id="location_id" />
+					</dependencies>
+					<sql>powerstart_id</sql>
+					<target_class>PowerConnection</target_class>
+					<is_null_allowed>true</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+					<allow_target_creation>false</allow_target_creation>
+					<allow_target_creation>false</allow_target_creation>
+				</field>
+				<field id="powerstart_name" xsi:type="AttributeExternalField">
+					<extkey_attcode>powerstart_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+				<field id="fqdn" xsi:type="AttributeString">
+					<sql>fqdn</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+				<field id="facilities_id" xsi:type="AttributeString">
+					<sql>facilities_id</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>40</rank>
+						</item>
+						<item id="location_id">
+							<rank>50</rank>
+						</item>
+						<item id="brand_id">
+							<rank>60</rank>
+						</item>
+						<item id="model_id">
+							<rank>70</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>80</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>85</rank>
+						</item>
+						<item id="asset_number">
+							<rank>90</rank>
+						</item>
+						<item id="move2production">
+							<rank>100</rank>
+						</item>
+						<item id="purchase_date">
+							<rank>110</rank>
+						</item>
+						<item id="end_of_warranty">
+							<rank>120</rank>
+						</item>
+						<item id="description">
+							<rank>130</rank>
+						</item>
+						<item id="contacts_list">
+							<rank>140</rank>
+						</item>
+						<item id="documents_list">
+							<rank>150</rank>
+						</item>
+						<item id="providercontracts_list">
+							<rank>170</rank>
+						</item>
+						<item id="services_list">
+							<rank>180</rank>
+						</item>
+						<item id="overview" _delta="if_exists">
+							<rank>1</rank>
+						</item>
+					</items>
+				</details>
+				<search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>40</rank>
+						</item>
+						<item id="location_id">
+							<rank>50</rank>
+						</item>
+						<item id="brand_id">
+							<rank>60</rank>
+						</item>
+						<item id="model_id">
+							<rank>70</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>80</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>85</rank>
+						</item>
+						<item id="asset_number">
+							<rank>90</rank>
+						</item>
+						<item id="move2production">
+							<rank>100</rank>
+						</item>
+						<item id="purchase_date">
+							<rank>110</rank>
+						</item>
+						<item id="end_of_warranty">
+							<rank>120</rank>
+						</item>
+					</items>
+				</search>
+				<list>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="status">
+							<rank>20</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>30</rank>
+						</item>
+						<item id="location_id">
+							<rank>40</rank>
+						</item>
+						<item id="brand_id">
+							<rank>50</rank>
+						</item>
+						<item id="model_id">
+							<rank>60</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>70</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>80</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="BoitierGTC" _delta="define">
+			<parent>AutomatismePhysical</parent>
+			<properties>
+				<category>bizmodel,searchable</category>
+				<abstract>false</abstract>
+				<key_type>autoincrement</key_type>
+				<db_table>boitiergtc</db_table>
+				<db_key_field>id</db_key_field>
+				<db_final_class_field />
+				<naming>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="location_name" />
+						<attribute id="facilities_id" />
+					</attributes>
+				</naming>
+				<display_template />
+				<icon>images/BoitierGTC.jpg</icon>
+				<reconciliation>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="org_id" />
+						<attribute id="organization_name" />
+						<attribute id="location_id" />
+						<attribute id="location_name" />
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+				<field id="softwareinstance_id"
+					xsi:type="AttributeExternalKey">
+					<filter><![CDATA[SELECT SoftwareInstance WHERE id != :this->id AND finalclass IN ('Middleware','PCSoftware','OtherSoftware')]]></filter>
+					<sql>softwareinstance_id</sql>
+					<target_class>SoftwareInstance</target_class>
+					<is_null_allowed>true</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+					<allow_target_creation>false</allow_target_creation>
+					<allow_target_creation>false</allow_target_creation>
+				</field>
+				<field id="softwareinstance_name"
+					xsi:type="AttributeExternalField">
+					<extkey_attcode>softwareinstance_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+				<field id="pdu_list" xsi:type="AttributeLinkedSet"
+					_delta="define">
+					<filter><![CDATA[SELECT PDU WHERE boitiergtc_id = :this->id]]></filter>
+					<linked_class>PDU</linked_class>
+					<ext_key_to_me>boitiergtc_id</ext_key_to_me>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="softwareinstance_id">
+							<rank>35</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>40</rank>
+						</item>
+						<item id="location_id">
+							<rank>50</rank>
+						</item>
+						<item id="needmonitoring" _delta="if_exists">
+							<rank>55</rank>
+						</item>
+						<item id="brand_id">
+							<rank>60</rank>
+						</item>
+						<item id="model_id">
+							<rank>70</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>80</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>85</rank>
+						</item>
+						<item id="asset_number">
+							<rank>90</rank>
+						</item>
+						<item id="move2production">
+							<rank>100</rank>
+						</item>
+						<item id="purchase_date">
+							<rank>110</rank>
+						</item>
+						<item id="end_of_warranty">
+							<rank>120</rank>
+						</item>
+						<item id="description">
+							<rank>130</rank>
+						</item>
+						<item id="pdu_list">
+							<rank>135</rank>
+						</item>
+						<item id="contacts_list">
+							<rank>140</rank>
+						</item>
+						<item id="documents_list">
+							<rank>150</rank>
+						</item>
+						<item id="providercontracts_list">
+							<rank>170</rank>
+						</item>
+						<item id="services_list">
+							<rank>180</rank>
+						</item>
+						<item id="overview" _delta="if_exists">
+							<rank>1</rank>
+						</item>
+						<item id="monitoring_list" _delta="if_exists">
+							<rank>300</rank>
+						</item>
+					</items>
+				</details>
+				<default_search _delta="define">
+					<items>
+						<item id="name" _delta="define">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn" _delta="define">
+							<rank>40</rank>
+						</item>
+						<item id="location_id" _delta="define">
+							<rank>50</rank>
+						</item>
+					</items>
+				</default_search>
+				<search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="softwareinstance_id">
+							<rank>35</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>40</rank>
+						</item>
+						<item id="location_id">
+							<rank>50</rank>
+						</item>
+						<item id="brand_id">
+							<rank>60</rank>
+						</item>
+						<item id="model_id">
+							<rank>70</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>80</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>85</rank>
+						</item>
+						<item id="asset_number">
+							<rank>90</rank>
+						</item>
+						<item id="move2production">
+							<rank>100</rank>
+						</item>
+						<item id="purchase_date">
+							<rank>110</rank>
+						</item>
+						<item id="end_of_warranty">
+							<rank>120</rank>
+						</item>
+					</items>
+				</search>
+				<list>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="status">
+							<rank>20</rank>
+						</item>
+						<item id="softwareinstance_id">
+							<rank>25</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>30</rank>
+						</item>
+						<item id="location_id">
+							<rank>40</rank>
+						</item>
+						<item id="brand_id">
+							<rank>50</rank>
+						</item>
+						<item id="model_id">
+							<rank>60</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>70</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>80</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+			<!-- Pas de dependance avec le software, a gerer avec une "application 
+				solution" <relations> <relation id="impacts"> <neighbours> <neighbour id="SoftwareInstance" 
+				_delta="define"> <attribute>softwareinstance_id</attribute> </neighbour> 
+				</neighbours> </relation> </relations> -->
+		</class>
+		<class id="PDU" _delta="merge">
+			<fields>
+				<field id="boitiergtc_id" xsi:type="AttributeExternalKey"
+					_delta="define">
+					<dependencies>
+						<attribute id="location_id" />
+					</dependencies>
+					<sql>boitiergtc_id</sql>
+					<target_class>BoitierGTC</target_class>
+					<is_null_allowed>true</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+					<allow_target_creation>false</allow_target_creation>
+				</field>
+				<field id="boitiergtc_name" xsi:type="AttributeExternalField"
+					_delta="define">
+					<extkey_attcode>boitiergtc_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+				<field id="oid_tdo" xsi:type="AttributeString" _delta="define">
+					<sql>oid_tdo</sql>
+					<default_value />
+					<is_null_allowed>false</is_null_allowed>
+				</field>
+				<field id="powerstart_id" xsi:type="AttributeExternalKey" _delta="delete"/>
+				<field id="powerstart_name" xsi:type="AttributeExternalField" _delta="delete"/>
+			</fields>
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="boitiergtc_id" _delta="define">
+							<rank>25</rank>
+						</item>
+						<item id="oid_tdo" _delta="define">
+							<rank>26</rank>
+						</item>
+						<item id="overview" _delta="if_exists">
+							<rank>1</rank>
+						</item>
+					</items>
+				</details>
+				<default_search _delta="define">
+					<items>
+						<item id="name" _delta="define">
+							<rank>10</rank>
+						</item>
+						<item id="fqdn" _delta="define">
+							<rank>20</rank>
+						</item>
+						<item id="rack_id" _delta="define">
+							<rank>40</rank>
+						</item>
+						<item id="boitiergtc_id" _delta="define">
+							<rank>40</rank>
+						</item>
+						<item id="oid_tdo" _delta="define">
+							<rank>45</rank>
+						</item>
+						<item id="location_id" _delta="define">
+							<rank>50</rank>
+						</item>
+					</items>
+				</default_search>
+				<search _delta="merge">
+					<items>
+						<item id="boitiergtc_id" _delta="define">
+							<rank>15</rank>
+						</item>
+						<item id="oid_tdo" _delta="define">
+							<rank>16</rank>
+						</item>
+					</items>
+				</search>
+				<list _delta="merge">
+					<items>
+						<item id="boitiergtc_id" _delta="define">
+							<rank>25</rank>
+						</item>
+						<item id="oid_tdo" _delta="define">
+							<rank>26</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="CameraVideo" _delta="define">
+			<parent>AutomatismePhysical</parent>
+			<properties>
+				<category>bizmodel,searchable</category>
+				<abstract>false</abstract>
+				<key_type>autoincrement</key_type>
+				<db_table>cameravideo</db_table>
+				<db_key_field>id</db_key_field>
+				<db_final_class_field />
+				<naming>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="location_name" />
+						<attribute id="facilities_id" />
+					</attributes>
+				</naming>
+				<display_template />
+				<icon>images/camera.jpg</icon>
+				<reconciliation>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="org_id" />
+						<attribute id="organization_name" />
+						<attribute id="location_id" />
+						<attribute id="location_name" />
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+				<field id="enregistreurcctv_id"
+					xsi:type="AttributeExternalKey">
+					<dependencies>
+						<attribute id="location_id" />
+					</dependencies>
+					<sql>enregistreurcctv_id</sql>
+					<target_class>EnregistreurCCTV</target_class>
+					<is_null_allowed>true</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+					<allow_target_creation>false</allow_target_creation>
+					<allow_target_creation>false</allow_target_creation>
+				</field>
+				<field id="enregistreurcctv_name"
+					xsi:type="AttributeExternalField">
+					<extkey_attcode>enregistreurcctv_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="enregistreurcctv_id">
+							<rank>35</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>40</rank>
+						</item>
+						<item id="location_id">
+							<rank>50</rank>
+						</item>
+						<item id="needmonitoring" _delta="if_exists">
+							<rank>55</rank>
+						</item>
+						<item id="brand_id">
+							<rank>60</rank>
+						</item>
+						<item id="model_id">
+							<rank>70</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>80</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>85</rank>
+						</item>
+						<item id="asset_number">
+							<rank>90</rank>
+						</item>
+						<item id="move2production">
+							<rank>100</rank>
+						</item>
+						<item id="purchase_date">
+							<rank>110</rank>
+						</item>
+						<item id="end_of_warranty">
+							<rank>120</rank>
+						</item>
+						<item id="description">
+							<rank>130</rank>
+						</item>
+						<item id="contacts_list">
+							<rank>140</rank>
+						</item>
+						<item id="documents_list">
+							<rank>150</rank>
+						</item>
+						<item id="providercontracts_list">
+							<rank>170</rank>
+						</item>
+						<item id="services_list">
+							<rank>180</rank>
+						</item>
+						<item id="overview" _delta="if_exists">
+							<rank>1</rank>
+						</item>
+						<item id="monitoring_list" _delta="if_exists">
+							<rank>300</rank>
+						</item>
+					</items>
+				</details>
+				<default_search _delta="define">
+					<items>
+						<item id="name" _delta="define">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn" _delta="define">
+							<rank>20</rank>
+						</item>
+						<item id="enregistreurcctv_id" _delta="define">
+							<rank>30</rank>
+						</item>
+						<item id="location_id" _delta="define">
+							<rank>50</rank>
+						</item>
+					</items>
+				</default_search>
+				<search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="enregistreurcctv_id">
+							<rank>35</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>40</rank>
+						</item>
+						<item id="location_id">
+							<rank>50</rank>
+						</item>
+						<item id="brand_id">
+							<rank>60</rank>
+						</item>
+						<item id="model_id">
+							<rank>70</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>80</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>85</rank>
+						</item>
+						<item id="asset_number">
+							<rank>90</rank>
+						</item>
+						<item id="move2production">
+							<rank>100</rank>
+						</item>
+						<item id="purchase_date">
+							<rank>110</rank>
+						</item>
+						<item id="end_of_warranty">
+							<rank>120</rank>
+						</item>
+					</items>
+				</search>
+				<list>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="status">
+							<rank>20</rank>
+						</item>
+						<item id="enregistreurcctv_id">
+							<rank>25</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>30</rank>
+						</item>
+						<item id="location_id">
+							<rank>40</rank>
+						</item>
+						<item id="brand_id">
+							<rank>50</rank>
+						</item>
+						<item id="model_id">
+							<rank>60</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>70</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>80</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+			<relations>
+				<relation id="impacts">
+					<neighbours>
+						<neighbour id="EnregistreurCCTV" _delta="define">
+							<attribute>enregistreurcctv_id</attribute>
+						</neighbour>
+					</neighbours>
+				</relation>
+			</relations>
+		</class>
+		<class id="CentraleIncendie" _delta="define">
+			<parent>AutomatismePhysical</parent>
+			<properties>
+				<category>bizmodel,searchable</category>
+				<abstract>false</abstract>
+				<key_type>autoincrement</key_type>
+				<db_table>centraleincendie</db_table>
+				<db_key_field>id</db_key_field>
+				<db_final_class_field />
+				<naming>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="location_name" />
+						<attribute id="facilities_id" />
+					</attributes>
+				</naming>
+				<display_template />
+				<icon>images/incendie_def.jpg</icon>
+				<reconciliation>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="org_id" />
+						<attribute id="organization_name" />
+						<attribute id="location_id" />
+						<attribute id="location_name" />
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+				<field id="extinctionincendie_list"
+					xsi:type="AttributeLinkedSet">
+					<linked_class>ExtinctionIncendie</linked_class>
+					<ext_key_to_me>centraleincendie_id</ext_key_to_me>
+					<edit_mode>add_only</edit_mode>
+					<count_min>0</count_min>
+					<count_max>0</count_max>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>40</rank>
+						</item>
+						<item id="location_id">
+							<rank>50</rank>
+						</item>
+						<item id="needmonitoring" _delta="if_exists">
+							<rank>55</rank>
+						</item>
+						<item id="brand_id">
+							<rank>60</rank>
+						</item>
+						<item id="model_id">
+							<rank>70</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>80</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>85</rank>
+						</item>
+						<item id="asset_number">
+							<rank>90</rank>
+						</item>
+						<item id="move2production">
+							<rank>100</rank>
+						</item>
+						<item id="purchase_date">
+							<rank>110</rank>
+						</item>
+						<item id="end_of_warranty">
+							<rank>120</rank>
+						</item>
+						<item id="description">
+							<rank>130</rank>
+						</item>
+						<item id="contacts_list">
+							<rank>140</rank>
+						</item>
+						<item id="documents_list">
+							<rank>150</rank>
+						</item>
+						<item id="extinctionincendie_list">
+							<rank>160</rank>
+						</item>
+						<item id="providercontracts_list">
+							<rank>170</rank>
+						</item>
+						<item id="services_list">
+							<rank>180</rank>
+						</item>
+						<item id="overview" _delta="if_exists">
+							<rank>1</rank>
+						</item>
+						<item id="monitoring_list" _delta="if_exists">
+							<rank>300</rank>
+						</item>
+					</items>
+				</details>
+				<default_search _delta="define">
+					<items>
+						<item id="name" _delta="define">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="location_id" _delta="define">
+							<rank>50</rank>
+						</item>
+					</items>
+				</default_search>
+				<search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>40</rank>
+						</item>
+						<item id="location_id">
+							<rank>50</rank>
+						</item>
+						<item id="brand_id">
+							<rank>60</rank>
+						</item>
+						<item id="model_id">
+							<rank>70</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>80</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>85</rank>
+						</item>
+						<item id="asset_number">
+							<rank>90</rank>
+						</item>
+						<item id="move2production">
+							<rank>100</rank>
+						</item>
+						<item id="purchase_date">
+							<rank>110</rank>
+						</item>
+						<item id="end_of_warranty">
+							<rank>120</rank>
+						</item>
+					</items>
+				</search>
+				<list>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="status">
+							<rank>20</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>30</rank>
+						</item>
+						<item id="location_id">
+							<rank>40</rank>
+						</item>
+						<item id="brand_id">
+							<rank>50</rank>
+						</item>
+						<item id="model_id">
+							<rank>60</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>70</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>80</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="CentraleAlarme" _delta="define">
+			<parent>AutomatismePhysical</parent>
+			<properties>
+				<category>bizmodel,searchable</category>
+				<abstract>false</abstract>
+				<key_type>autoincrement</key_type>
+				<db_table>Centralealarme</db_table>
+				<db_key_field>id</db_key_field>
+				<db_final_class_field />
+				<naming>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="location_name" />
+						<attribute id="facilities_id" />
+					</attributes>
+				</naming>
+				<display_template />
+				<icon>images/CentraleAlarme.jpg</icon>
+				<reconciliation>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="org_id" />
+						<attribute id="organization_name" />
+						<attribute id="location_id" />
+						<attribute id="location_name" />
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+			</fields>
+			<methods />
+			<presentation>
+				<details>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>40</rank>
+						</item>
+						<item id="location_id">
+							<rank>50</rank>
+						</item>
+						<item id="needmonitoring" _delta="if_exists">
+							<rank>55</rank>
+						</item>
+						<item id="brand_id">
+							<rank>60</rank>
+						</item>
+						<item id="model_id">
+							<rank>70</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>80</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>85</rank>
+						</item>
+						<item id="asset_number">
+							<rank>90</rank>
+						</item>
+						<item id="move2production">
+							<rank>100</rank>
+						</item>
+						<item id="purchase_date">
+							<rank>110</rank>
+						</item>
+						<item id="end_of_warranty">
+							<rank>120</rank>
+						</item>
+						<item id="description">
+							<rank>130</rank>
+						</item>
+						<item id="contacts_list">
+							<rank>140</rank>
+						</item>
+						<item id="documents_list">
+							<rank>150</rank>
+						</item>
+						<item id="providercontracts_list">
+							<rank>170</rank>
+						</item>
+						<item id="services_list">
+							<rank>180</rank>
+						</item>
+						<item id="overview" _delta="if_exists">
+							<rank>1</rank>
+						</item>
+						<item id="monitoring_list" _delta="if_exists">
+							<rank>300</rank>
+						</item>
+					</items>
+				</details>
+				<search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>40</rank>
+						</item>
+						<item id="location_id">
+							<rank>50</rank>
+						</item>
+						<item id="brand_id">
+							<rank>60</rank>
+						</item>
+						<item id="model_id">
+							<rank>70</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>80</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>85</rank>
+						</item>
+						<item id="asset_number">
+							<rank>90</rank>
+						</item>
+						<item id="move2production">
+							<rank>100</rank>
+						</item>
+						<item id="purchase_date">
+							<rank>110</rank>
+						</item>
+						<item id="end_of_warranty">
+							<rank>120</rank>
+						</item>
+					</items>
+				</search>
+				<default_search _delta="define">
+					<items>
+						<item id="name" _delta="define">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="location_id" _delta="define">
+							<rank>50</rank>
+						</item>
+					</items>
+				</default_search>
+				<list>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="status">
+							<rank>20</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>30</rank>
+						</item>
+						<item id="location_id">
+							<rank>40</rank>
+						</item>
+						<item id="brand_id">
+							<rank>50</rank>
+						</item>
+						<item id="model_id">
+							<rank>60</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>70</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>80</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="CoffretControleur" _delta="define">
+			<parent>AutomatismePhysical</parent>
+			<properties>
+				<category>bizmodel,searchable</category>
+				<abstract>false</abstract>
+				<key_type>autoincrement</key_type>
+				<db_table>coffretcontroleur</db_table>
+				<db_key_field>id</db_key_field>
+				<db_final_class_field />
+				<naming>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="location_name" />
+						<attribute id="facilities_id" />
+					</attributes>
+				</naming>
+				<display_template />
+				<icon>images/coffretcontroledacces.png</icon>
+				<reconciliation>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="org_id" />
+						<attribute id="organization_name" />
+						<attribute id="location_id" />
+						<attribute id="location_name" />
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+				<field id="softwareinstance_id"
+					xsi:type="AttributeExternalKey">
+					<filter><![CDATA[SELECT SoftwareInstance WHERE id != :this->id AND finalclass IN ('Middleware','PCSoftware','OtherSoftware')]]></filter>
+					<sql>softwareinstance_id</sql>
+					<target_class>SoftwareInstance</target_class>
+					<is_null_allowed>true</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+					<allow_target_creation>false</allow_target_creation>
+					<allow_target_creation>false</allow_target_creation>
+				</field>
+				<field id="softwareinstance_name"
+					xsi:type="AttributeExternalField">
+					<extkey_attcode>softwareinstance_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="softwareinstance_id">
+							<rank>35</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>40</rank>
+						</item>
+						<item id="location_id">
+							<rank>50</rank>
+						</item>
+						<item id="needmonitoring" _delta="if_exists">
+							<rank>55</rank>
+						</item>
+						<item id="brand_id">
+							<rank>60</rank>
+						</item>
+						<item id="model_id">
+							<rank>70</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>80</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>85</rank>
+						</item>
+						<item id="asset_number">
+							<rank>90</rank>
+						</item>
+						<item id="move2production">
+							<rank>100</rank>
+						</item>
+						<item id="purchase_date">
+							<rank>110</rank>
+						</item>
+						<item id="end_of_warranty">
+							<rank>120</rank>
+						</item>
+						<item id="description">
+							<rank>130</rank>
+						</item>
+						<item id="contacts_list">
+							<rank>140</rank>
+						</item>
+						<item id="documents_list">
+							<rank>150</rank>
+						</item>
+						<item id="providercontracts_list">
+							<rank>170</rank>
+						</item>
+						<item id="services_list">
+							<rank>180</rank>
+						</item>
+						<item id="overview" _delta="if_exists">
+							<rank>1</rank>
+						</item>
+						<item id="monitoring_list" _delta="if_exists">
+							<rank>300</rank>
+						</item>
+					</items>
+				</details>
+				<default_search _delta="define">
+					<items>
+						<item id="name" _delta="define">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn" _delta="define">
+							<rank>20</rank>
+						</item>
+						<item id="location_id" _delta="define">
+							<rank>50</rank>
+						</item>
+					</items>
+				</default_search>
+				<search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="softwareinstance_id">
+							<rank>35</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>40</rank>
+						</item>
+						<item id="location_id">
+							<rank>50</rank>
+						</item>
+						<item id="brand_id">
+							<rank>60</rank>
+						</item>
+						<item id="model_id">
+							<rank>70</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>80</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>85</rank>
+						</item>
+						<item id="asset_number">
+							<rank>90</rank>
+						</item>
+						<item id="move2production">
+							<rank>100</rank>
+						</item>
+						<item id="purchase_date">
+							<rank>110</rank>
+						</item>
+						<item id="end_of_warranty">
+							<rank>120</rank>
+						</item>
+					</items>
+				</search>
+				<list>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="status">
+							<rank>20</rank>
+						</item>
+						<item id="softwareinstance_id">
+							<rank>25</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>30</rank>
+						</item>
+						<item id="location_id">
+							<rank>40</rank>
+						</item>
+						<item id="brand_id">
+							<rank>50</rank>
+						</item>
+						<item id="model_id">
+							<rank>60</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>70</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>80</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+			<!-- Pas de dependance avec le software, a gerer avec une "application 
+				solution" <relations> <relation id="impacts"> <neighbours> <neighbour id="SoftwareInstance" 
+				_delta="define"> <attribute>softwareinstance_id</attribute> </neighbour> 
+				</neighbours> </relation> </relations> -->
+		</class>
+		<class id="EnregistreurCCTV" _delta="define">
+			<parent>AutomatismePhysical</parent>
+			<properties>
+				<category>bizmodel,searchable</category>
+				<abstract>false</abstract>
+				<key_type>autoincrement</key_type>
+				<db_table>enregistreurcctv</db_table>
+				<db_key_field>id</db_key_field>
+				<db_final_class_field />
+				<naming>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="location_name" />
+						<attribute id="facilities_id" />
+					</attributes>
+				</naming>
+				<display_template />
+				<icon>images/controleurCCTV.jpg</icon>
+				<reconciliation>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="org_id" />
+						<attribute id="organization_name" />
+						<attribute id="location_id" />
+						<attribute id="location_name" />
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+				<field id="cameravideo_list" xsi:type="AttributeLinkedSet"
+					_delta="define">
+					<linked_class>CameraVideo</linked_class>
+					<ext_key_to_me>enregistreurcctv_id</ext_key_to_me>
+					<edit_mode>add_only</edit_mode>
+					<count_min>0</count_min>
+					<count_max>0</count_max>
+				</field>
+				<field id="redundancy" xsi:type="AttributeRedundancySettings">
+					<sql>redundancy</sql>
+					<relation_code>impacts</relation_code>
+					<from_class>CameraVideo</from_class>
+					<neighbour_id>EnregistreurCCTV</neighbour_id>
+					<enabled>false</enabled>
+					<enabled_mode>user</enabled_mode>
+					<min_up>1</min_up>
+					<min_up_type>count</min_up_type>
+					<min_up_mode>user</min_up_mode>
+				</field>
+				<field id="softwareinstance_id"
+					xsi:type="AttributeExternalKey">
+					<filter><![CDATA[SELECT SoftwareInstance WHERE id != :this->id AND finalclass IN ('Middleware','PCSoftware','OtherSoftware')]]></filter>
+					<sql>softwareinstance_id</sql>
+					<target_class>SoftwareInstance</target_class>
+					<is_null_allowed>true</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+					<allow_target_creation>false</allow_target_creation>
+					<allow_target_creation>false</allow_target_creation>
+				</field>
+				<field id="softwareinstance_name"
+					xsi:type="AttributeExternalField">
+					<extkey_attcode>softwareinstance_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="softwareinstance_id">
+							<rank>35</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>40</rank>
+						</item>
+						<item id="location_id">
+							<rank>50</rank>
+						</item>
+						<item id="needmonitoring" _delta="if_exists">
+							<rank>55</rank>
+						</item>
+						<item id="brand_id">
+							<rank>60</rank>
+						</item>
+						<item id="model_id">
+							<rank>70</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>80</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>85</rank>
+						</item>
+						<item id="asset_number">
+							<rank>90</rank>
+						</item>
+						<item id="move2production">
+							<rank>100</rank>
+						</item>
+						<item id="purchase_date">
+							<rank>110</rank>
+						</item>
+						<item id="end_of_warranty">
+							<rank>120</rank>
+						</item>
+						<item id="description">
+							<rank>130</rank>
+						</item>
+						<item id="cameravideo_list">
+							<rank>135</rank>
+						</item>
+						<item id="contacts_list">
+							<rank>140</rank>
+						</item>
+						<item id="documents_list">
+							<rank>150</rank>
+						</item>
+						<item id="providercontracts_list">
+							<rank>170</rank>
+						</item>
+						<item id="services_list">
+							<rank>180</rank>
+						</item>
+						<item id="overview" _delta="if_exists">
+							<rank>1</rank>
+						</item>
+						<item id="monitoring_list" _delta="if_exists">
+							<rank>300</rank>
+						</item>
+					</items>
+				</details>
+				<default_search _delta="define">
+					<items>
+						<item id="name" _delta="define">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn" _delta="define">
+							<rank>20</rank>
+						</item>
+						<item id="location_id" _delta="define">
+							<rank>50</rank>
+						</item>
+					</items>
+				</default_search>
+				<search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="softwareinstance_id">
+							<rank>35</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>40</rank>
+						</item>
+						<item id="location_id">
+							<rank>50</rank>
+						</item>
+						<item id="brand_id">
+							<rank>60</rank>
+						</item>
+						<item id="model_id">
+							<rank>70</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>80</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>85</rank>
+						</item>
+						<item id="asset_number">
+							<rank>90</rank>
+						</item>
+						<item id="move2production">
+							<rank>100</rank>
+						</item>
+						<item id="purchase_date">
+							<rank>110</rank>
+						</item>
+						<item id="end_of_warranty">
+							<rank>120</rank>
+						</item>
+					</items>
+				</search>
+				<list>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="status">
+							<rank>20</rank>
+						</item>
+						<item id="softwareinstance_id">
+							<rank>25</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>30</rank>
+						</item>
+						<item id="location_id">
+							<rank>40</rank>
+						</item>
+						<item id="brand_id">
+							<rank>50</rank>
+						</item>
+						<item id="model_id">
+							<rank>60</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>70</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>80</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="ExtinctionIncendie" _delta="define">
+			<parent>AutomatismePhysical</parent>
+			<properties>
+				<category>bizmodel,searchable</category>
+				<abstract>false</abstract>
+				<key_type>autoincrement</key_type>
+				<db_table>extinctionincendie</db_table>
+				<db_key_field>id</db_key_field>
+				<db_final_class_field />
+				<naming>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="location_name" />
+						<attribute id="facilities_id" />
+					</attributes>
+				</naming>
+				<display_template />
+				<icon>images/extinction.jpg</icon>
+				<reconciliation>
+					<attributes>
+						<attribute id="name" />
+						<attribute id="org_id" />
+						<attribute id="organization_name" />
+						<attribute id="location_id" />
+						<attribute id="location_name" />
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+				<field id="centraleincendie_id"
+					xsi:type="AttributeExternalKey">
+					<filter><![CDATA[SELECT CentraleIncendie WHERE id != :this->id AND location_id = :this->location_id]]></filter>
+					<dependencies>
+						<attribute id="location_id" />
+					</dependencies>
+					<sql>centraleincendie_id</sql>
+					<target_class>CentraleIncendie</target_class>
+					<is_null_allowed>true</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+					<allow_target_creation>false</allow_target_creation>
+					<allow_target_creation>false</allow_target_creation>
+				</field>
+				<field id="centraleincendie_name"
+					xsi:type="AttributeExternalField">
+					<extkey_attcode>centraleincendie_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="centraleincendie_id">
+							<rank>35</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>40</rank>
+						</item>
+						<item id="location_id">
+							<rank>50</rank>
+						</item>
+						<item id="needmonitoring" _delta="if_exists">
+							<rank>55</rank>
+						</item>
+						<item id="brand_id">
+							<rank>60</rank>
+						</item>
+						<item id="model_id">
+							<rank>70</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>80</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>85</rank>
+						</item>
+						<item id="asset_number">
+							<rank>90</rank>
+						</item>
+						<item id="move2production">
+							<rank>100</rank>
+						</item>
+						<item id="purchase_date">
+							<rank>110</rank>
+						</item>
+						<item id="end_of_warranty">
+							<rank>120</rank>
+						</item>
+						<item id="description">
+							<rank>130</rank>
+						</item>
+						<item id="contacts_list">
+							<rank>140</rank>
+						</item>
+						<item id="documents_list">
+							<rank>150</rank>
+						</item>
+						<item id="providercontracts_list">
+							<rank>170</rank>
+						</item>
+						<item id="services_list">
+							<rank>180</rank>
+						</item>
+						<item id="overview" _delta="if_exists">
+							<rank>1</rank>
+						</item>
+					</items>
+				</details>
+				<default_search _delta="define">
+					<items>
+						<item id="name" _delta="define">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn" _delta="define">
+							<rank>20</rank>
+						</item>
+						<item id="location_id" _delta="define">
+							<rank>50</rank>
+						</item>
+					</items>
+				</default_search>
+				<search>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="org_id">
+							<rank>20</rank>
+						</item>
+						<item id="status">
+							<rank>30</rank>
+						</item>
+						<item id="centraleincendie_id">
+							<rank>35</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>40</rank>
+						</item>
+						<item id="location_id">
+							<rank>50</rank>
+						</item>
+						<item id="brand_id">
+							<rank>60</rank>
+						</item>
+						<item id="model_id">
+							<rank>70</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>80</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>85</rank>
+						</item>
+						<item id="asset_number">
+							<rank>90</rank>
+						</item>
+						<item id="move2production">
+							<rank>100</rank>
+						</item>
+						<item id="purchase_date">
+							<rank>110</rank>
+						</item>
+						<item id="end_of_warranty">
+							<rank>120</rank>
+						</item>
+					</items>
+				</search>
+				<list>
+					<items>
+						<item id="name">
+							<rank>10</rank>
+						</item>
+						<item id="facilities_id">
+							<rank>15</rank>
+						</item>
+						<item id="fqdn">
+							<rank>15</rank>
+						</item>
+						<item id="status">
+							<rank>20</rank>
+						</item>
+						<item id="centraleincendie_id">
+							<rank>25</rank>
+						</item>
+						<item id="business_criticity">
+							<rank>30</rank>
+						</item>
+						<item id="location_id">
+							<rank>40</rank>
+						</item>
+						<item id="brand_id">
+							<rank>50</rank>
+						</item>
+						<item id="model_id">
+							<rank>60</rank>
+						</item>
+						<item id="serialnumber">
+							<rank>70</rank>
+						</item>
+						<item id="powerstart_id">
+							<rank>80</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="PowerConnection" _delta="must_exist">
+			<fields>
+			</fields>
+			<presentation>
+			</presentation>
+			<relations _delta="merge">
+				<relation id="impacts">
+					<neighbours>
+						<neighbour id="BoitierGTC" _delta="define">
+							<query_down>SELECT BoitierGTC WHERE powerstart_id = :this-&gt;id</query_down>
+							<query_up>SELECT PowerConnection WHERE id =
+								:this-&gt;powerstart_id</query_up>
+						</neighbour>
+						<neighbour id="CameraVideo" _delta="define">
+							<query_down>SELECT CameraVideo WHERE powerstart_id = :this-&gt;id</query_down>
+							<query_up>SELECT PowerConnection WHERE id =
+								:this-&gt;powerstart_id</query_up>
+						</neighbour>
+						<neighbour id="CentraleIncendie" _delta="define">
+							<query_down>SELECT CentraleIncendie WHERE powerstart_id =
+								:this-&gt;id</query_down>
+							<query_up>SELECT PowerConnection WHERE id =
+								:this-&gt;powerstart_id</query_up>
+						</neighbour>
+						<neighbour id="CentraleAlarme" _delta="define">
+							<query_down>SELECT CentraleAlarme WHERE powerstart_id =
+								:this-&gt;id</query_down>
+							<query_up>SELECT PowerConnection WHERE id =
+								:this-&gt;powerstart_id</query_up>
+						</neighbour>
+						<neighbour id="CoffretControleur" _delta="define">
+							<query_down>SELECT CoffretControleur WHERE powerstart_id =
+								:this-&gt;id</query_down>
+							<query_up>SELECT PowerConnection WHERE id =
+								:this-&gt;powerstart_id</query_up>
+						</neighbour>
+						<neighbour id="EnregistreurCCTV" _delta="define">
+							<query_down>SELECT EnregistreurCCTV WHERE powerstart_id =
+								:this-&gt;id</query_down>
+							<query_up>SELECT PowerConnection WHERE id =
+								:this-&gt;powerstart_id</query_up>
+						</neighbour>
+						<neighbour id="ExtinctionIncendie" _delta="define">
+							<query_down>SELECT ExtinctionIncendie WHERE powerstart_id =
+								:this-&gt;id</query_down>
+							<query_up>SELECT PowerConnection WHERE id =
+								:this-&gt;powerstart_id</query_up>
+						</neighbour>
+					</neighbours>
+				</relation>
+			</relations>
+		</class>
+
+	</classes>
+	<user_rights>
+		<groups>
+			<group id="lnkAutomatisations" _delta="define">
+				<classes>
+					<class id="AutomatismePhysical" />
+					<class id="BoitierGTC" />
+					<class id="PDU" />
+					<class id="CameraVideo" />
+					<class id="CentraleIncendie" />
+					<class id="CentraleAlarme" />
+					<class id="CoffretControleur" />
+					<class id="EnregistreurCCTV" />
+					<class id="ExtinctionIncendie" />
+				</classes>
+			</group>
+		</groups>
+		<profiles>
+			<profile id="3" _delta="must_exist">
+				<groups _delta="merge">
+					<group id="lnkAutomatisations" _delta="define">
+						<actions>
+							<action id="action:read">allow</action>
+							<action id="action:bulk read">allow</action>
+							<action id="action:write">allow</action>
+							<action id="action:bulk write">allow</action>
+							<action id="action:delete">allow</action>
+						</actions>
+					</group>
+				</groups>
+			</profile>
+		</profiles>
+	</user_rights>
+</itop_design>

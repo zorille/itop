@@ -1,0 +1,125 @@
+<?php
+// Copyright (C) 2014 Combodo SARL
+//
+//   This application is free software; you can redistribute it and/or modify
+//   it under the terms of the GNU Affero General Public License as published by
+//   the Free Software Foundation, either version 3 of the License, or
+//   (at your option) any later version.
+//
+//   iTop is distributed in the hope that it will be useful,
+//   but WITHOUT ANY WARRANTY; without even the implied warranty of
+//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//   GNU Affero General Public License for more details.
+//
+//   You should have received a copy of the GNU Affero General Public License
+//   along with this application. If not, see <http://www.gnu.org/licenses/>
+
+/**
+ * Main entry point for the collector application
+ */
+define('APPROOT', dirname(__FILE__).'/');
+
+require_once APPROOT . 'core/includes.php';
+
+$aOptionalParams = [
+    'configure_only' => 'boolean',
+    'collect_only' => 'boolean',
+    'synchro_only' => 'boolean',
+    'dump_config_only' => 'boolean',
+    'console_log_level' => 'integer',
+    'max_chunk_size' => 'integer',
+    'salesforce_serveur' => 'text',
+];
+
+$aUnknownParameters = Utils::CheckParameters($aOptionalParams);
+
+if (count($aUnknownParameters) > 0) {
+    Utils::Log(LOG_ERR, "Unknown parameter(s): ".implode(' ', $aUnknownParameters));
+    echo "Usage:\n";
+    echo 'php '.basename($argv[0]);
+    foreach($aOptionalParams as $sParam => $sType) {
+        switch($sType) {
+            case 'boolean':
+                echo '[--'.$sParam.']';
+                break;
+
+            default:
+                echo '[--'.$sParam.'=xxx]';
+                break;
+        }
+    }
+    echo "\n";
+    exit(1);
+}
+
+$bResult = true;
+$bConfigureOnly = (Utils::ReadBooleanParameter('configure_only', false) == true);
+$bCollectOnly = (Utils::ReadBooleanParameter('collect_only', false) == true);
+$bSynchroOnly = (Utils::ReadBooleanParameter('synchro_only', false) == true);
+$bDumpConfigOnly = (Utils::ReadBooleanParameter('dump_config_only', false) == true);
+
+Utils::$iConsoleLogLevel = Utils::ReadParameter('console_log_level', Utils::GetConfigurationValue('console_log_level', LOG_INFO));
+$iMaxChunkSize = Utils::ReadParameter('max_chunk_size', Utils::GetConfigurationValue('max_chunk_size', 1000));
+
+try {
+    if (file_exists(APPROOT.'collectors/main.php')) {
+        require_once APPROOT.'collectors/main.php' ;
+    }
+    else {
+        Utils::Log(LOG_ERR, "The file '".APPROOT."collectors/main.php' is missing (or unreadable).");
+    }
+
+    if (!Orchestrator::CheckRequirements()) exit(1);
+
+    $sConfigDebug = array_reduce(
+        array_values(Utils::GetConfigFiles()),
+        fn (array $r, string $sFile) => [
+            $r[0] . "\t{$r[1]}. $sFile\n",
+            ++$r[1]
+        ],
+        ["The following configuration files were loaded (in this order):\n\n", 1]
+    )[0] . "\nThe resulting configuration is:\n\n" . Utils::DumpConfig();
+
+    if ($bDumpConfigOnly) {
+        echo $sConfigDebug;
+        exit(0);
+    }
+
+    Utils::Log(LOG_DEBUG, $sConfigDebug);
+
+    $oOrchestrator = new Orchestrator();
+    $aCollectors = $oOrchestrator->ListCollectors();
+    Utils::Log(LOG_DEBUG, "Registered collectors:");
+    foreach ($aCollectors as $oCollector) {
+        Utils::Log(
+            LOG_DEBUG,
+            "Collector: {$oCollector->GetName()}, version: {$oCollector->GetVersion()}"
+        );
+    }
+
+    if (!$bCollectOnly) {
+        Utils::Log(
+            LOG_DEBUG,
+            'iTop web services version: ' . RestClient::GetNewestKnownVersion()
+        );
+        $bResult = $oOrchestrator->InitSynchroDataSources($aCollectors);
+    }
+
+    if ($bResult && !$bConfigureOnly && !$bSynchroOnly) {
+        $bResult = $oOrchestrator->Collect(
+            $aCollectors,
+            $iMaxChunkSize,
+            $bCollectOnly
+        );
+    }
+
+    if ($bResult && !$bConfigureOnly && !$bCollectOnly) {
+        $bResult = $oOrchestrator->Synchronize($aCollectors);
+    }
+}
+catch (Exception $e) {
+    Utils::Log(LOG_ERR, "Exception: " . $e->getMessage());
+}
+
+echo "[Exit]".intval(!$bResult)."\n";
+exit (intval(!$bResult)); // exit code is zero means success

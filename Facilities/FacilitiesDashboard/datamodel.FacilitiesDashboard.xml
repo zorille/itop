@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+	<constants>
+	</constants>
+	<classes/>
+	<menus>
+		<menu xsi:type="DashboardMenuNode" id="ConfigManagementOverviewFacilities" _delta="define">
+		  <parent>ConfigManagement</parent>
+		  <rank>1</rank>
+		  <definition>
+			<layout>DashboardLayoutOneCol</layout>
+			<title/>
+			<auto_reload>
+			  <enabled>false</enabled>
+			  <interval>300</interval>
+			</auto_reload>
+			<cells xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			  <cell id="0">
+				<rank>0</rank>
+				<dashlets>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row0_col0_22" xsi:type="DashletHeaderStatic">
+					<rank>0</rank>
+					<title>Menu:Electricity</title>
+					<icon>Electricite/images/ArmoireTGBT.png</icon>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row0_col0_23" xsi:type="DashletBadge">
+					<rank>1</rank>
+					<class>PowerSource</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row0_col0_53" xsi:type="DashletBadge">
+					<rank>2</rank>
+					<class>Transformateur</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row0_col0_54" xsi:type="DashletBadge">
+					<rank>3</rank>
+					<class>GroupeElectrogene</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row0_col0_50" xsi:type="DashletBadge">
+					<rank>4</rank>
+					<class>ArmoireTGBT</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row0_col0_52" xsi:type="DashletBadge">
+					<rank>5</rank>
+					<class>Onduleur</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row0_col0_51" xsi:type="DashletBadge">
+					<rank>6</rank>
+					<class>InverseurSource</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row0_col0_55" xsi:type="DashletBadge">
+					<rank>7</rank>
+					<class>ArmoireDistributionElect</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row0_col0_76" xsi:type="DashletBadge">
+					<rank>8</rank>
+					<class>Differenciel</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row0_col0_77" xsi:type="DashletBadge">
+					<rank>9</rank>
+					<class>Disjoncteur</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row0_col0_101" xsi:type="DashletBadge">
+					<rank>10</rank>
+					<class>CircuitElec</class>
+				  </dashlet>
+				</dashlets>
+			  </cell>
+			  <cell id="1">
+				<rank>1</rank>
+				<dashlets>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row1_col0_57" xsi:type="DashletHeaderStatic">
+					<rank>0</rank>
+					<title>Menu:Climatisation</title>
+					<icon>Climatisation/images/pompe.png</icon>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row1_col0_58" xsi:type="DashletBadge">
+					<rank>1</rank>
+					<class>BallonEauGlace</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row1_col0_59" xsi:type="DashletBadge">
+					<rank>2</rank>
+					<class>GroupeEauGlace</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row1_col0_60" xsi:type="DashletBadge">
+					<rank>3</rank>
+					<class>PompeClim</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row1_col0_61" xsi:type="DashletBadge">
+					<rank>4</rank>
+					<class>CircuitEauGlace</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row1_col0_62" xsi:type="DashletBadge">
+					<rank>5</rank>
+					<class>ArmoireClim</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row1_col0_70" xsi:type="DashletBadge">
+					<rank>6</rank>
+					<class>Climatisation</class>
+				  </dashlet>
+				</dashlets>
+			  </cell>
+			  <cell id="2">
+				<rank>2</rank>
+				<dashlets>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row2_col0_63" xsi:type="DashletHeaderStatic">
+					<rank>0</rank>
+					<title>Menu:Automatisme</title>
+					<icon>itop-config-mgmt/images/server.png</icon>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row2_col0_64" xsi:type="DashletBadge">
+					<rank>1</rank>
+					<class>BoitierGTC</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row2_col0_65" xsi:type="DashletBadge">
+					<rank>2</rank>
+					<class>CoffretControleur</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row2_col0_66" xsi:type="DashletBadge">
+					<rank>3</rank>
+					<class>CameraVideo</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row2_col0_67" xsi:type="DashletBadge">
+					<rank>4</rank>
+					<class>EnregistreurCCTV</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row2_col0_68" xsi:type="DashletBadge">
+					<rank>5</rank>
+					<class>CentraleIncendie</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row2_col0_69" xsi:type="DashletBadge">
+					<rank>6</rank>
+					<class>ExtinctionIncendie</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row2_col0_75" xsi:type="DashletBadge">
+					<rank>7</rank>
+					<class>CentraleAlarme</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row2_col0_78" xsi:type="DashletBadge">
+					<rank>8</rank>
+					<class>IPPhone</class>
+				  </dashlet>
+				</dashlets>
+			  </cell>
+			  <cell id="3">
+				<rank>3</rank>
+				<dashlets>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row3_col0_71" xsi:type="DashletHeaderStatic">
+					<rank>0</rank>
+					<title>Menu:Cabling</title>
+					<icon>CablageReseaux/images/rocadefo.jpg</icon>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row3_col0_72" xsi:type="DashletBadge">
+					<rank>1</rank>
+					<class>FiberPanel</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row3_col0_79" xsi:type="DashletBadge">
+					<rank>2</rank>
+					<class>PDL</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row3_col0_80" xsi:type="DashletBadge">
+					<rank>3</rank>
+					<class>FiberRocade</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row3_col0_81" xsi:type="DashletBadge">
+					<rank>4</rank>
+					<class>CrossCo</class>
+				  </dashlet>
+				</dashlets>
+			  </cell>
+			  <cell id="4">
+				<rank>4</rank>
+				<dashlets>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row3_col0_101" xsi:type="DashletHeaderStatic">
+					<rank>0</rank>
+					<title>Menu:Footprint</title>
+					<icon>itop-datacenter-mgmt/images/rack.png</icon>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row3_col0_100" xsi:type="DashletBadge">
+					<rank>1</rank>
+					<class>FootPrint</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row3_col0_73" xsi:type="DashletBadge">
+					<rank>2</rank>
+					<class>Rack</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row3_col0_74" xsi:type="DashletBadge">
+					<rank>3</rank>
+					<class>PDU</class>
+				  </dashlet>
+				</dashlets>
+			  </cell>
+			  <cell id="5">
+				<rank>5</rank>
+				<dashlets>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row4_col0_82" xsi:type="DashletHeaderStatic">
+					<rank>0</rank>
+					<title>Menu:Monitoring</title>
+					<icon>Monitoring/images/monitoring.jpg</icon>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row4_col0_83" xsi:type="DashletBadge">
+					<rank>1</rank>
+					<class>FacilitiesMonitoring</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row4_col0_85" xsi:type="DashletBadge">
+					<rank>2</rank>
+					<class>AppsMonitoring</class>
+				  </dashlet>
+				  <dashlet id="86" xsi:type="DashletBadge">
+					<rank>12</rank>
+					<class>ApplicationSolution</class>
+				  </dashlet>
+				  <dashlet id="87" xsi:type="DashletBadge">
+					<rank>22</rank>
+					<class>BusinessProcess</class>
+				  </dashlet>
+				</dashlets>
+			  </cell>
+			  <cell id="6">
+				<rank>6</rank>
+				<dashlets>
+				  <dashlet id="0" xsi:type="DashletEmptyCell">
+					<rank>0</rank>
+				  </dashlet>
+				</dashlets>
+			  </cell>
+			</cells>
+		  </definition>
+		</menu>
+	</menus>
+</itop_design>

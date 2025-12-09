@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+  <constants>
+  </constants>
+  <classes>
+	<class id="Incident" _delta="merge">
+      <fields>
+        <field id="incident_securite_flag" xsi:type="AttributeEnum" _delta="define">
+			<values>
+				<value id="no">no</value>
+				<value id="yes">yes</value>
+            </values>
+            <sql>incident_securite_flag</sql>
+            <default_value>no</default_value>
+            <is_null_allowed>false</is_null_allowed>
+			<tracking_level>all</tracking_level>
+            <display_style>radio_horizontal</display_style>
+        </field>
+		<field id="incident_level" xsi:type="AttributeEnum" _delta="define">
+			<values>
+				<value id="pasdimpact">Pas d'impact</value>
+				<value id="mineur">Mineur</value>
+				<value id="majeur">Majeur</value>
+            </values>
+            <sql>incident_level</sql>
+            <default_value>Pas d'impact</default_value>
+            <is_null_allowed>false</is_null_allowed>
+            <display_style>select</display_style>
+        </field>
+		<!-- <field id="rapport_incident" xsi:type="AttributeExternalKey" _delta="define">
+		  <filter><![CDATA[SELECT WorkOrder WHERE status != "closed"]]></filter>
+          <dependencies>
+            <attribute id="ticket_id"/>
+          </dependencies>
+          <sql>rapport_incident</sql>
+          <target_class>WorkOrder</target_class>
+          <is_null_allowed>true</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+          <allow_target_creation>true</allow_target_creation>
+        </field>
+        <field id="rapport_incident_name" xsi:type="AttributeExternalField" _delta="define">
+          <extkey_attcode>rapport_incident</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field> -->
+        <field id="cellule_crise_flag" xsi:type="AttributeEnum" _delta="define">
+			<values>
+				<value id="no">no</value>
+				<value id="yes">yes</value>
+            </values>
+            <sql>cellule_crise_flag</sql>
+            <default_value>no</default_value>
+            <is_null_allowed>false</is_null_allowed>
+            <display_style>select</display_style>
+        </field>
+        <field id="cellule_crise_date" xsi:type="AttributeDateTime" _delta="define">
+            <sql>cellule_crise_date</sql>
+            <is_null_allowed>true</is_null_allowed>
+        </field>
+        <field id="rapport_incident" xsi:type="AttributeString" _delta="define">
+            <sql>rapport_incident</sql>
+            <default_value>{Numero Ticket}-{nom du rapport}</default_value>
+            <is_null_allowed>false</is_null_allowed>
+        </field>
+      </fields>
+      <presentation>
+        <details _delta="merge">
+          <items>
+            <item id="col:col2" _delta="merge">
+              <items _delta="merge">
+                <item id="fieldset:Incident:incidentsecurite" _delta="define">
+                  <rank>40</rank>
+                  <items>
+                    <item id="incident_securite_flag">
+                      <rank>10</rank>
+                    </item>
+                    <item id="incident_level">
+                      <rank>20</rank>
+                    </item>
+                    <item id="cellule_crise_flag">
+                      <rank>30</rank>
+                    </item>
+                    <item id="cellule_crise_date">
+                      <rank>40</rank>
+                    </item>
+                    <item id="rapport_incident">
+                      <rank>50</rank>
+                    </item>
+                  </items>
+                </item>
+              </items>
+            </item>
+          </items>
+        </details>
+		<search _delta="merge">
+          <items _delta="merge">
+		    <item id="incident_securite_flag">
+              <rank>35</rank>
+            </item>
+            <item id="incident_level">
+              <rank>38</rank>
+            </item>
+		  </items>
+		</search>
+		<list _delta="merge">
+          <items _delta="merge">
+            <item id="incident_securite_flag">
+              <rank>10</rank>
+            </item>
+            <item id="incident_level">
+              <rank>20</rank>
+            </item>
+          </items>
+        </list>
+      </presentation>
+      <!--<methods>
+      	<method id="GetInitialStateAttributeFlags" _delta="define">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[	public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
+    {
+       // Hide the calculated field in object creation form
+       if (($sAttCode == 'cellule_crise_flag') || ($sAttCode == 'cellule_crise_date') || ($sAttCode == 'rapport_incident'))
+             return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
+       return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+    }]]></code>
+        </method>
+        <method id="GetAttributeFlags" _delta="define">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[	public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
+    {
+       // Force the computed field to be read-only, preventing it to be written
+       if ($sAttCode == 'cellule_crise_flag' || $sAttCode == 'cellule_crise_date' || $sAttCode == 'rapport_incident') {
+        if((MetaModel::IsValidAttCode(get_class($this), 'incident_securite_flag'))
+        && ($this->Get('incident_securite_flag') == 'yes')
+        && (MetaModel::IsValidAttCode(get_class($this), 'incident_level'))
+        && (($this->Get('incident_level') == 'Mineur') || ($this->Get('incident_level') == 'Majeur')))
+             parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+        else
+        	return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
+       }
+       return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+    }]]></code>
+	    </method>
+      </methods>-->
+    </class>
+  </classes>
+  <user_rights>
+  </user_rights>
+</itop_design>

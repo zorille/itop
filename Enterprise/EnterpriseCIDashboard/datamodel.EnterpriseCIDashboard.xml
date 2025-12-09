@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+	<constants>
+	</constants>
+	<classes>
+		<class id="FunctionalCI" _delta="merge">
+ 			<properties>
+				<uniqueness_rules _delta="merge">
+					<rule id="name" _delta="define">
+						<attributes>
+							<attribute id="name" />
+ 							<attribute id="org_id" />
+ 							<!-- <attribute id="finalclass"/> -->
+						</attributes>
+						<is_blocking>true</is_blocking>
+					</rule>
+				</uniqueness_rules>
+			</properties>
+			<fields>
+				<field id="overview" xsi:type="AttributeDashboard"
+					_delta="define">
+					<definition>
+						<layout>DashboardLayoutTwoCols</layout>
+						<auto_reload>
+							<enabled>false</enabled>
+							<interval>300</interval>
+						</auto_reload>
+						<cells _delta="merge">
+							<!-- contacts_list/lnkContactToFunctionalCI documents_list/lnkDocumentToFunctionalCI 
+								applicationsolution_list/lnkApplicationSolutionToFunctionalCI providercontracts_list/lnkFunctionalCIToProviderContract 
+								services_list/lnkFunctionalCIToService softwares_list/SoftwareInstance tickets_list/lnkFunctionalCIToTicket -->
+							<cell id="0" _delta="define">
+								<rank>0</rank>
+								<dashlets>
+									<dashlet id="1" xsi:type="DashletHeaderDynamic"
+										_delta="define">
+										<rank>0</rank>
+										<title>FunctionalCI:Overview:Ticket</title>
+										<icon>itop-welcome-itil/images/user-request-deadline.png</icon>
+										<subtitle>FunctionalCI:Overview:Ticket:subtitle</subtitle>
+										<query><![CDATA[SELECT Ticket AS T JOIN lnkFunctionalCIToTicket AS LFT ON LFT.ticket_id=T.id WHERE LFT.functionalci_id=:this->id AND operational_status NOT IN ("resolved","closed")]]></query>
+										<group_by>finalclass</group_by>
+										<values>UserRequest,Incident,Change</values>
+									</dashlet>
+									<dashlet id="2" xsi:type="DashletObjectList"
+										_delta="define">
+										<rank>2</rank>
+										<title>FunctionalCI:Overview:Ticket</title>
+										<query><![CDATA[SELECT Ticket AS T JOIN lnkFunctionalCIToTicket AS LFT ON LFT.ticket_id=T.id WHERE LFT.functionalci_id=:this->id AND operational_status NOT IN ("resolved","closed")]]></query>
+										<menu>false</menu>
+									</dashlet>
+								</dashlets>
+							</cell>
+							<cell id="1" _delta="define">
+								<rank>10</rank>
+								<dashlets>
+									<dashlet id="3" xsi:type="DashletHeaderStatic"
+										_delta="define">
+										<rank>0</rank>
+										<title>FunctionalCI:Overview:ApplicationSolution</title>
+										<icon>itop-config-mgmt/images/solution.png</icon>
+										<query><![CDATA[SELECT ApplicationSolution AS ApS JOIN lnkApplicationSolutionToFunctionalCI AS LASCI ON LASCI.applicationsolution_id=ApS.id WHERE LASCI.functionalci_id=:this->id AND ApS.status NOT IN ('inactive')]]></query>
+									</dashlet>
+									<dashlet id="4" xsi:type="DashletObjectList"
+										_delta="define">
+										<rank>2</rank>
+										<title>FunctionalCI:Overview:ApplicationSolution</title>
+										<query><![CDATA[SELECT ApplicationSolution AS ApS JOIN lnkApplicationSolutionToFunctionalCI AS LASCI ON LASCI.applicationsolution_id=ApS.id WHERE LASCI.functionalci_id=:this->id AND ApS.status NOT IN ('inactive')]]></query>
+										<menu>false</menu>
+									</dashlet>
+								</dashlets>
+							</cell>
+							<cell id="2" _delta="define">
+								<rank>0</rank>
+								<dashlets>
+									<dashlet id="5" xsi:type="DashletObjectList">
+										<rank>0</rank>
+										<title>FunctionalCI:Overview:CustomerContracts</title>
+										<query><![CDATA[SELECT CustomerContract WHERE org_id=:this->org_id]]></query>
+										<menu>false</menu>
+									</dashlet>
+									<dashlet id="6" xsi:type="DashletObjectList">
+										<rank>1</rank>
+										<title>FunctionalCI:Overview:CustomerServices</title>
+										<query><![CDATA[SELECT Service AS S JOIN lnkCustomerContractToService AS LCSS ON LCSS.service_id=S.id JOIN
+											CustomerContract AS CC ON LCSS.customercontract_id=CC.id
+											WHERE CC.org_id=:this->org_id]]></query>
+										<menu>false</menu>
+									</dashlet>
+								</dashlets>
+							</cell>
+						</cells>
+					</definition>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="overview" _delta="define">
+							<rank>1</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="Server" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="overview" _delta="define">
+							<rank>1</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="NetworkDevice" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="overview" _delta="define">
+							<rank>1</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="SANSwitch" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="overview" _delta="define">
+							<rank>1</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="DBServer" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="overview" _delta="define">
+							<rank>1</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="WebServer" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="overview" _delta="define">
+							<rank>1</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="StorageSystem" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="overview" _delta="define">
+							<rank>1</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="NAS" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="overview" _delta="define">
+							<rank>1</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="Hypervisor" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="overview" _delta="define">
+							<rank>1</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="VirtualMachine" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="overview" _delta="define">
+							<rank>1</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="PDU" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="overview" _delta="define">
+							<rank>1</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="Printer" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="overview" _delta="define">
+							<rank>1</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<class id="IPPhone" _delta="merge">
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<item id="overview" _delta="define">
+							<rank>1</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+		<!-- <class id="FiberPanel" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="CircuitL2" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="Wifi" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="BoitierGTC" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="CameraVideo" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="CentraleIncendie" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="CentraleAlarme" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="CoffretControleur" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="EnregistreurCCTV" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="ExtinctionIncendie" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="Climatisation" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="ArmoireClim" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="BallonEauGlace" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="CircuitEauGlace" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="GroupeEauGlace" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="PompeClim" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="ArmoireDistributionElect" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="Disjoncteur" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="Differenciel" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="ArmoireTGBT" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="GroupeElectrogene" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="InverseurSource" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="Onduleur" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+		<!-- <class id="Transformateur" _delta="merge"> -->
+		<!-- <presentation> -->
+		<!-- <details _delta="merge"> -->
+		<!-- <items> -->
+		<!-- <item id="overview" _delta="define"> -->
+		<!-- <rank>1</rank> -->
+		<!-- </item> -->
+		<!-- </items> -->
+		<!-- </details> -->
+		<!-- </presentation> -->
+		<!-- </class> -->
+	</classes>
+</itop_design>

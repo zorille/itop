@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension format="1.0">
+	<extension_code>itop-icalendar-action</extension_code>
+	<company>Combodo SARL</company>
+	<author><![CDATA[Stephen]]></author>
+	<label><![CDATA[Calendar Invitations]]></label>
+	<description><![CDATA[Send a meeting request as an attachment of a mail notification]]></description>
+	<version>1.0.4</version>
+	<release_date>2018-11-28</release_date>
+	<version_description><![CDATA[
+        * Fix invitations when end date was prior to start date
+        * Handle empty start date
+        * Add Combodo license
+      ]]></version_description>
+	<itop_version_min></itop_version_min>
+	<status></status>
+	<mandatory>false</mandatory>
+	<more_info_url></more_info_url>
+</extension>

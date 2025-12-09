@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension format="1.0">
+    <extension_code>salesforce-data-collector</extension_code>
+    <company>Company</company>
+    <author><![CDATA[Nicolas]]></author>
+    <label><![CDATA[Data collector for Salesforce]]></label>
+    <description><![CDATA[Data Collector for Salesforce]]></description>
+    <version>1.0.0</version>
+    <release_date>2023-20-02</release_date>
+    <version_description><![CDATA[First public version (on the hub)]]></version_description>
+    <itop_version_min />
+    <status />
+    <mandatory>false</mandatory>
+    <more_info_url />
+</extension>
