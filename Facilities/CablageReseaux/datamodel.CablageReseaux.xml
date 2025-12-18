@@ -4,167 +4,6 @@
 	<constants>
 	</constants>
 	<classes>
-		<class id="NetworkInterface" _delta="must_exist">
-			<properties _delta="merge">
-				<reconciliation _delta="redefine">
-					<attributes>
-						<attribute id="name" />
-						<attribute id="org_id"/>
-                        <attribute id="organization_name"/>
-                        <attribute id="finalclass"/>
-					</attributes>
-				</reconciliation>
-			</properties>
-			<fields>
-				<!--<field id="org_id" xsi:type="AttributeExternalKey" _delta="define">
-					<sql>org_id</sql>
-					<target_class>Organization</target_class>
-					<is_null_allowed>false</is_null_allowed>
-					<on_target_delete>DEL_MANUAL</on_target_delete>
-				</field>
-				<field id="organization_name" xsi:type="AttributeExternalField" _delta="define">
-					<extkey_attcode>org_id</extkey_attcode>
-					<target_attcode>name</target_attcode>
-				</field>-->
-			</fields>
-			<methods />
-			<presentation>
-				<details _delta="merge">
-					<items>
-						<!--<item id="org_id" _delta="define">
-							<rank>20</rank>
-						</item>-->
-					</items>
-				</details>
-				<search _delta="merge">
-					<items>
-						<!--<item id="org_id" _delta="define">
-							<rank>20</rank>
-						</item>-->
-					</items>
-				</search>
-				<list _delta="merge">
-					<items>
-						<!--<item id="org_id" _delta="define">
-							<rank>20</rank>
-						</item>-->
-					</items>
-				</list>
-			</presentation>
-		</class>
-		<class id="IPInterface" _delta="must_exist">
-			<properties _delta="merge">
-				<reconciliation _delta="redefine">
-					<attributes>
-						<attribute id="name" />
-						<attribute id="org_id"/>
-                        <attribute id="organization_name"/>
-                        <attribute id="finalclass"/>
-					</attributes>
-				</reconciliation>
-			</properties>
-			<fields/>
-			<methods />
-			<presentation>
-				<details _delta="merge">
-					<items>
-						<!--<item id="org_id" _delta="define">
-							<rank>20</rank>
-						</item>-->
-					</items>
-				</details>
-				<search _delta="merge">
-					<items>
-						<!--<item id="org_id" _delta="define">
-							<rank>20</rank>
-						</item>-->
-					</items>
-				</search>
-				<list _delta="merge">
-					<items>
-						<!--<item id="org_id" _delta="define">
-							<rank>20</rank>
-						</item>-->
-					</items>
-				</list>
-			</presentation>
-		</class>
-		<class id="PhysicalInterface" _delta="must_exist">
-			<properties _delta="merge">
-				<reconciliation _delta="redefine">
-					<attributes>
-						<attribute id="name" />
-						<attribute id="org_id"/>
-                        <attribute id="organization_name"/>
-                        <attribute id="connectableci_id"/>
-                        <attribute id="connectableci_name"/>
-					</attributes>
-				</reconciliation>
-			</properties>
-			<fields/>
-			<methods />
-			<presentation>
-				<details _delta="merge">
-					<items>
-						<!--<item id="org_id" _delta="define_if_not_exists">
-							<rank>20</rank>
-						</item>-->
-					</items>
-				</details>
-				<search _delta="merge">
-					<items>
-						<!--<item id="org_id" _delta="define_if_not_exists">
-							<rank>20</rank>
-						</item>-->
-					</items>
-				</search>
-				<list _delta="merge">
-					<items>
-						<!--<item id="org_id" _delta="define_if_not_exists">
-							<rank>20</rank>
-						</item>-->
-					</items>
-				</list>
-			</presentation>
-		</class>
-		<class id="FiberChannelInterface" _delta="must_exist">
-			<properties _delta="merge">
-				<reconciliation _delta="redefine">
-					<attributes>
-						<attribute id="name" />
-						<attribute id="org_id"/>
-                        <attribute id="organization_name"/>
-                        <attribute id="datacenterdevice_id"/>
-            			<attribute id="datacenterdevice_name"/>
-					</attributes>
-				</reconciliation>
-			</properties>
-			<fields/>
-			<methods />
-			<presentation>
-				<details _delta="merge">
-					<items>
-						<!--<item id="org_id" _delta="define_if_not_exists">
-							<rank>20</rank>
-						</item>-->
-					</items>
-				</details>
-				<search _delta="merge">
-					<items>
-						<!--<item id="org_id" _delta="define_if_not_exists">
-							<rank>20</rank>
-						</item>-->
-					</items>
-				</search>
-				<list _delta="merge">
-					<items>
-						<!--<item id="org_id" _delta="define_if_not_exists">
-							<rank>20</rank>
-						</item>-->
-					</items>
-				</list>
-			</presentation>
-		</class>
 		<class id="FiberPanel" _delta="define">
 			<parent>DatacenterDevice</parent>
 			<properties>
@@ -227,6 +66,11 @@
 					_delta="define">
 					<extkey_attcode>customer_id</extkey_attcode>
 					<target_attcode>code</target_attcode>
+				</field>
+				<field id="position_p" xsi:type="AttributeString" _delta="define_if_not_exists">
+				  <sql>position_p</sql>
+				  <default_value/>
+				  <is_null_allowed>true</is_null_allowed>
 				</field>
 			</fields>
 			<methods />
@@ -422,6 +266,16 @@
         		</obsolescence>
         	</properties>
 			<fields>
+				<field id="org_id" xsi:type="AttributeExternalKey" _delta="define_if_not_exists">
+					<sql>org_id</sql>
+					<target_class>Organization</target_class>
+					<is_null_allowed>false</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+				</field>
+				<field id="organization_name" xsi:type="AttributeExternalField" _delta="define_if_not_exists">
+					<extkey_attcode>org_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
 				<field id="fiber_quantity" xsi:type="AttributeInteger">
 					<sql>fiber_quantity</sql>
 					<default_value>12</default_value>
@@ -640,6 +494,16 @@
 				</obsolescence>
 			</properties>
 			<fields>
+				<field id="org_id" xsi:type="AttributeExternalKey" _delta="define_if_not_exists">
+					<sql>org_id</sql>
+					<target_class>Organization</target_class>
+					<is_null_allowed>false</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+				</field>
+				<field id="organization_name" xsi:type="AttributeExternalField" _delta="define_if_not_exists">
+					<extkey_attcode>org_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
 				<field id="customer_id" xsi:type="AttributeExternalKey"
 					_delta="define">
 					<sql>customer_id</sql>
@@ -880,6 +744,16 @@
 				</reconciliation>
 			</properties>
 			<fields>
+				<field id="org_id" xsi:type="AttributeExternalKey" _delta="define_if_not_exists">
+					<sql>org_id</sql>
+					<target_class>Organization</target_class>
+					<is_null_allowed>false</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+				</field>
+				<field id="organization_name" xsi:type="AttributeExternalField" _delta="define_if_not_exists">
+					<extkey_attcode>org_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
 				<field id="location_id" xsi:type="AttributeExternalKey">
 					<sql>location_id</sql>
 					<filter><![CDATA[SELECT Location AS L WHERE L.org_id = :this->org_id]]></filter>
