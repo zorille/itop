@@ -16,7 +16,7 @@
 					<format>%1$s</format>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="virtualmachine_name" />
+						<!--<attribute id="virtualmachine_name" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -124,6 +124,9 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="virtualmachine_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
@@ -136,9 +139,6 @@
 						<item id="type">
 							<rank>80</rank>
 						</item>
-						<item id="virtualmachine_id">
-							<rank>85</rank>
-						</item>
 						<item id="move2production">
 							<rank>100</rank>
 						</item>
@@ -149,14 +149,14 @@
 						<item id="name">
 							<rank>5</rank>
 						</item>
+						<item id="virtualmachine_id">
+							<rank>8</rank>
+						</item>
 						<item id="org_id">
 							<rank>10</rank>
 						</item>
 						<item id="business_criticity">
 							<rank>30</rank>
-						</item>
-						<item id="virtualmachine_id">
-							<rank>40</rank>
 						</item>
 						<item id="size">
 							<rank>50</rank>
@@ -273,11 +273,11 @@
 				<cells>
 					<cell id="1" _delta="must_exist">
 						<dashlets>
-							<dashlet id="110" xsi:type="DashletBadge" _delta="define">
+							<dashlet id="VMVirtualDisk1" xsi:type="DashletBadge" _delta="define">
 								<rank>4</rank>
 								<class>VMVirtualDisk</class>
 							</dashlet>
-							<dashlet id="111" xsi:type="DashletBadge" _delta="define">
+							<dashlet id="LogicalVolume1" xsi:type="DashletBadge" _delta="define">
 								<rank>5</rank>
 								<class>LogicalVolume</class>
 							</dashlet>

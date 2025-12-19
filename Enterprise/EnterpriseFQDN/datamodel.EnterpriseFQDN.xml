@@ -9,7 +9,7 @@
 				<naming _delta="redefine">
 					<attributes>
 						<attribute id="name" />
-						<attribute id="fqdn" />
+						<!--<attribute id="fqdn" />-->
 					</attributes>
 				</naming>
 			</properties>
@@ -58,7 +58,7 @@
 				<naming _delta="redefine">
 					<attributes>
 						<attribute id="name" />
-						<attribute id="fqdn" />
+						<!--<attribute id="fqdn" />-->
 					</attributes>
 				</naming>
 			</properties>
@@ -107,7 +107,7 @@
 				<naming _delta="redefine">
 					<attributes>
 						<attribute id="name" />
-						<attribute id="fqdn" />
+						<!--<attribute id="fqdn" />-->
 					</attributes>
 				</naming>
 			</properties>
@@ -156,8 +156,8 @@
 				<naming _delta="redefine">
 					<attributes>
 						<attribute id="name" />
-						<attribute id="fqdn" />
-						<attribute id="system_name" />
+						<!--<attribute id="fqdn" />
+						<attribute id="system_name" />-->
 					</attributes>
 				</naming>
 			</properties>
@@ -198,8 +198,8 @@
 				<naming _delta="redefine">
 					<attributes>
 						<attribute id="name" />
-						<attribute id="fqdn" />
-						<attribute id="system_name" />
+						<!--<attribute id="fqdn" />
+						<attribute id="system_name" />-->
 					</attributes>
 				</naming>
 			</properties>
@@ -240,7 +240,7 @@
 				<naming _delta="redefine">
 					<attributes>
 						<attribute id="name" />
-						<attribute id="fqdn" />
+						<!--<attribute id="fqdn" />-->
 					</attributes>
 				</naming>
 			</properties>
@@ -289,7 +289,7 @@
 				<naming _delta="redefine">
 					<attributes>
 						<attribute id="name" />
-						<attribute id="fqdn" />
+						<!--<attribute id="fqdn" />-->
 					</attributes>
 				</naming>
 			</properties>
@@ -338,7 +338,7 @@
 				<naming _delta="redefine">
 					<attributes>
 						<attribute id="name" />
-						<attribute id="fqdn" />
+						<!--<attribute id="fqdn" />-->
 					</attributes>
 				</naming>
 			</properties>
@@ -456,7 +456,7 @@
 				<naming _delta="redefine">
 					<attributes>
 						<attribute id="name" />
-						<attribute id="fqdn" />
+						<!--<attribute id="fqdn" />-->
 					</attributes>
 				</naming>
 			</properties>
@@ -505,7 +505,7 @@
 				<naming _delta="redefine">
 					<attributes>
 						<attribute id="name" />
-						<attribute id="fqdn" />
+						<!--<attribute id="fqdn" />-->
 					</attributes>
 				</naming>
 			</properties>

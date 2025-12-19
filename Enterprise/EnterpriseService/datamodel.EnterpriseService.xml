@@ -8,7 +8,7 @@
 		<naming  _delta="redefine">
 			<attributes>
 				<attribute id="name"/>
-				<attribute id="code_facturation" />
+				<!--<attribute id="code_facturation" />-->
 			</attributes>
 		</naming>
 		<reconciliation  _delta="redefine">

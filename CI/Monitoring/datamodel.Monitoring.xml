@@ -121,7 +121,7 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="functionalci_name" />
+						<!--<attribute id="functionalci_name" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -318,14 +318,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="functionalci_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="functionalci_id">
-							<rank>40</rank>
 						</item>
 						<item id="modele_id">
 							<rank>50</rank>
@@ -349,7 +349,7 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="functionalci_name" />
+						<!--<attribute id="functionalci_name" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -399,7 +399,7 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="functionalci_name" />
+						<!--<attribute id="functionalci_name" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -498,14 +498,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="functionalci_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="functionalci_id">
-							<rank>40</rank>
 						</item>
 						<item id="modele_id">
 							<rank>50</rank>
@@ -517,14 +517,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="functionalci_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="functionalci_id">
-							<rank>40</rank>
 						</item>
 						<item id="modele_id">
 							<rank>50</rank>
@@ -536,14 +536,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="functionalci_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="functionalci_id">
-							<rank>40</rank>
 						</item>
 						<item id="modele_id">
 							<rank>50</rank>
@@ -565,7 +565,7 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="functionalci_name" />
+						<!--<attribute id="functionalci_name" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -731,14 +731,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="functionalci_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="functionalci_id">
-							<rank>40</rank>
 						</item>
 						<item id="modele_id">
 							<rank>50</rank>
@@ -753,14 +753,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="functionalci_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="functionalci_id">
-							<rank>40</rank>
 						</item>
 						<item id="modele_id">
 							<rank>50</rank>
@@ -775,14 +775,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="functionalci_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="functionalci_id">
-							<rank>40</rank>
 						</item>
 						<item id="modele_id">
 							<rank>50</rank>
@@ -807,7 +807,7 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="functionalci_name" />
+						<!--<attribute id="functionalci_name" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -966,14 +966,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="functionalci_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="functionalci_id">
-							<rank>40</rank>
 						</item>
 						<item id="modele_id">
 							<rank>50</rank>
@@ -991,14 +991,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="functionalci_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="functionalci_id">
-							<rank>40</rank>
 						</item>
 						<item id="modele_id">
 							<rank>50</rank>
@@ -1016,14 +1016,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="functionalci_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="functionalci_id">
-							<rank>40</rank>
 						</item>
 						<item id="modele_id">
 							<rank>50</rank>
@@ -1051,7 +1051,7 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="functionalci_name" />
+						<!--<attribute id="functionalci_name" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -1223,14 +1223,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="functionalci_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="functionalci_id">
-							<rank>40</rank>
 						</item>
 						<item id="modele_id">
 							<rank>50</rank>
@@ -1245,14 +1245,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="functionalci_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="functionalci_id">
-							<rank>40</rank>
 						</item>
 						<item id="modele_id">
 							<rank>50</rank>
@@ -1267,14 +1267,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="functionalci_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="functionalci_id">
-							<rank>40</rank>
 						</item>
 						<item id="modele_id">
 							<rank>50</rank>
@@ -1299,7 +1299,7 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="functionalci_name" />
+						<!--<attribute id="functionalci_name" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -1471,14 +1471,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="functionalci_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="functionalci_id">
-							<rank>40</rank>
 						</item>
 						<item id="modele_id">
 							<rank>50</rank>
@@ -1493,14 +1493,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="functionalci_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="functionalci_id">
-							<rank>40</rank>
 						</item>
 						<item id="modele_id">
 							<rank>50</rank>
@@ -1515,14 +1515,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="functionalci_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="functionalci_id">
-							<rank>40</rank>
 						</item>
 						<item id="modele_id">
 							<rank>50</rank>
@@ -1547,7 +1547,7 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="functionalci_name" />
+						<!--<attribute id="functionalci_name" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -1684,14 +1684,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="functionalci_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="functionalci_id">
-							<rank>40</rank>
 						</item>
 						<item id="modele_id">
 							<rank>50</rank>
@@ -1703,14 +1703,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="functionalci_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="functionalci_id">
-							<rank>40</rank>
 						</item>
 						<item id="modele_id">
 							<rank>50</rank>
@@ -1722,14 +1722,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="functionalci_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="functionalci_id">
-							<rank>40</rank>
 						</item>
 						<item id="modele_id">
 							<rank>50</rank>
@@ -2082,37 +2082,35 @@
 			<definition>
 				<cells>
 					<!-- On s'ajoute a la software -->
-					<cell id="3" _delta="merge">
+					<cell id="Monitoring" _delta="define_if_not_exists">
 						<dashlets>
-							<!-- <dashlet id="100" xsi:type="DashletHeaderStatic" -->
-							<!-- _delta="define"> -->
-							<!-- <rank>0</rank> -->
-							<!-- <title>Menu:ConfigManagement:Cablage</title> -->
-							<!-- <icon>../images/icons/icons8-cablage.svg</icon> -->
-							<!-- <subtitle>Menu_ConfigManagement_cablage</subtitle> -->
-							<!-- </dashlet> -->
-							<dashlet id="300" xsi:type="DashletBadge" _delta="define">
-								<rank>300</rank>
+							<dashlet id="CUSTOM_Monitoring_1" xsi:type="DashletHeaderStatic">
+								<rank>0</rank>
+								<title>Menu:Monitoring</title>
+								<icon>Monitoring/images/appsmonitoring.png</icon>
+							 </dashlet>
+							<dashlet id="CUSTOM_Monitoring_2" xsi:type="DashletBadge" _delta="define">
+								<rank>1</rank>
 								<class>AppsMonitoring</class>
 							</dashlet>
-							<dashlet id="301" xsi:type="DashletBadge" _delta="define">
-								<rank>301</rank>
+							<dashlet id="CUSTOM_Monitoring_3" xsi:type="DashletBadge" _delta="define">
+								<rank>2</rank>
 								<class>VMMonitoring</class>
 							</dashlet>
-							<dashlet id="302" xsi:type="DashletBadge" _delta="define">
-								<rank>302</rank>
+							<dashlet id="CUSTOM_Monitoring_4" xsi:type="DashletBadge" _delta="define">
+								<rank>3</rank>
 								<class>OSMonitoring</class>
 							</dashlet>
-							<dashlet id="303" xsi:type="DashletBadge" _delta="define">
-								<rank>303</rank>
+							<dashlet id="CUSTOM_Monitoring_5" xsi:type="DashletBadge" _delta="define">
+								<rank>4</rank>
 								<class>ServerMonitoring</class>
 							</dashlet>
-							<dashlet id="304" xsi:type="DashletBadge" _delta="define">
-								<rank>304</rank>
+							<dashlet id="CUSTOM_Monitoring_6" xsi:type="DashletBadge" _delta="define">
+								<rank>5</rank>
 								<class>NetworkMonitoring</class>
 							</dashlet>
-							<dashlet id="305" xsi:type="DashletBadge" _delta="define">
-								<rank>305</rank>
+							<dashlet id="CUSTOM_Monitoring_7" xsi:type="DashletBadge" _delta="define">
+								<rank>6</rank>
 								<class>FacilitiesMonitoring</class>
 							</dashlet>
 						</dashlets>
@@ -2124,10 +2122,15 @@
 			_delta="must_exist">
 			<definition>
 				<cells>
-					<cell id="0" _delta="merge">
+					<cell id="Monitoring" _delta="define_if_not_exists">
 						<dashlets>
-							<dashlet id="100" xsi:type="DashletBadge" _delta="define">
-								<rank>100</rank>
+							<dashlet id="CUSTOM_Monitoring_1" xsi:type="DashletHeaderStatic">
+								<rank>0</rank>
+								<title>Menu:Monitoring</title>
+								<icon>Monitoring/images/appsmonitoring.png</icon>
+							 </dashlet>
+							 <dashlet id="CUSTOM_Monitoring_2" xsi:type="DashletBadge" _delta="define">
+								<rank>1</rank>
 								<class>MonitoringModele</class>
 							</dashlet>
 						</dashlets>

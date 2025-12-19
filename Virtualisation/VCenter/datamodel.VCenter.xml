@@ -228,7 +228,7 @@
 				<cells>
 					<cell id="1" _delta="must_exist">
 						<dashlets>
-							<dashlet id="140" xsi:type="DashletBadge" _delta="define">
+							<dashlet id="VCenter1" xsi:type="DashletBadge" _delta="define">
 								<rank>4</rank>
 								<class>VCenter</class>
 							</dashlet>

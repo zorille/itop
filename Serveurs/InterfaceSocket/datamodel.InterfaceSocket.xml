@@ -3,13 +3,13 @@
   <constants>
   </constants>
   <classes>
-    <class id="NetworkSocket" _delta="define">
+    <class id="NetworkTCPSocket" _delta="define">
       <parent>NetworkInterface</parent>
       <properties>
         <category>bizmodel,searchable</category>
         <abstract>false</abstract>
         <key_type>autoincrement</key_type>
-        <db_table>networksocket</db_table>
+        <db_table>networktcpsocket</db_table>
         <db_key_field>id</db_key_field>
         <db_final_class_field/>
         <naming>
@@ -152,8 +152,8 @@
     </class>
     <class id="NetworkInterface">
       <fields>
-        <field id="networksocket_list" xsi:type="AttributeLinkedSet" _delta="define">
-          <linked_class>NetworkSocket</linked_class>
+        <field id="networktcpsocket_list" xsi:type="AttributeLinkedSet" _delta="define">
+          <linked_class>NetworkTCPSocket</linked_class>
           <ext_key_to_me>networkinterface_id</ext_key_to_me>
           <edit_mode>in_place</edit_mode>
           <tracking_level>all</tracking_level>
@@ -164,8 +164,8 @@
       <relations>
         <relation id="impacts" _delta="define">
           <neighbours>
-            <neighbour id="networksocket">
-              <attribute>networksocket_list</attribute>
+            <neighbour id="networktcpsocket">
+              <attribute>networktcpsocket_list</attribute>
             </neighbour>
           </neighbours>
         </relation>
@@ -175,7 +175,7 @@
       <presentation>
         <details _delta="merge">
           <items>
-            <item id="networksocket_list">
+            <item id="networktcpsocket_list">
               <rank>80</rank>
             </item>
           </items>
@@ -186,7 +186,7 @@
       <presentation>
         <details _delta="merge">
           <items>
-            <item id="networksocket_list">
+            <item id="networktcpsocket_list">
               <rank>100</rank>
             </item>
           </items>

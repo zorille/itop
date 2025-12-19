@@ -8,7 +8,7 @@
 				<naming _delta="redefine">
 					<attributes>
 						<attribute id="name" />
-						<attribute id="public_name" />
+						<!--<attribute id="public_name" />-->
 					</attributes>
 				</naming>
 			</properties>

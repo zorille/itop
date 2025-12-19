@@ -15,7 +15,7 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="location_name" />
+						<!--<attribute id="location_name" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -103,6 +103,9 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="location_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
@@ -111,9 +114,6 @@
 						</item>
 						<item id="business_criticity">
 							<rank>40</rank>
-						</item>
-						<item id="location_id">
-							<rank>50</rank>
 						</item>
 						<item id="length">
 							<rank>55</rank>
@@ -131,11 +131,11 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="location_id">
+							<rank>15</rank>
+						</item>
 						<item id="status">
 							<rank>20</rank>
-						</item>
-						<item id="location_id">
-							<rank>40</rank>
 						</item>
 						<item id="length">
 							<rank>55</rank>
@@ -374,8 +374,8 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="location_name" />
-						<attribute id="facilities_id" />
+						<!--<attribute id="location_name" />
+						<attribute id="facilities_id" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -583,9 +583,6 @@
 						<item id="facilities_id" _delta="define">
 							<rank>15</rank>
 						</item>
-						<item id="fqdn" _delta="define">
-							<rank>20</rank>
-						</item>
 						<item id="location_id" _delta="define">
 							<rank>50</rank>
 						</item>
@@ -597,9 +594,6 @@
 							<rank>10</rank>
 						</item>
 						<item id="facilities_id">
-							<rank>15</rank>
-						</item>
-						<item id="fqdn">
 							<rank>15</rank>
 						</item>
 						<item id="org_id">
@@ -651,9 +645,6 @@
 						<item id="facilities_id">
 							<rank>15</rank>
 						</item>
-						<item id="fqdn">
-							<rank>15</rank>
-						</item>
 						<item id="status">
 							<rank>20</rank>
 						</item>
@@ -700,8 +691,8 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="location_name" />
-						<attribute id="facilities_id" />
+						<!--<attribute id="location_name" />
+						<attribute id="facilities_id" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -937,8 +928,8 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="location_name" />
-						<attribute id="facilities_id" />
+						<!--<attribute id="location_name" />
+						<attribute id="facilities_id" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -1156,8 +1147,8 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="location_name" />
-						<attribute id="facilities_id" />
+						<!--<attribute id="location_name" />
+						<attribute id="facilities_id" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -1289,9 +1280,6 @@
 						<item id="facilities_id" _delta="define">
 							<rank>15</rank>
 						</item>
-						<item id="fqdn" _delta="define">
-							<rank>20</rank>
-						</item>
 						<item id="location_id" _delta="define">
 							<rank>50</rank>
 						</item>
@@ -1306,9 +1294,6 @@
 							<rank>10</rank>
 						</item>
 						<item id="facilities_id">
-							<rank>15</rank>
-						</item>
-						<item id="fqdn">
 							<rank>15</rank>
 						</item>
 						<item id="org_id">
@@ -1363,9 +1348,6 @@
 						<item id="facilities_id">
 							<rank>15</rank>
 						</item>
-						<item id="fqdn">
-							<rank>15</rank>
-						</item>
 						<item id="status">
 							<rank>20</rank>
 						</item>
@@ -1415,8 +1397,8 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="location_name" />
-						<attribute id="facilities_id" />
+						<!--<attribute id="location_name" />
+						<attribute id="facilities_id" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -1543,9 +1525,6 @@
 						<item id="facilities_id" _delta="define">
 							<rank>15</rank>
 						</item>
-						<item id="fqdn" _delta="define">
-							<rank>20</rank>
-						</item>
 						<item id="location_id" _delta="define">
 							<rank>50</rank>
 						</item>
@@ -1560,9 +1539,6 @@
 							<rank>10</rank>
 						</item>
 						<item id="facilities_id">
-							<rank>15</rank>
-						</item>
-						<item id="fqdn">
 							<rank>15</rank>
 						</item>
 						<item id="org_id">
@@ -1591,9 +1567,6 @@
 							<rank>10</rank>
 						</item>
 						<item id="facilities_id">
-							<rank>15</rank>
-						</item>
-						<item id="fqdn">
 							<rank>15</rank>
 						</item>
 						<item id="location_id">
@@ -1627,8 +1600,8 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="location_name" />
-						<attribute id="facilities_id" />
+						<!--<attribute id="location_name" />
+						<attribute id="facilities_id" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -1749,9 +1722,6 @@
 						<item id="facilities_id" _delta="define">
 							<rank>15</rank>
 						</item>
-						<item id="fqdn" _delta="define">
-							<rank>20</rank>
-						</item>
 						<item id="location_id" _delta="define">
 							<rank>50</rank>
 						</item>
@@ -1763,9 +1733,6 @@
 							<rank>10</rank>
 						</item>
 						<item id="facilities_id">
-							<rank>15</rank>
-						</item>
-						<item id="fqdn">
 							<rank>15</rank>
 						</item>
 						<item id="org_id">
@@ -1820,9 +1787,6 @@
 						<item id="facilities_id">
 							<rank>15</rank>
 						</item>
-						<item id="fqdn">
-							<rank>15</rank>
-						</item>
 						<item id="status">
 							<rank>20</rank>
 						</item>
@@ -1866,8 +1830,8 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="location_name" />
-						<attribute id="facilities_id" />
+						<!--<attribute id="location_name" />
+						<attribute id="facilities_id" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -2118,8 +2082,8 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="location_name" />
-						<attribute id="facilities_id" />
+						<!--<attribute id="location_name" />
+						<attribute id="facilities_id" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -2243,9 +2207,6 @@
 						<item id="facilities_id" _delta="define">
 							<rank>15</rank>
 						</item>
-						<item id="fqdn" _delta="define">
-							<rank>20</rank>
-						</item>
 						<item id="location_id" _delta="define">
 							<rank>50</rank>
 						</item>
@@ -2257,9 +2218,6 @@
 							<rank>10</rank>
 						</item>
 						<item id="facilities_id">
-							<rank>15</rank>
-						</item>
-						<item id="fqdn">
 							<rank>15</rank>
 						</item>
 						<item id="org_id">
@@ -2312,9 +2270,6 @@
 							<rank>10</rank>
 						</item>
 						<item id="facilities_id">
-							<rank>15</rank>
-						</item>
-						<item id="fqdn">
 							<rank>15</rank>
 						</item>
 						<item id="status">
@@ -2414,8 +2369,8 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="location_name" />
-						<attribute id="facilities_id" />
+						<!--<attribute id="location_name" />
+						<attribute id="facilities_id" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -2526,9 +2481,6 @@
 						<item id="facilities_id" _delta="define">
 							<rank>15</rank>
 						</item>
-						<item id="fqdn" _delta="define">
-							<rank>20</rank>
-						</item>
 						<item id="location_id" _delta="define">
 							<rank>50</rank>
 						</item>
@@ -2540,9 +2492,6 @@
 							<rank>10</rank>
 						</item>
 						<item id="facilities_id">
-							<rank>15</rank>
-						</item>
-						<item id="fqdn">
 							<rank>15</rank>
 						</item>
 						<item id="org_id">
@@ -2595,9 +2544,6 @@
 							<rank>10</rank>
 						</item>
 						<item id="facilities_id">
-							<rank>15</rank>
-						</item>
-						<item id="fqdn">
 							<rank>15</rank>
 						</item>
 						<item id="status">
@@ -2702,8 +2648,8 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="location_name" />
-						<attribute id="facilities_id" />
+						<!--<attribute id="location_name" />
+						<attribute id="facilities_id" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -2866,8 +2812,8 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="location_name" />
-						<attribute id="facilities_id" />
+						<!--<attribute id="location_name" />
+						<attribute id="facilities_id" />-->
 					</attributes>
 				</naming>
 				<display_template />

@@ -1053,7 +1053,7 @@
 			<definition>
 				<cells>
 					<!-- On s'ajoute a software -->
-					<cell id="6" _delta="define_if_not_exists">
+					<cell id="ComposantSaaS" _delta="define_if_not_exists">
 						<dashlets>
 							<dashlet id="CUSTOM_ComposantSaaS_1" xsi:type="DashletHeaderStatic">
 								<rank>0</rank>

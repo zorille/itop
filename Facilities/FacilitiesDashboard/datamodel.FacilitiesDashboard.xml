@@ -32,6 +32,10 @@
 					<rank>2</rank>
 					<class>Transformateur</class>
 				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row0_col0_53" xsi:type="DashletBadge">
+					<rank>3</rank>
+					<class>HVCell</class>
+				  </dashlet>
 				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row0_col0_54" xsi:type="DashletBadge">
 					<rank>3</rank>
 					<class>GroupeElectrogene</class>
@@ -165,6 +169,10 @@
 				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row3_col0_81" xsi:type="DashletBadge">
 					<rank>4</rank>
 					<class>CrossCo</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_ConfigManagementOverview_ID_row3_col0_81" xsi:type="DashletBadge">
+					<rank>5</rank>
+					<class>CircuitL2</class>
 				  </dashlet>
 				</dashlets>
 			  </cell>

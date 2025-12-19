@@ -5,12 +5,12 @@
   <classes>
     <class id="VirtualMachine" _delta="must_exist">
       <properties _delta="merge">
-		<naming _delta="redefine">
+		<!--<naming _delta="redefine">
 			<attributes>
 				<attribute id="name" />
 				<attribute id="hostname" />
 			</attributes>
-		</naming>
+		</naming>-->
       </properties>
       <fields>
         <field id="powerstate" xsi:type="AttributeEnum" _delta="define">
@@ -28,36 +28,6 @@
           <default_value/>
           <is_null_allowed>true</is_null_allowed>
         </field>
-		<!--<field id="backup" xsi:type="AttributeEnum" _delta="define">
-          <values>
-            <value id="enable">enable</value>
-            <value id="disable">disable</value>
-          </values>
-          <sql>backup</sql>
-          <default_value>disable</default_value>
-          <is_null_allowed>false</is_null_allowed>
-          <display_style>list</display_style>
-        </field>
-		<field id="backup_name" xsi:type="AttributeString" _delta="define">
-          <sql>backupname</sql>
-          <default_value/>
-          <is_null_allowed>true</is_null_allowed>
-        </field>
-		<field id="praaas" xsi:type="AttributeEnum" _delta="define">
-          <values>
-            <value id="enable">enable</value>
-            <value id="disable">disable</value>
-          </values>
-          <sql>praaas</sql>
-          <default_value>disable</default_value>
-          <is_null_allowed>false</is_null_allowed>
-          <display_style>list</display_style>
-        </field>
-		<field id="praaas_name" xsi:type="AttributeString" _delta="define">
-          <sql>praaas_name</sql>
-          <default_value/>
-          <is_null_allowed>true</is_null_allowed>
-        </field>-->
       </fields>
       <methods/>
       <presentation>
@@ -74,18 +44,6 @@
 						<item id="powerstate">
 						  <rank>20</rank>
 						</item>
-						<!--<item id="backup">
-						  <rank>30</rank>
-						</item>
-						<item id="backup_name">
-						  <rank>35</rank>
-						</item>
-						<item id="praaas">
-						  <rank>40</rank>
-						</item>
-						<item id="praaas_name">
-						  <rank>40</rank>
-						</item>-->
 					</items>
 				</item>
 			  </items>

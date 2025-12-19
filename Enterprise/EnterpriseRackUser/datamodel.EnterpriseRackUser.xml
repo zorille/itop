@@ -8,10 +8,10 @@
 			<properties _delta="merge">
 				<naming _delta="redefine">
 					<attributes>
-						<attribute id="location_name" />
-						<attribute id="pod_id" />
+						<!--<attribute id="location_name" />
+						<attribute id="pod_id" />-->
 						<attribute id="name" />
-						<attribute id="customer_id_friendlyname" />
+						<!--<attribute id="customer_id_friendlyname" />-->
 					</attributes>
 				</naming>
 				<reconciliation _delta="redefine">
@@ -75,30 +75,33 @@
 							<rank>10</rank>
 						</item>
 						<item id="customer_id" _delta="define">
-							<rank>40</rank>
+							<rank>11</rank>
 						</item>
 						<item id="location_id" _delta="define">
-							<rank>50</rank>
+							<rank>12</rank>
+						</item>
+						<item id="pod_id" _delta="define">
+							<rank>13</rank>
 						</item>
 					</items>
 				</default_search>
 				<search _delta="merge">
 					<items>
 						<item id="customer_id" _delta="define">
-							<rank>20</rank>
+							<rank>11</rank>
 						</item>
 						<item id="pod_id" _delta="define">
-							<rank>21</rank>
+							<rank>13</rank>
 						</item>
 					</items>
 				</search>
 				<list _delta="merge">
 					<items>
 						<item id="customer_id" _delta="define">
-							<rank>15</rank>
+							<rank>11</rank>
 						</item>
 						<item id="pod_id" _delta="define">
-							<rank>16</rank>
+							<rank>13</rank>
 						</item>
 					</items>
 				</list>
@@ -108,11 +111,11 @@
 			<properties _delta="merge">
 				<naming _delta="redefine">
 					<attributes>
-						<attribute id="location_name" />
+						<!--<attribute id="location_name" />
 						<attribute id="rack_pod_name" />
-						<attribute id="rack_name" />
+						<attribute id="rack_name" />-->
 						<attribute id="name" />
-						<attribute id="rack_customer_name" />
+						<!--<attribute id="rack_customer_name" />-->
 					</attributes>
 				</naming>
 			</properties>

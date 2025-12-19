@@ -7,7 +7,7 @@
  */
 Dict::Add ( 'FR FR', 'French', 'Français', array (
 		// Dictionary entries go here
-		'Menu:Monitoring' => 'Monitoring',
+		'Menu:Monitoring' => 'Supervision',
 		'Server:options' => 'Options',
 		'Class:BaseMonitoring' => 'Base de supervision',
 		'Class:BaseMonitoring/Name' => '%1$s - %2$s',

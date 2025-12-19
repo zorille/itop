@@ -133,7 +133,7 @@
           <format>%1$s</format>
           <attributes>
             <attribute id="name"/>
-            <attribute id="farm_name"/>
+            <!--<attribute id="farm_name"/>-->
           </attributes>
         </naming>
         <display_template/>
@@ -216,6 +216,9 @@
             <item id="name">
               <rank>10</rank>
             </item>
+			<item id="farm_id">
+              <rank>15</rank>
+            </item>
             <item id="org_id">
               <rank>20</rank>
             </item>
@@ -228,9 +231,6 @@
             <item id="move2production">
               <rank>50</rank>
             </item>
-            <item id="farm_id">
-              <rank>60</rank>
-            </item>
           </items>
         </search>
         <list>
@@ -238,14 +238,14 @@
             <item id="org_id">
               <rank>10</rank>
             </item>
+			<item id="farm_id">
+              <rank>15</rank>
+            </item>
             <item id="status">
               <rank>20</rank>
             </item>
             <item id="business_criticity">
               <rank>30</rank>
-            </item>
-            <item id="farm_id">
-              <rank>60</rank>
             </item>
           </items>
         </list>
@@ -395,7 +395,7 @@
 				<cells>
 					<cell id="1" _delta="must_exist">
 						<dashlets>
-							<dashlet id="150" xsi:type="DashletBadge" _delta="define">
+							<dashlet id="VSwitch1" xsi:type="DashletBadge" _delta="define">
 								<rank>5</rank>
 								<class>VSwitch</class>
 							</dashlet>

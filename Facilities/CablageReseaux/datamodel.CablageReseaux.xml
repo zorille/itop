@@ -17,11 +17,11 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="fiber_quantity" />
+						<!--<attribute id="fiber_quantity" />
 						<attribute id="location_name" />
 						<attribute id="rack_name" />
 						<attribute id="customer_codeclient" />
-						<attribute id="customer_name" />
+						<attribute id="customer_name" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -168,6 +168,9 @@
 						<item id="location_id" _delta="define">
 							<rank>50</rank>
 						</item>
+						<item id="rack_id" _delta="define">
+							<rank>60</rank>
+						</item>
 					</items>
 				</default_search>
 				<search>
@@ -177,6 +180,9 @@
 						</item>
 						<item id="customer_id">
 							<rank>20</rank>
+						</item>
+						<item id="rack_id">
+							<rank>25</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
@@ -227,6 +233,9 @@
 						<item id="rack_id">
 							<rank>40</rank>
 						</item>
+						<item id="customer_id">
+							<rank>50</rank>
+						</item>
 					</items>
 				</list>
 			</presentation>
@@ -247,7 +256,7 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="fiber_quantity" />
+						<!--<attribute id="fiber_quantity" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -397,6 +406,9 @@
 				</details>
 				<search>
 					<items>
+						<item id="name">
+							<rank>5</rank>
+						</item>
 						<item id="fiber_quantity">
 							<rank>10</rank>
 						</item>
@@ -471,9 +483,9 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="fiberpaneldevice_name" />
+						<!--<attribute id="fiberpaneldevice_name" />
 						<attribute id="customer_codeclient" />
-						<attribute id="customer_name" />
+						<attribute id="customer_name" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -725,9 +737,9 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="location_name" />
+						<!--<attribute id="location_name" />
 						<attribute id="customer_codeclient" />
-						<attribute id="customer_name" />
+						<attribute id="customer_name" />-->
 					</attributes>
 				</naming>
 				<icon>images/crossco.jpg</icon>
@@ -1212,45 +1224,42 @@
 		</class>
 	</classes>
 	<menus>
-		<menu id="ConfigManagementOverview" xsi:type="DashboardMenuNode"
+		<!--<menu id="ConfigManagementOverview" xsi:type="DashboardMenuNode"
 			_delta="must_exist">
 			<definition>
 				<cells>
-					<!-- On s'ajoute a l'infrastructure -->
-					<cell id="0" _delta="merge">
+					<cell id="NetworkCabling" _delta="define_if_not_exists">
 						<dashlets>
-							<!-- <dashlet id="100" xsi:type="DashletHeaderStatic" -->
-							<!-- _delta="define"> -->
-							<!-- <rank>0</rank> -->
-							<!-- <title>Menu:ConfigManagement:Cablage</title> -->
-							<!-- <icon>../images/icons/icons8-cablage.svg</icon> -->
-							<!-- <subtitle>Menu_ConfigManagement_cablage</subtitle> -->
-							<!-- </dashlet> -->
-							<dashlet id="101" xsi:type="DashletBadge" _delta="define">
-								<rank>101</rank>
+							<dashlet id="CUSTOM_NETWORKCABLING_1" xsi:type="DashletHeaderStatic">
+								<rank>0</rank>
+								<title>Menu:NetworkFiberCabling</title>
+								<icon>CablageReseaux/images/rocadefo.jpg</icon>
+							 </dashlet>
+							<dashlet id="CUSTOM_NETWORKCABLING_2" xsi:type="DashletBadge" _delta="define">
+								<rank>1</rank>
 								<class>FiberPanel</class>
 							</dashlet>
-							<dashlet id="102" xsi:type="DashletBadge" _delta="define">
-								<rank>102</rank>
+							<dashlet id="CUSTOM_NETWORKCABLING_3" xsi:type="DashletBadge" _delta="define">
+								<rank>2</rank>
 								<class>FiberRocade</class>
 							</dashlet>
-							<dashlet id="103" xsi:type="DashletBadge" _delta="define">
-								<rank>103</rank>
+							<dashlet id="CUSTOM_NETWORKCABLING_4" xsi:type="DashletBadge" _delta="define">
+								<rank>3</rank>
 								<class>PDL</class>
 							</dashlet>
-							<dashlet id="104" xsi:type="DashletBadge" _delta="define">
-								<rank>104</rank>
+							<dashlet id="CUSTOM_NETWORKCABLING_5" xsi:type="DashletBadge" _delta="define">
+								<rank>4</rank>
 								<class>CrossCo</class>
 							</dashlet>
-							<dashlet id="105" xsi:type="DashletBadge" _delta="define">
-								<rank>105</rank>
+							<dashlet id="CUSTOM_NETWORKCABLING_6" xsi:type="DashletBadge" _delta="define">
+								<rank>5</rank>
 								<class>CircuitL2</class>
 							</dashlet>
 						</dashlets>
 					</cell>
 				</cells>
 			</definition>
-		</menu>
+		</menu>-->
 	</menus>
 	<user_rights>
 		<groups>
@@ -1260,6 +1269,7 @@
 					<class id="CrossCo" />
 					<class id="PDL" />
 					<class id="FiberRocade" />
+					<class id="CircuitL2" />
 				</classes>
 			</group>
 		</groups>

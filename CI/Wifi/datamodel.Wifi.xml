@@ -16,7 +16,7 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="fqdn" />
+						<!--<attribute id="fqdn" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -46,7 +46,7 @@
 				<cells>
 					<cell id="0" _delta="must_exist">
 						<dashlets>
-							<dashlet id="110" xsi:type="DashletBadge" _delta="define">
+							<dashlet id="Wifi1" xsi:type="DashletBadge" _delta="define">
 								<rank>20</rank>
 								<class>Wifi</class>
 							</dashlet>

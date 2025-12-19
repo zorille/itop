@@ -311,8 +311,8 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="server_name" />
-						<attribute id="repository_name" />
+						<!--<attribute id="server_name" />
+						<attribute id="repository_name" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -415,14 +415,17 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="server_id">
+							<rank>12</rank>
+						</item>
+						<item id="repository_id">
+							<rank>16</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="server_id">
-							<rank>40</rank>
 						</item>
 						<item id="at_time">
 							<rank>50</rank>
@@ -434,14 +437,17 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="server_id">
+							<rank>12</rank>
+						</item>
+						<item id="repository_id">
+							<rank>16</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="server_id">
-							<rank>40</rank>
 						</item>
 						<item id="at_time">
 							<rank>50</rank>
@@ -453,14 +459,16 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
-						<item id="org_id">
+						<item id="server_id">
+							<rank>12</rank>
+						</item>
+						<item id="repository_id">
+							<rank>16</rank>
+						</item><item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="server_id">
-							<rank>40</rank>
 						</item>
 						<item id="at_time">
 							<rank>50</rank>
@@ -482,8 +490,8 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="organization_name" />
-						<attribute id="vcenter_name" />
+						<!--<attribute id="organization_name" />
+						<attribute id="vcenter_name" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -622,6 +630,9 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="vcenter_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
@@ -641,6 +652,9 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="vcenter_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
@@ -659,6 +673,9 @@
 					<items>
 						<item id="name">
 							<rank>10</rank>
+						</item>
+						<item id="vcenter_id">
+							<rank>15</rank>
 						</item>
 						<item id="org_id">
 							<rank>20</rank>
@@ -689,8 +706,8 @@
 				<naming>
 					<attributes>
 						<attribute id="name" />
-						<attribute id="server_name" />
-						<attribute id="repository_name" />
+						<!--<attribute id="server_name" />
+						<attribute id="repository_name" />-->
 					</attributes>
 				</naming>
 				<display_template />
@@ -793,14 +810,17 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="server_id">
+							<rank>12</rank>
+						</item>
+						<item id="repository_id">
+							<rank>16</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="server_id">
-							<rank>50</rank>
 						</item>
 						<item id="at_time">
 							<rank>50</rank>
@@ -812,14 +832,17 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="server_id">
+							<rank>12</rank>
+						</item>
+						<item id="repository_id">
+							<rank>16</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="server_id">
-							<rank>40</rank>
 						</item>
 						<item id="at_time">
 							<rank>50</rank>
@@ -831,14 +854,17 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="server_id">
+							<rank>12</rank>
+						</item>
+						<item id="repository_id">
+							<rank>16</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="server_id">
-							<rank>40</rank>
 						</item>
 						<item id="at_time">
 							<rank>50</rank>
@@ -926,14 +952,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="server_id">
+							<rank>12</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="server_id">
-							<rank>50</rank>
 						</item>
 						<item id="at_time">
 							<rank>50</rank>
@@ -945,14 +971,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="server_id">
+							<rank>12</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="server_id">
-							<rank>40</rank>
 						</item>
 						<item id="at_time">
 							<rank>50</rank>
@@ -964,14 +990,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="server_id">
+							<rank>12</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="server_id">
-							<rank>40</rank>
 						</item>
 						<item id="at_time">
 							<rank>50</rank>
@@ -1068,14 +1094,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="server_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="server_id">
-							<rank>50</rank>
 						</item>
 						<item id="at_time">
 							<rank>50</rank>
@@ -1087,14 +1113,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="server_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="server_id">
-							<rank>40</rank>
 						</item>
 						<item id="at_time">
 							<rank>50</rank>
@@ -1106,14 +1132,14 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
+						<item id="server_id">
+							<rank>15</rank>
+						</item>
 						<item id="org_id">
 							<rank>20</rank>
 						</item>
 						<item id="status">
 							<rank>30</rank>
-						</item>
-						<item id="server_id">
-							<rank>40</rank>
 						</item>
 						<item id="at_time">
 							<rank>50</rank>
@@ -1379,33 +1405,31 @@
 			<definition>
 				<cells>
 					<!-- On s'ajoute a la software -->
-					<cell id="3" _delta="merge">
+					<cell id="Backup" _delta="define_if_not_exists">
 						<dashlets>
-							<!-- <dashlet id="100" xsi:type="DashletHeaderStatic" -->
-							<!-- _delta="define"> -->
-							<!-- <rank>0</rank> -->
-							<!-- <title>Menu:ConfigManagement:Cablage</title> -->
-							<!-- <icon>../images/icons/icons8-cablage.svg</icon> -->
-							<!-- <subtitle>Menu_ConfigManagement_cablage</subtitle> -->
-							<!-- </dashlet> -->
-							<dashlet id="201" xsi:type="DashletBadge" _delta="define">
-								<rank>201</rank>
+							<dashlet id="CUSTOM_Backup_1" xsi:type="DashletHeaderStatic">
+								<rank>0</rank>
+								<title>Menu:Backup</title>
+								<icon>Sauvegarde/images/backup.png</icon>
+							 </dashlet>
+							<dashlet id="CUSTOM_Backup_2" xsi:type="DashletBadge" _delta="define">
+								<rank>1</rank>
 								<class>Backup</class>
 							</dashlet>
-							<dashlet id="202" xsi:type="DashletBadge" _delta="define">
-								<rank>202</rank>
+							<dashlet id="CUSTOM_Backup_3" xsi:type="DashletBadge" _delta="define">
+								<rank>2</rank>
 								<class>Replication</class>
 							</dashlet>
-							<dashlet id="203" xsi:type="DashletBadge" _delta="define">
-								<rank>203</rank>
+							<dashlet id="CUSTOM_Backup_4" xsi:type="DashletBadge" _delta="define">
+								<rank>3</rank>
 								<class>BackupCopy</class>
 							</dashlet>
-							<dashlet id="204" xsi:type="DashletBadge" _delta="define">
-								<rank>204</rank>
+							<dashlet id="CUSTOM_Backup_5" xsi:type="DashletBadge" _delta="define">
+								<rank>4</rank>
 								<class>VMCopy</class>
 							</dashlet>
-							<dashlet id="205" xsi:type="DashletBadge" _delta="define">
-								<rank>205</rank>
+							<dashlet id="CUSTOM_Backup_6" xsi:type="DashletBadge" _delta="define">
+								<rank>5</rank>
 								<class>FileCopy</class>
 							</dashlet>
 						</dashlets>
@@ -1417,10 +1441,15 @@
 			_delta="must_exist">
 			<definition>
 				<cells>
-					<cell id="0" _delta="merge">
+					<cell id="Backup" _delta="define_if_not_exists">
 						<dashlets>
-							<dashlet id="200" xsi:type="DashletBadge" _delta="define">
-								<rank>200</rank>
+							<dashlet id="CUSTOM_Backup_1" xsi:type="DashletHeaderStatic">
+								<rank>0</rank>
+								<title>Menu:Backup</title>
+								<icon>Sauvegarde/images/backup.png</icon>
+							 </dashlet>
+							 <dashlet id="CUSTOM_Backup_2" xsi:type="DashletBadge" _delta="define">
+								<rank>1</rank>
 								<class>ScaleOutRepository</class>
 							</dashlet>
 						</dashlets>

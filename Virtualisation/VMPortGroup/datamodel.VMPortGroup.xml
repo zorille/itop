@@ -15,7 +15,7 @@
         <naming>
           <attributes>
             <attribute id="name"/>
-            <attribute id="virtualswitch_name"/>
+            <!--<attribute id="virtualswitch_name"/>-->
           </attributes>
         </naming>
         <display_template/>
@@ -86,14 +86,20 @@
         </details>
         <search>
           <items>
-            <item id="macaddress">
+            <item id="virtualswitch_id">
+              <rank>10</rank>
+            </item>
+			<item id="macaddress">
               <rank>20</rank>
             </item>
           </items>
         </search>
         <list>
           <items>
-            <item id="macaddress">
+            <item id="virtualswitch_id">
+              <rank>10</rank>
+            </item>
+			<item id="macaddress">
               <rank>20</rank>
             </item>
             <item id="comment">
@@ -233,7 +239,7 @@
 				<cells>
 					<cell id="1" _delta="must_exist">
 						<dashlets>
-							<dashlet id="155" xsi:type="DashletBadge" _delta="define">
+							<dashlet id="VMPortGroup1" xsi:type="DashletBadge" _delta="define">
 								<rank>6</rank>
 								<class>VMPortGroup</class>
 							</dashlet>

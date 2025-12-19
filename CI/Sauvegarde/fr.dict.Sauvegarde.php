@@ -7,7 +7,7 @@
  */
 Dict::Add ( 'FR FR', 'French', 'Français', array (
 		// Dictionary entries go here
-		'Menu:Sauvegarde' => 'Sauvegarde',
+		'Menu:Backup' => 'Sauvegarde',
 		'Class:BaseSauvegarde' => 'Base des Backups',
 		'Class:BaseSauvegarde/Attribute:name' => 'Nom',
 		'Class:BaseSauvegarde/Attribute:org_id' => 'Organisation',
