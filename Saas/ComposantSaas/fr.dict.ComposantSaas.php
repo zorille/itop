@@ -6,7 +6,7 @@
  * @license     http://opensource.org/licenses/AGPL-3.0
  */
 Dict::Add('FR FR', 'French', 'Français', array(
-		'Menu:ComposantSaaS' => 'Composant SAAS',
+		'Menu:ComposantSaaS' => 'Composants SAAS',
 		
 		'Class:SaasProvider' => 'Fournisseur de cloud',
 		'Class:SaasProvider/Attribute:cloud_url' => 'URL',
