@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.7">
+  <module_designs>
+    <module_design id="itop-portal" xsi:type="portal" _delta="must_exist">
+
+      <!--
+        iTop 3.2 Enhanced Portal customization.
+        Scope: portal users can view/select FunctionalCI records belonging to
+        the same organization as their contact.
+
+        Main OQL filter:
+          SELECT FunctionalCI WHERE org_id = :current_contact->org_id
+      -->
+      <classes>
+        <class id="FunctionalCI" _delta="define_if_not_exists">
+          <scopes>
+            <scope id="current-user-organization-cis" _delta="define">
+              <oql_view><![CDATA[
+                SELECT FunctionalCI WHERE org_id = :current_contact->org_id
+              ]]></oql_view>
+              <oql_edit><![CDATA[
+                SELECT FunctionalCI WHERE org_id = :current_contact->org_id
+              ]]></oql_edit>
+              <allowed_profiles>
+                <allowed_profile id="Portal user"/>
+				<allowed_profile id="Portal power user"/>
+				<allowed_profile id="Administrator"/>
+              </allowed_profiles>
+            </scope>
+          </scopes>
+          <lists>
+            <list id="default" _delta="define">
+              <items>
+                <item id="name"><rank>10</rank></item>
+                <item id="finalclass"><rank>20</rank></item>
+                <item id="organization_name"><rank>30</rank></item>
+              </items>
+            </list>
+          </lists>
+        </class>
+
+        <!-- Required by the portal security model for linked-set creation. -->
+        <class id="Ticket" _delta="define_if_not_exists">
+          <scopes>
+            <scope id="current-user-tickets" _delta="define_if_not_exists">
+              <oql_view><![CDATA[
+                SELECT Ticket AS t
+                JOIN lnkContactToTicket AS l ON l.ticket_id = t.id
+                WHERE l.contact_id = :current_contact_id
+              ]]></oql_view>
+              <oql_edit><![CDATA[
+                SELECT Ticket AS t
+                JOIN lnkContactToTicket AS l ON l.ticket_id = t.id
+                WHERE l.contact_id = :current_contact_id
+              ]]></oql_edit>
+              <allowed_profiles>
+                <allowed_profile id="Portal user"/>
+				<allowed_profile id="Portal power user"/>
+				<allowed_profile id="Administrator"/>
+              </allowed_profiles>
+            </scope>
+          </scopes>
+        </class>
+
+        <!-- Allows the portal to create the Ticket <-> FunctionalCI relation. -->
+        <class id="lnkFunctionalCIToTicket" _delta="define_if_not_exists">
+          <scopes>
+            <scope id="current-user-ticket-ci-links" _delta="define">
+              <oql_view><![CDATA[
+                SELECT lnkFunctionalCIToTicket AS l
+                JOIN Ticket AS t ON l.ticket_id = t.id
+                JOIN lnkContactToTicket AS lc ON lc.ticket_id = t.id
+                WHERE lc.contact_id = :current_contact_id
+              ]]></oql_view>
+              <oql_edit><![CDATA[
+                SELECT lnkFunctionalCIToTicket AS l
+                JOIN Ticket AS t ON l.ticket_id = t.id
+                JOIN lnkContactToTicket AS lc ON lc.ticket_id = t.id
+                WHERE lc.contact_id = :current_contact_id
+              ]]></oql_edit>
+              <allowed_profiles>
+                <allowed_profile id="Portal user"/>
+				<allowed_profile id="Portal power user"/>
+				<allowed_profile id="Administrator"/>
+              </allowed_profiles>
+            </scope>
+          </scopes>
+          <lists>
+            <list id="default" _delta="define">
+              <items>
+                <item id="functionalci_name"><rank>10</rank></item>
+                <item id="impact"><rank>20</rank></item>
+              </items>
+            </list>
+          </lists>
+        </class>
+      </classes>
+
+      <forms>
+        <!-- Standard request creation form used by the Enhanced Portal. -->
+        <form id="ticket-create" _delta="if_exists">
+          <fields _delta="define_if_not_exists">
+            <field id="functionalcis_list" _delta="define">
+              <mandatory>false</mandatory>
+            </field>
+          </fields>
+          <twig _delta="force">
+            <div class="form_field" data-field-id="org_id" data-field-flags="hidden"/>
+            <div class="form_field" data-field-id="caller_id" data-field-flags="hidden"/>
+            <div class="form_field" data-field-id="service_id"/>
+            <div class="form_field" data-field-id="servicesubcategory_id"/>
+            <div class="form_field" data-field-id="title" data-field-flags="mandatory"/>
+            <div class="form_field" data-field-id="description" data-field-flags="mandatory"/>
+            <div class="form_field" data-field-id="functionalcis_list" data-field-opened="true"/>
+            <div class="form_field" data-field-id="public_log"/>
+          </twig>
+        </form>
+
+        <!-- Optional: no-op if the Incident form does not exist in your portal. -->
+        <form id="incident-create" _delta="if_exists">
+          <fields _delta="define_if_not_exists">
+            <field id="functionalcis_list" _delta="define">
+              <mandatory>false</mandatory>
+            </field>
+          </fields>
+          <twig _delta="force">
+            <div class="form_field" data-field-id="org_id" data-field-flags="hidden"/>
+            <div class="form_field" data-field-id="caller_id" data-field-flags="hidden"/>
+            <div class="form_field" data-field-id="service_id"/>
+            <div class="form_field" data-field-id="servicesubcategory_id"/>
+            <div class="form_field" data-field-id="title" data-field-flags="mandatory"/>
+            <div class="form_field" data-field-id="description" data-field-flags="mandatory"/>
+            <div class="form_field" data-field-id="functionalcis_list" data-field-opened="true"/>
+            <div class="form_field" data-field-id="public_log"/>
+          </twig>
+        </form>
+      </forms>
+
+      <bricks>
+        <!-- Enhanced Portal tile: all CIs from the current contact's organization. -->
+        <brick id="organization-cis" xsi:type="Combodo\iTop\Portal\Brick\ManageBrick" _delta="define">
+          <active>true</active>
+          <width>6</width>
+          <rank>
+            <default>90</default>
+          </rank>
+          <title>
+            <default>Équipements de mon organisation</default>
+          </title>
+          <description>Liste des CI de mon organisation</description>
+          <decoration_class>
+            <default>fa fa-sitemap fa-2x</default>
+          </decoration_class>
+          <oql><![CDATA[
+            SELECT FunctionalCI WHERE org_id = :current_contact->org_id
+          ]]></oql>
+          <data_loading>full</data_loading>
+		  <opening_mode>view</opening_mode>
+          <display_modes>
+            <availables>
+              <mode id="list"/>
+            </availables>
+            <default>list</default>
+          </display_modes>
+          <grouping>
+            <tabs>
+              <groups>
+                <group id="all">
+                  <title>CI de mon organisation</title>
+                  <condition><![CDATA[
+                    SELECT FunctionalCI WHERE org_id = :current_contact->org_id
+                  ]]></condition>
+                </group>
+              </groups>
+            </tabs>
+          </grouping>
+          <fields>
+            <field id="name"/>
+            <field id="finalclass"/>
+            <field id="organization_name"/>
+          </fields>
+          <security>
+            <allowed_profiles>SELECT URP_Profiles WHERE name IN ('Portal user','Portal power user','Administrator')</allowed_profiles>
+          </security>
+        </brick>
+      </bricks>
+    </module_design>
+  </module_designs>
+</itop_design>

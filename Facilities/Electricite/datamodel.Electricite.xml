@@ -24,9 +24,7 @@
 					<attributes>
 						<attribute id="name" />
 						<attribute id="org_id" />
-						<attribute id="organization_name" />
 						<attribute id="location_id" />
-						<attribute id="location_name" />
 					</attributes>
 				</reconciliation>
 			</properties>
@@ -145,6 +143,22 @@
 						</item>
 					</items>
 				</list>
+				<summary>
+				  <items>
+					<item id="name">
+					  <rank>10</rank>
+					</item>
+					<item id="status">
+					  <rank>20</rank>
+					</item>
+					<item id="length">
+						<rank>55</rank>
+					</item>
+					<item id="width">
+						<rank>56</rank>
+					</item>
+				  </items>
+				</summary>
 			</presentation>
 			<relations>
 				<relation id="impacts">
@@ -276,6 +290,22 @@
 						</item>
 					</items>
 				</list>
+				<summary>
+				  <items>
+					<item id="name">
+					  <rank>10</rank>
+					</item>
+					<item id="status">
+					  <rank>20</rank>
+					</item>
+					<item id="power_usage">
+						<rank>55</rank>
+					</item>
+					<item id="type_phase">
+						<rank>56</rank>
+					</item>
+				  </items>
+				</summary>
 			</presentation>
 			<methods />
 			<relations />
@@ -2356,6 +2386,13 @@
 					</neighbours>
 				</relation>
 			</relations>
+		</class>
+		<class id="PDU" _delta="must_exist">
+			<fields>
+				<!-- powerstart_id from PowerConnection replace previous field -->
+				<!--<field id="powerstart_id" xsi:type="AttributeExternalKey" _delta="delete" />
+				<field id="powerstart_name" xsi:type="AttributeExternalKey" _delta="delete" />-->
+			</fields>
 		</class>
 		<class id="Transformateur" _delta="define">
 			<parent>PowerConnection</parent>

@@ -45,7 +45,7 @@
 				</field>
 				<field id="pdl_list" xsi:type="AttributeLinkedSet">
 					<linked_class>PDL</linked_class>
-					<ext_key_to_me>fiberpaneldevice_id</ext_key_to_me>
+					<ext_key_to_me>fiberpanel_id</ext_key_to_me>
 					<edit_mode>in_place</edit_mode>
 					<tracking_level>all</tracking_level>
 					<count_min>0</count_min>
@@ -73,7 +73,60 @@
 				  <is_null_allowed>true</is_null_allowed>
 				</field>
 			</fields>
-			<methods />
+			<methods>
+				<method id="AddPDLToFiberPanel">
+					<comment>/**
+						*
+						* @author Damien Vargas
+						* @return bool Return true on
+						success or false to prevent the transition to happen
+						*/
+					</comment>
+					<static>false</static>
+					<access>public</access>
+					<code><![CDATA[
+							protected function AddPDLToFiberPanel()
+							{
+								//on create or update FiberPanel, check/create PDL depending on fiber number
+								$sOQL = "SELECT PDL WHERE fiberpanel_id = :fiberpanel";
+								$oConnectionSet = new DBObjectSet(DBObjectSearch::FromOQL($sOQL),
+																array(),
+																array(
+																		'fiberpanel' => $this->GetKey()
+																		)
+								);
+								if ($oConnectionSet->Count() == 0)
+								{
+									for($i=1;$i<=$this->Get('fiber_quantity');$i++) {
+										$oNewLink = new PDL();
+										$oNewLink->Set('name', sprintf('%02d', $i));
+										$oNewLink->Set('org_id', $this->Get('org_id'));
+										$oNewLink->Set('customer_id', $this->Get('customer_id'));
+										$oNewLink->Set('location_id', $this->Get('location_id'));
+										$oNewLink->Set('fiberpanel_id', $this->GetKey());
+										$oNewLink->DBInsert();
+									}
+								}
+							)
+                          ]]></code>
+					<arguments>
+						<argument id="1">
+							<mandatory>false</mandatory>
+							<type>attcode</type>
+						</argument>
+					</arguments>
+				</method>
+				<method id="AfterInsert">
+					<static>false</static>
+					<access>protected</access>
+					<code><![CDATA[	public function AfterInsert()
+					{
+				        //On ajoute les PDL
+						$this->AddPDLToFiberPanel();
+						parent::AfterInsert();
+					}]]></code>
+				</method>
+			</methods>
 			<presentation>
 				<details>
 					<items>
@@ -363,7 +416,7 @@
 				</field>
 				<field id="pdl_list" xsi:type="AttributeLinkedSet">
 					<linked_class>PDL</linked_class>
-					<!-- <filter><![CDATA[SELECT PDL AS P JOIN FiberPanel AS F ON P.fiberpaneldevice_id=F.id 
+					<!-- <filter><![CDATA[SELECT PDL AS P JOIN FiberPanel AS F ON P.fiberpanel_id=F.id 
 						WHERE F.id = :this->firstfiberpanel_id AND P.rocade_id = :this->id]]></filter> -->
 					<ext_key_to_me>rocade_id</ext_key_to_me>
 					<edit_mode>in_place</edit_mode>
@@ -494,15 +547,12 @@
 					<attributes>
 						<attribute id="name" />
 						<attribute id="org_id" />
-						<attribute id="organization_name" />
-						<attribute id="fiberpaneldevice_id" />
-						<attribute id="fiberpaneldevice_name" />
+						<attribute id="fiberpanel_id" />
 						<attribute id="customer_id" />
-						<attribute id="customer_name" />
 					</attributes>
 				</reconciliation>
 				<obsolescence>
-					<condition>fiberpaneldevice_id_obsolescence_flag</condition>
+					<condition>fiberpanel_id_obsolescence_flag</condition>
 				</obsolescence>
 			</properties>
 			<fields>
@@ -548,9 +598,9 @@
 					<extkey_attcode>location_id</extkey_attcode>
 					<target_attcode>name</target_attcode>
 				</field>
-				<field id="fiberpaneldevice_id"
+				<field id="fiberpanel_id"
 					xsi:type="AttributeExternalKey">
-					<sql>fiberpaneldevice_id</sql>
+					<sql>fiberpanel_id</sql>
 					<filter><![CDATA[SELECT FiberPanel AS F WHERE F.org_id = :this->org_id AND F.location_id = :this->location_id]]></filter>
 					<dependencies>
 						<attribute id="location_id" />
@@ -561,7 +611,7 @@
 				</field>
 				<field id="fiberpaneldevice_name"
 					xsi:type="AttributeExternalField">
-					<extkey_attcode>fiberpaneldevice_id</extkey_attcode>
+					<extkey_attcode>fiberpanel_id</extkey_attcode>
 					<target_attcode>name</target_attcode>
 				</field>
 				<field id="fibermode" xsi:type="AttributeEnum">
@@ -625,7 +675,7 @@
 						<item id="location_id">
 							<rank>15</rank>
 						</item>
-						<item id="fiberpaneldevice_id">
+						<item id="fiberpanel_id">
 							<rank>20</rank>
 						</item>
 						<item id="fibermode">
@@ -653,7 +703,7 @@
 						<item id="location_id">
 							<rank>15</rank>
 						</item>
-						<item id="fiberpaneldevice_id">
+						<item id="fiberpanel_id">
 							<rank>20</rank>
 						</item>
 						<item id="fibermode">
@@ -672,7 +722,7 @@
 						<item id="customer_id">
 							<rank>15</rank>
 						</item>
-						<item id="fiberpaneldevice_id">
+						<item id="fiberpanel_id">
 							<rank>20</rank>
 						</item>
 						<item id="fibermode">
@@ -694,7 +744,7 @@
 						<item id="name">
 							<rank>10</rank>
 						</item>
-						<item id="fiberpaneldevice_id">
+						<item id="fiberpanel_id">
 							<rank>15</rank>
 						</item>
 						<item id="fibermode">

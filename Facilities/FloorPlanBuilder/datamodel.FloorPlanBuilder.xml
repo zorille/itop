@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+	<constants>
+	</constants>
+	<classes>
+		<class id="FloorPlanBuilder" _delta="define">
+			<parent>cmdbAbstractObject</parent>
+			<properties>
+				<is_link>1</is_link>
+				<category>bizmodel</category>
+				<abstract>false</abstract>
+				<key_type>autoincrement</key_type>
+				<db_table>floorplanbuilder</db_table>
+				<db_key_field>id</db_key_field>
+				<naming>
+					<attributes>
+						<attribute id="functionalci_id" />
+					</attributes>
+				</naming>
+				<style>
+					<icon />
+				</style>
+				<reconciliation>
+					<attributes>
+						<attribute id="functionalci_id" />
+					</attributes>
+				</reconciliation>
+			</properties>
+			<fields>
+				<field id="functionalci_id" xsi:type="AttributeExternalKey">
+					<sql>functionalci_id</sql>
+					<target_class>FunctionalCI</target_class>
+					<is_null_allowed>true</is_null_allowed>
+					<on_target_delete>DEL_AUTO</on_target_delete>
+				</field>
+				<field id="functionalci_name" xsi:type="AttributeExternalField">
+					<extkey_attcode>functionalci_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+				<field id="location_id" xsi:type="AttributeExternalKey">
+					<sql>location_id</sql>
+					<target_class>Location</target_class>
+					<is_null_allowed>true</is_null_allowed>
+					<on_target_delete>DEL_AUTO</on_target_delete>
+				</field>
+				<field id="location_name" xsi:type="AttributeExternalField">
+					<extkey_attcode>location_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+				<field id="jsondata" xsi:type="AttributeText">
+					<sql>jsondata</sql>
+					<default_value/>
+					<is_null_allowed>false</is_null_allowed>
+				</field>
+			</fields>
+			<methods />
+			<presentation>
+				<details>
+					<items>
+						<item id="functionalci_id">
+							<rank>10</rank>
+						</item>
+						<item id="location_id">
+							<rank>20</rank>
+						</item>
+						<item id="jsondata">
+							<rank>30</rank>
+						</item>
+					</items>
+				</details>
+				<search>
+					<items>
+						<item id="functionalci_id">
+							<rank>10</rank>
+						</item>
+						<item id="location_id">
+							<rank>20</rank>
+						</item>
+					</items>
+				</search>
+				<list>
+					<items>
+						<item id="functionalci_id">
+							<rank>10</rank>
+						</item>
+						<item id="location_id">
+							<rank>20</rank>
+						</item>
+					</items>
+				</list>
+			</presentation>
+		</class>
+		<class id="PhysicalDevice" _delta="must_exist">
+			<fields>
+				<field id="jsondata" xsi:type="AttributeText" _delta="define">
+					<sql>jsondata</sql>
+					<default_value/>
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+		</class>
+		<class id="Rack" _delta="must_exist">
+			<fields>
+				<field id="length" xsi:type="AttributeInteger">
+					<sql>length</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+				<field id="width" xsi:type="AttributeInteger">
+					<sql>width</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+				<field id="customer_id" xsi:type="AttributeExternalKey">
+					<sql>customer_id</sql>
+					<target_class>Organization</target_class>
+					<is_null_allowed>true</is_null_allowed>
+					<on_target_delete>DEL_MANUAL</on_target_delete>
+				</field>
+				<field id="customer_name" xsi:type="AttributeExternalField">
+					<extkey_attcode>customer_id</extkey_attcode>
+					<target_attcode>name</target_attcode>
+				</field>
+			</fields>
+			<presentation>
+				<details _delta="merge">
+					<items>
+						<!-- For standard racks -->
+						<item id="length">
+							<rank>200</rank>
+						</item>
+						<item id="width">
+							<rank>210</rank>
+						</item>
+						<item id="customer_id"/>
+						<!-- For plugin Molkobain Datacenter 
+						<item id="col:col0" _delta="define_if_not_exists">
+							<items>
+								<item id="fieldset:Rack:locationinfo" _delta="define">
+									<items>
+										<item id="location_id">
+											<rank>10</rank>
+										</item>
+										<item id="footprint_id">
+											<rank>20</rank>
+										</item>
+										<item id="length">
+											<rank>30</rank>
+										</item>
+										<item id="width">
+											<rank>40</rank>
+										</item>
+									</items>
+									<rank>15</rank>
+								</item>
+							</items>
+						</item>-->
+					</items>
+				</details>
+				<summary>
+					<items>
+						<item id="org_id">
+							<rank>10</rank>
+						</item>
+						<item id="location_id">
+							<rank>20</rank>
+						</item>
+						<item id="description">
+							<rank>55</rank>
+						</item>
+						<item id="customer_id">
+							<rank>56</rank>
+						</item>
+					</items>
+				</summary>
+			</presentation>
+		</class>
+		<class id="Location" _delta="must_exist">
+			<fields>
+				<field id="length" xsi:type="AttributeInteger">
+					<sql>length</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+				<field id="width" xsi:type="AttributeInteger">
+					<sql>width</sql>
+					<default_value />
+					<is_null_allowed>true</is_null_allowed>
+				</field>
+			</fields>
+			<presentation>
+				<details>
+					<items>
+						<item id="length" _delta="define_if_not_exists">
+							<rank>200</rank>
+						</item>
+						<item id="width" _delta="define_if_not_exists">
+							<rank>210</rank>
+						</item>
+					</items>
+				</details>
+			</presentation>
+		</class>
+	</classes>
+	<dictionaries>
+		<dictionary id="FR FR" _delta="must_exist">
+			<entries>
+				<entry id="Class:Rack/Attribute:customer_id"><![CDATA[Utilisateur de la baie]]></entry>
+				<entry id="Class:Rack/Attribute:customer_id+"><![CDATA[Sélectionner l'utilisateur de la baie]]></entry>
+			</entries>
+		</dictionary>
+		<dictionary id="EN US" _delta="must_exist">
+			<entries>
+				<entry id="Class:Rack/Attribute:customer_id"><![CDATA[Rack user]]></entry>
+				<entry id="Class:Rack/Attribute:customer_id+"><![CDATA[Select the Rack user]]></entry>
+			</entries>
+		</dictionary>
+	</dictionaries>
+	<menus />
+	<user_rights />
+</itop_design>
