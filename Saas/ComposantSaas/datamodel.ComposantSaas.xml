@@ -4,10 +4,226 @@
 	<constants>
 	</constants>
 	<classes>
-		<class id="SaasProvider">
-		  <parent>FunctionalCI</parent>
+		<class id="SaasApplication" >
+          <parent>FunctionalCI</parent>
 		  <properties>
-			<category>bizmodel,searchable</category>
+            <category>bizmodel,searchable</category>
+			<abstract>false</abstract>
+			<key_type>autoincrement</key_type>
+			<db_table>saasapplication</db_table>
+			<db_key_field>id</db_key_field>
+			<db_final_class_field />
+			<naming>
+				<attributes>
+					<attribute id="name" />
+				</attributes>
+				<complementary_attributes>
+					<attribute id="organization_name"/>
+				</complementary_attributes>
+			</naming>
+			<display_template />
+			<icon>images/saas.png</icon>
+            <reconciliation >
+              <attributes >
+                <attribute id="name"/>
+                <attribute id="org_id"/>
+                <attribute id="organization_name"/>
+                <attribute id="finalclass"/>
+              </attributes>
+            </reconciliation>
+            <obsolescence >
+              <condition >status='obsolete'</condition>
+            </obsolescence>
+          </properties>
+          <fields>
+            <field id="saas_url" xsi:type="AttributeURL">
+              <sql>saas_url</sql>
+              <default_value/>
+              <is_null_allowed>false</is_null_allowed>
+              <validation_pattern/>
+              <target>_blank</target>
+            </field>
+            <field id="status" xsi:type="AttributeEnum">
+              <values>
+				<value id="implementation">implementation</value>
+				<value id="production">production</value>
+				<value id="decommission">decommission</value>
+				<value id="obsolete">obsolete</value>
+			  </values>
+			  <sql>status</sql>
+			  <default_value>production</default_value>
+			  <is_null_allowed>false</is_null_allowed>
+			  <display_style>list</display_style>
+              <sort_type>rank</sort_type>
+            </field>
+            <field id="subscription_date" xsi:type="AttributeDate">
+              <sql>subscription_date</sql>
+              <default_value/>
+              <is_null_allowed>true</is_null_allowed>
+            </field>
+            <field id="renewal_date" xsi:type="AttributeDate">
+              <sql>renewal_date</sql>
+              <default_value/>
+              <is_null_allowed>false</is_null_allowed>
+            </field>
+          </fields>
+          <methods/>
+          <presentation>
+            <list>
+              <items>
+                <item id="org_id">
+                  <rank>20</rank>
+                </item>
+                <item id="business_criticity">
+                  <rank>30</rank>
+                </item>
+                <item id="move2production">
+                  <rank>40</rank>
+                </item>
+                <item id="saas_url">
+                  <rank>60</rank>
+                </item>
+                <item id="status">
+                  <rank>70</rank>
+                </item>
+                <item id="subscription_date">
+                  <rank>80</rank>
+                </item>
+                <item id="renewal_date">
+                  <rank>90</rank>
+                </item>
+              </items>
+            </list>
+            <search >
+              <items>
+                <item id="name">
+                  <rank>10</rank>
+                </item>
+                <item id="org_id">
+                  <rank>30</rank>
+                </item>
+                <item id="business_criticity">
+                  <rank>40</rank>
+                </item>
+                <item id="move2production">
+                  <rank>50</rank>
+                </item>
+              </items>
+            </search>
+            <details>
+              <items>
+                <item id="col:col1">
+                  <items>
+                    <item id="fieldset:SaasApplication:baseinfo">
+                      <items>
+                        <item id="name">
+                          <rank>10</rank>
+                        </item>
+                        <item id="org_id">
+                          <rank>20</rank>
+                        </item>
+                        <item id="saas_url">
+                          <rank>30</rank>
+                        </item>
+                        <item id="status">
+                          <rank>40</rank>
+                        </item>
+                        <item id="business_criticity">
+                          <rank>50</rank>
+                        </item>
+                      </items>
+                      <rank>10</rank>
+                    </item>
+                    <item id="fieldset:SaasApplication:moreinfo">
+                      <items>
+                        <item id="description">
+                          <rank>10</rank>
+                        </item>
+                      </items>
+                      <rank>20</rank>
+                    </item>
+                  </items>
+                  <rank>10</rank>
+                </item>
+                <item id="col:col2">
+                  <items>
+                    <item id="fieldset:SaasApplication:dates">
+                      <items>
+                        <item id="move2production">
+                          <rank>10</rank>
+                        </item>
+                        <item id="subscription_date">
+                          <rank>20</rank>
+                        </item>
+                        <item id="renewal_date">
+                          <rank>30</rank>
+                        </item>
+                      </items>
+                      <rank>10</rank>
+                    </item>
+                    <item id="fieldset:SaasApplication:it">
+                      <items>
+                        <item id="saasproviders_list">
+                          <rank>10</rank>
+                        </item>
+                      </items>
+                      <rank>20</rank>
+                    </item>
+                  </items>
+                  <rank>20</rank>
+                </item>
+                <item id="overview">
+                  <rank>30</rank>
+                </item>
+                <item id="contacts_list">
+                  <rank>40</rank>
+                </item>
+                <item id="documents_list">
+                  <rank>50</rank>
+                </item>
+                <item id="applicationsolution_list">
+                  <rank>70</rank>
+                </item>
+                <item id="providercontracts_list">
+                  <rank>80</rank>
+                </item>
+                <item id="services_list">
+                  <rank>100</rank>
+                </item>
+              </items>
+            </details>
+            <summary>
+              <items>
+                <item id="name">
+                  <rank>10</rank>
+                </item>
+                <item id="saas_url">
+                  <rank>20</rank>
+                </item>
+                <item id="status">
+                  <rank>30</rank>
+                </item>
+              </items>
+            </summary>
+            <default_search>
+              <items>
+                <item id="name">
+                  <rank>10</rank>
+                </item>
+                <item id="org_id">
+                  <rank>20</rank>
+                </item>
+                <item id="saas_url">
+                  <rank>30</rank>
+                </item>
+              </items>
+            </default_search>
+          </presentation>
+        </class>
+        <class id="SaasProvider" >
+		  <parent>FunctionalCI</parent>
+          <properties>
+            <category>bizmodel,searchable</category>
 			<abstract>false</abstract>
 			<key_type>autoincrement</key_type>
 			<db_table>saasprovider</db_table>
@@ -32,277 +248,203 @@
 				<attribute id="name"/>
 				<attribute id="org_id"/>
 				<attribute id="organization_name"/>
+				<attribute id="finalclass"/>
 			  </attributes>
 			</reconciliation>
-			<obsolescence>
-			  <condition><![CDATA[status='obsolete']]></condition>
-			</obsolescence>
-		  </properties>
-		  <fields>
-			<field id="cloud_url"	xsi:type="AttributeURL">
-				<sql>cloud_url</sql>
-				<default_value />
-				<is_null_allowed>false</is_null_allowed>
-				<target>_blank</target>
-			</field>
-			<field id="functionalcis_list" xsi:type="AttributeLinkedSetIndirect">
-			  <linked_class>lnkFunctionalCIToSaasProvider</linked_class>
-			  <ext_key_to_me>saasprovider_id</ext_key_to_me>
-			  <count_min>0</count_min>
-			  <count_max>0</count_max>
-			  <ext_key_to_remote>functionalci_id</ext_key_to_remote>
-			</field>
-			<field id="businessprocess_list" xsi:type="AttributeLinkedSetIndirect">
-			  <linked_class>lnkSaasProviderToBusinessProcess</linked_class>
-			  <ext_key_to_me>saasprovider_id</ext_key_to_me>
-			  <count_min>0</count_min>
-			  <count_max>0</count_max>
-			  <ext_key_to_remote>businessprocess_id</ext_key_to_remote>
-			</field>
-			<field id="status" xsi:type="AttributeEnum">
-			  <values>
+          </properties>
+          <fields>
+            <field id="cloud_url" xsi:type="AttributeURL">
+              <sql>cloud_url</sql>
+              <default_value/>
+              <is_null_allowed>false</is_null_allowed>
+              <validation_pattern/>
+              <target>_blank</target>
+              <dependencies/>
+              <tracking_level>all</tracking_level>
+            </field>
+            <field id="status" xsi:type="AttributeEnum">
+              <sql>status</sql>
+              <values>
 				<value id="implementation">implementation</value>
 				<value id="production">production</value>
 				<value id="decommission">decommission</value>
 				<value id="obsolete">obsolete</value>
 			  </values>
-			  <sql>status</sql>
-			  <default_value>production</default_value>
-			  <is_null_allowed>false</is_null_allowed>
-			  <display_style>list</display_style>
-			</field>
-		  </fields>
-		  <presentation>
-			<details>
-			  <items>
-				<item id="name">
-				  <rank>10</rank>
-				</item>
-				<item id="org_id">
-				  <rank>20</rank>
-				</item>
-				<item id="cloud_url">
-					<rank>25</rank>
-				</item>
-				<item id="status">
-				  <rank>30</rank>
-				</item>
-				<item id="business_criticity">
-				  <rank>40</rank>
-				</item>
-				<item id="move2production">
-				  <rank>50</rank>
-				</item>
-				<item id="description">
-				  <rank>60</rank>
-				</item>
-				<item id="contacts_list">
-				  <rank>65</rank>
-				</item>
-				<item id="functionalcis_list">
-				  <rank>70</rank>
-				</item>
-				<item id="documents_list">
-				  <rank>80</rank>
-				</item>
-				<item id="providercontracts_list">
-					<rank>100</rank>
-				</item>
-				<item id="businessprocess_list">
-				  <rank>110</rank>
-				</item>
-			  </items>
-			</details>
-			<search>
-			  <items>
-				<item id="name">
-				  <rank>10</rank>
-				</item>
-				<item id="org_id">
-				  <rank>20</rank>
-				</item>
-				<item id="business_criticity">
-				  <rank>30</rank>
-				</item>
-				<item id="move2production">
-				  <rank>40</rank>
-				</item>
-			  </items>
-			</search>
-			<list>
-			  <items>
-				<item id="org_id">
-				  <rank>10</rank>
-				</item>
-				<item id="business_criticity">
-				  <rank>20</rank>
-				</item>
-				<item id="move2production">
-				  <rank>30</rank>
-				</item>
-			  </items>
-			</list>
-			<summary>
-			  <items>
-				<item id="org_id">
-				  <rank>10</rank>
-				</item>
-				<item id="business_criticity">
-				  <rank>20</rank>
-				</item>
-				<item id="description">
-				  <rank>30</rank>
-				</item>
-			  </items>
-			</summary>
-			</presentation>
-		  <methods/>
-		  <relations>
-			<relation id="impacts">
-			  <neighbours>
-				<neighbour id="businessprocess">
-				  <attribute>businessprocess_list</attribute>
-				</neighbour>
-				<neighbour id="functionalci">
-				  <attribute>functionalcis_list</attribute>
-				</neighbour>
-			  </neighbours>
-			</relation>
-		  </relations>
-		</class>
-		<class id="SaasApplication">
-			<parent>FunctionalCI</parent>
-			<properties>
-				<category>bizmodel,searchable</category>
-				<abstract>false</abstract>
-				<key_type>autoincrement</key_type>
-				<db_table>saasapplication</db_table>
-				<db_key_field>id</db_key_field>
-				<db_final_class_field />
-				<naming>
-					<attributes>
-						<attribute id="name" />
-					</attributes>
-					<complementary_attributes>
-						<attribute id="organization_name"/>
-					</complementary_attributes>
-				</naming>
-				<display_template />
-				<icon>images/saas.png</icon>
-				<reconciliation>
-					<attributes>
-						<attribute id="name" />
-						<attribute id="org_id" />
-						<attribute id="organization_name" />
-					</attributes>
-				</reconciliation>
-				<obsolescence>
-          			<condition><![CDATA[status='obsolete']]></condition>
-        		</obsolescence>
-			</properties>
-			<fields>
-				<field id="saas_url"	xsi:type="AttributeURL">
-						<sql>saas_url</sql>
-						<default_value />
-						<is_null_allowed>false</is_null_allowed>
-						<target>_blank</target>
-				</field>
-				<field id="status" xsi:type="AttributeEnum">
-				  <values>
-					<value id="implementation">implementation</value>
-					<value id="production">production</value>
-					<value id="decommission">decommission</value>
-					<value id="obsolete">obsolete</value>
-				  </values>
-				  <sql>status</sql>
-				  <default_value>production</default_value>
-				  <is_null_allowed>false</is_null_allowed>
-				  <display_style>list</display_style>
-				</field>
-			</fields>
-			<presentation>
-				<details>
-					<items>
-						<item id="name">
-							<rank>10</rank>
-						</item>
-						<item id="org_id">
-							<rank>20</rank>
-						</item>
-						<item id="saas_url">
-							<rank>25</rank>
-						</item>
-						<item id="status">
-							<rank>30</rank>
-						</item>
-						<item id="business_criticity">
-							<rank>40</rank>
-						</item>
-						<item id="move2production">
-							<rank>50</rank>
-						</item>
-						<item id="description">
-							<rank>60</rank>
-						</item>
-						<item id="saasinteractions_list">
-							<rank>61</rank>
-						</item>
-						<item id="contacts_list">
-							<rank>70</rank>
-						</item>
-						<item id="documents_list">
-							<rank>80</rank>
-						</item>
-						<item id="providercontracts_list">
-							<rank>100</rank>
-						</item>
-					</items>
-				</details>
-				<search>
-					<items>
-						<item id="name">
-							<rank>10</rank>
-						</item>
-						<item id="org_id">
-							<rank>20</rank>
-						</item>
-						<item id="saas_url">
-							<rank>25</rank>
-						</item>
-						<item id="business_criticity">
-							<rank>30</rank>
-						</item>
-						<item id="move2production">
-							<rank>40</rank>
-						</item>
-					</items>
-				</search>
-				<list>
-					<items>
-						<item id="org_id">
-							<rank>10</rank>
-						</item>
-						<item id="saas_url">
-							<rank>25</rank>
-						</item>
-						<item id="business_criticity">
-							<rank>30</rank>
-						</item>
-						<item id="move2production">
-							<rank>40</rank>
-						</item>
-					</items>
-				</list>
-			</presentation>
-			<methods />
-		</class>
-		<class id="SaasInteraction">
-		  <parent>FunctionalCI</parent>
+              <sort_type>rank</sort_type>
+              <default_value>production</default_value>
+              <is_null_allowed>false</is_null_allowed>
+              <display_style>list</display_style>
+            </field>
+            <field id="functionalcis_list" xsi:type="AttributeLinkedSetIndirect">
+              <ext_key_to_remote>functionalci_id</ext_key_to_remote>
+              <ext_key_to_me>saasprovider_id</ext_key_to_me>
+              <linked_class>lnkFunctionalCIToSaasProvider</linked_class>
+              <count_min>0</count_min>
+              <count_max>0</count_max>
+              <tracking_level>all</tracking_level>
+              <duplicates>false</duplicates>
+              <display_style>tab</display_style>
+              <edit_when/>
+            </field>
+            <field id="subscription_date" xsi:type="AttributeDate">
+              <sql>subscription_date</sql>
+              <default_value/>
+              <is_null_allowed>true</is_null_allowed>
+            </field>
+            <field id="renewal_date" xsi:type="AttributeDate">
+              <sql>renewal_date</sql>
+              <default_value/>
+              <is_null_allowed>false</is_null_allowed>
+            </field>
+          </fields>
+          <methods/>
+          <presentation>
+            <list>
+              <items>
+                <item id="finalclass">
+                  <rank>10</rank>
+                </item>
+                <item id="org_id">
+                  <rank>20</rank>
+                </item>
+                <item id="business_criticity">
+                  <rank>30</rank>
+                </item>
+                <item id="move2production">
+                  <rank>40</rank>
+                </item>
+                <item id="cloud_url">
+                  <rank>60</rank>
+                </item>
+                <item id="status">
+                  <rank>70</rank>
+                </item>
+                <item id="renewal_date">
+                  <rank>80</rank>
+                </item>
+              </items>
+            </list>
+            <search>
+              <items>
+                <item id="name">
+                  <rank>10</rank>
+                </item>
+                <item id="org_id">
+                  <rank>30</rank>
+                </item>
+                <item id="business_criticity">
+                  <rank>40</rank>
+                </item>
+                <item id="move2production">
+                  <rank>50</rank>
+                </item>
+              </items>
+            </search>
+            <details>
+              <items>
+                <item id="col:col1">
+                  <items>
+                    <item id="fieldset:SaasProvider:baseinfo">
+                      <items>
+                        <item id="name">
+                          <rank>10</rank>
+                        </item>
+                        <item id="org_id">
+                          <rank>20</rank>
+                        </item>
+                        <item id="cloud_url">
+                          <rank>30</rank>
+                        </item>
+                        <item id="status">
+                          <rank>40</rank>
+                        </item>
+                        <item id="business_criticity">
+                          <rank>50</rank>
+                        </item>
+                      </items>
+                      <rank>10</rank>
+                    </item>
+                    <item id="fieldset:SaasProvider:moreinfo">
+                      <items>
+                        <item id="description">
+                          <rank>10</rank>
+                        </item>
+                      </items>
+                      <rank>20</rank>
+                    </item>
+                  </items>
+                  <rank>10</rank>
+                </item>
+                <item id="col:col2">
+                  <items>
+                    <item id="fieldset:SaasProvider:dates">
+                      <items>
+                        <item id="move2production">
+                          <rank>10</rank>
+                        </item>
+                        <item id="subscription_date">
+                          <rank>20</rank>
+                        </item>
+                        <item id="renewal_date">
+                          <rank>30</rank>
+                        </item>
+                      </items>
+                      <rank>10</rank>
+                    </item>
+                  </items>
+                  <rank>20</rank>
+                </item>
+                <item id="overview">
+                  <rank>30</rank>
+                </item>
+                <item id="functionalcis_list">
+                  <rank>40</rank>
+                </item>
+                <item id="contacts_list">
+                  <rank>60</rank>
+                </item>
+                <item id="documents_list">
+                  <rank>70</rank>
+                </item>
+                <item id="applicationsolution_list">
+                  <rank>80</rank>
+                </item>
+                <item id="providercontracts_list">
+                  <rank>90</rank>
+                </item>
+                <item id="services_list">
+                  <rank>120</rank>
+                </item>
+              </items>
+            </details>
+            <summary>
+              <items>
+                <item id="name">
+                  <rank>10</rank>
+                </item>
+                <item id="cloud_url">
+                  <rank>20</rank>
+                </item>
+              </items>
+            </summary>
+          </presentation>
+          <relations>
+            <relation id="impacts">
+              <neighbours>
+                <neighbour id="functionalcis">
+                  <attribute>functionalcis_list</attribute>
+                  <direction>both</direction>
+                </neighbour>
+              </neighbours>
+            </relation>
+          </relations>
+        </class>
+        <class id="SaasInteraction" >
+          <parent>FunctionalCI</parent>
 		  <properties>
-			<category>bizmodel,searchable</category>
-			<abstract>false</abstract>
-			<key_type>autoincrement</key_type>
-			<db_table>saasinteraction</db_table>
+            <category>bizmodel,searchable</category>
+            <abstract>false</abstract>
+            <db_table>saasinteraction</db_table>
 			<db_key_field>id</db_key_field>
 			<db_final_class_field/>
 			<naming>
@@ -319,33 +461,20 @@
 			<style>
 			  <icon>images/api.png</icon>
 			</style>
-			<reconciliation>
-			  <attributes>
-				<attribute id="name"/>
-				<attribute id="org_id"/>
-				<attribute id="organization_name"/>
-			  </attributes>
-			</reconciliation>
-			<obsolescence>
-			  <condition><![CDATA[status='obsolete']]></condition>
-			</obsolescence>
-		  </properties>
-		  <fields>
-			<field id="applications_list" xsi:type="AttributeLinkedSetIndirect">
-			  <linked_class>lnkApplicationToSaasInteraction</linked_class>
-			  <ext_key_to_me>saasinteraction_id</ext_key_to_me>
-			  <count_min>0</count_min>
-			  <count_max>0</count_max>
-			  <ext_key_to_remote>saasapplication_id</ext_key_to_remote>
-			</field>
-			<field id="businessprocess_list" xsi:type="AttributeLinkedSetIndirect">
-			  <linked_class>lnkSaasInteractionToBusinessProcess</linked_class>
-			  <ext_key_to_me>saasinteraction_id</ext_key_to_me>
-			  <count_min>0</count_min>
-			  <count_max>0</count_max>
-			  <ext_key_to_remote>businessprocess_id</ext_key_to_remote>
-			</field>
-			<field id="status" xsi:type="AttributeEnum">
+            <reconciliation>
+              <attributes>
+                <attribute id="name"/>
+                <attribute id="org_id"/>
+                <attribute id="organization_name"/>
+                <attribute id="finalclass"/>
+              </attributes>
+            </reconciliation>
+            <obsolescence>
+              <condition>status='obsolete'</condition>
+            </obsolescence>
+          </properties>
+          <fields>
+            <field id="status" xsi:type="AttributeEnum">
 			  <values>
 				<value id="implementation">implementation</value>
 				<value id="production">production</value>
@@ -356,6 +485,7 @@
 			  <default_value>production</default_value>
 			  <is_null_allowed>false</is_null_allowed>
 			  <display_style>list</display_style>
+			  <sort_type>rank</sort_type>
 			</field>
 			<field id="type_connexion" xsi:type="AttributeEnum">
 				<values>
@@ -367,118 +497,168 @@
 				<default_value>rest</default_value>
 				<is_null_allowed>false</is_null_allowed>
 				<display_style>list</display_style>
+				<sort_type>rank</sort_type>
 			</field>
-			<!--<field id="saastokens_list" xsi:type="AttributeLinkedSetIndirect">
-			  <linked_class>lnkSaasTokenToSaasInteraction</linked_class>
-			  <ext_key_to_me>saasinteraction_id</ext_key_to_me>
-			  <count_min>0</count_min>
-			  <count_max>0</count_max>
-			  <ext_key_to_remote>saastoken_id</ext_key_to_remote>
-			</field>-->
-		  </fields>
-		  <presentation>
-			<details>
-			  <items>
-				<item id="name">
-				  <rank>10</rank>
-				</item>
+            <field id="applications_list" xsi:type="AttributeLinkedSetIndirect">
+              <ext_key_to_remote>functionalci_id</ext_key_to_remote>
+              <ext_key_to_me>saasinteraction_id</ext_key_to_me>
+              <linked_class>lnkFunctionalCIToSaasInteraction</linked_class>
+              <count_min>0</count_min>
+              <count_max>0</count_max>
+              <tracking_level>all</tracking_level>
+              <duplicates>false</duplicates>
+              <display_style>tab</display_style>
+              <edit_when/>
+            </field>
+          </fields>
+          <methods/>
+          <presentation>
+            <list>
+              <items>
+                <item id="name">
+                  <rank>10</rank>
+                </item>
 				<item id="org_id">
-				  <rank>20</rank>
-				</item>
-				<item id="status">
-				  <rank>30</rank>
-				</item>
-				<item id="business_criticity">
-				  <rank>40</rank>
-				</item>
-				<item id="type_connexion">
-				  <rank>45</rank>
-				</item>
-				<item id="move2production">
-				  <rank>50</rank>
-				</item>
-				<item id="description">
-				  <rank>60</rank>
-				</item>
-				<item id="contacts_list">
-				  <rank>65</rank>
-				</item>
-				<item id="applications_list">
-				  <rank>70</rank>
-				</item>
-				<!--<item id="saastokens_list">
-				  <rank>75</rank>
-				</item>-->
-				<item id="documents_list">
-				  <rank>80</rank>
-				</item>
-				<item id="businessprocess_list">
-				  <rank>110</rank>
-				</item>
-			  </items>
-			</details>
-			<search>
-			  <items>
-				<item id="name">
-				  <rank>10</rank>
-				</item>
-				<item id="org_id">
-				  <rank>20</rank>
-				</item>
-				<item id="business_criticity">
-				  <rank>30</rank>
-				</item>
-				<item id="move2production">
-				  <rank>40</rank>
-				</item>
-			  </items>
-			</search>
-			<list>
-			  <items>
-				<item id="org_id">
-				  <rank>10</rank>
-				</item>
-				<item id="business_criticity">
-				  <rank>20</rank>
-				</item>
-				<item id="move2production">
-				  <rank>30</rank>
-				</item>
-			  </items>
-			</list>
-			<summary>
-			  <items>
-				<item id="org_id">
-				  <rank>10</rank>
-				</item>
-				<item id="business_criticity">
-				  <rank>20</rank>
-				</item>
-				<item id="description">
-				  <rank>30</rank>
-				</item>
-			  </items>
-			</summary>
-			</presentation>
-		  <methods/>
-		  <relations>
-			<relation id="impacts">
-			  <neighbours>
-				<neighbour id="businessprocess">
-				  <attribute>businessprocess_list</attribute>
-				</neighbour>
-				<neighbour id="saasinternalinteraction">
-					<query_down>SELECT FunctionalCI AS SI JOIN lnkApplicationToSaasInteraction AS LNK ON LNK.saasapplication_id=SI.id WHERE LNK.saasinteraction_id = :this-&gt;id AND LNK.role="destination"</query_down>
-					<query_up>SELECT SaasInteraction WHERE id = 0</query_up>
-				</neighbour>
-			  </neighbours>
-			</relation>
-		  </relations>
-		</class>
-		<class id="SaasToken">
-		  <parent>FunctionalCI</parent>
+                  <rank>20</rank>
+                </item>
+                <item id="business_criticity">
+                  <rank>30</rank>
+                </item>
+                <item id="move2production">
+                  <rank>40</rank>
+                </item>
+                <item id="status">
+                  <rank>60</rank>
+                </item>
+                <item id="type_connexion">
+                  <rank>70</rank>
+                </item>
+              </items>
+            </list>
+            <search>
+              <items>
+                <item id="name">
+                  <rank>10</rank>
+                </item>
+                <item id="org_id">
+                  <rank>30</rank>
+                </item>
+                <item id="business_criticity">
+                  <rank>40</rank>
+                </item>
+                <item id="move2production">
+                  <rank>50</rank>
+                </item>
+              </items>
+            </search>
+            <details>
+              <items>
+                <item id="col:col1">
+                  <items>
+                    <item id="fieldset:SaasInteraction:baseinfo">
+                      <items>
+                        <item id="name">
+                          <rank>10</rank>
+                        </item>
+                        <item id="org_id">
+                          <rank>20</rank>
+                        </item>
+                        <item id="type_connexion">
+                          <rank>30</rank>
+                        </item>
+                        <item id="status">
+                          <rank>40</rank>
+                        </item>
+                        <item id="business_criticity">
+                          <rank>50</rank>
+                        </item>
+                      </items>
+                      <rank>10</rank>
+                    </item>
+                    <item id="fieldset:SaasInteraction:moreinfo">
+                      <items>
+                        <item id="description">
+                          <rank>10</rank>
+                        </item>
+                      </items>
+                      <rank>20</rank>
+                    </item>
+                  </items>
+                  <rank>10</rank>
+                </item>
+                <item id="col:col2">
+                  <items>
+                    <item id="fieldset:SaasInteraction:dates">
+                      <items>
+                        <item id="move2production">
+                          <rank>10</rank>
+                        </item>
+                      </items>
+                      <rank>10</rank>
+                    </item>
+                  </items>
+                  <rank>20</rank>
+                </item>
+                <item id="overview">
+                  <rank>30</rank>
+                </item>
+                <item id="applications_list">
+                  <rank>40</rank>
+                </item>
+                <item id="contacts_list">
+                  <rank>60</rank>
+                </item>
+                <item id="documents_list">
+                  <rank>70</rank>
+                </item>
+                <item id="providercontracts_list">
+                  <rank>90</rank>
+                </item>
+                <item id="services_list">
+                  <rank>110</rank>
+                </item>
+              </items>
+            </details>
+            <summary>
+              <items>
+                <item id="name">
+                  <rank>10</rank>
+                </item>
+                <item id="type_connexion">
+                  <rank>20</rank>
+                </item>
+              </items>
+            </summary>
+            <default_search>
+              <items>
+                <item id="friendlyname">
+                  <rank>10</rank>
+                </item>
+                <item id="org_id">
+                  <rank>20</rank>
+                </item>
+                <item id="type_connexion">
+                  <rank>40</rank>
+                </item>
+              </items>
+            </default_search>
+          </presentation>
+          <relations>
+            <relation id="impacts">
+              <neighbours>
+                <neighbour id="functionalci">
+                  <query_down>SELECT FunctionalCI AS SI JOIN lnkFunctionalCIToSaasInteraction AS LNK ON LNK.functionalci_id=SI.id WHERE LNK.saasinteraction_id = :this-&gt;id AND LNK.role="destination"</query_down>
+                  <query_up>SELECT SaasInteraction AS SI JOIN lnkFunctionalCIToSaasInteraction AS LNK ON LNK.saasinteraction_id=SI.id WHERE LNK.saastoken_id = :this-&gt;id</query_up>
+                  <direction>both</direction>
+                </neighbour>
+              </neighbours>
+            </relation>
+          </relations>
+        </class>
+		<class id="SaasToken" >
+          <parent>FunctionalCI</parent>
 		  <properties>
-			<category>bizmodel,searchable</category>
+            <category>bizmodel,searchable</category>
 			<abstract>false</abstract>
 			<key_type>autoincrement</key_type>
 			<db_table>saastoken</db_table>
@@ -498,48 +678,20 @@
 			<style>
 			  <icon>images/oauth.png</icon>
 			</style>
-			<reconciliation>
-			  <attributes>
-				<attribute id="name"/>
-				<attribute id="org_id"/>
-				<attribute id="organization_name"/>
-			  </attributes>
-			</reconciliation>
-			<obsolescence>
-			  <condition><![CDATA[status='inactive']]></condition>
-			</obsolescence>
-		  </properties>
-		  <fields>
-			<field id="token_id" xsi:type="AttributeString">
-				  <sql>token_id</sql>
-				  <default_value></default_value>
-				  <is_null_allowed>true</is_null_allowed>
-			</field>
-			<field id="application_id" xsi:type="AttributeExternalKey">
-				<filter><![CDATA[SELECT FunctionalCI WHERE finalclass IN ('SaasApplication','SoftwareInstance','OtherSoftware')]]></filter>
-				<sql>application_id</sql>
-				<target_class>FunctionalCI</target_class>
-				<is_null_allowed>false</is_null_allowed>
-				<on_target_delete>DEL_MANUAL</on_target_delete>
-				<allow_target_creation>false</allow_target_creation>
-			</field>
-			<field id="application_name" xsi:type="AttributeExternalField">
-				<extkey_attcode>application_id</extkey_attcode>
-				<target_attcode>name</target_attcode>
-			</field>
-			<field id="interactions_list" xsi:type="AttributeLinkedSet">
-					<linked_class>lnkApplicationToSaasInteraction</linked_class>
-					<ext_key_to_me>saastoken_id</ext_key_to_me>
-					<edit_mode>none</edit_mode>
-					<count_min>0</count_min>
-					<count_max>0</count_max>
-				</field>
-			<field id="expiration_date" xsi:type="AttributeDate">
-				<sql>expiration_date</sql>
-				<default_value />
-				<is_null_allowed>true</is_null_allowed>
-			</field>
-			<field id="status" xsi:type="AttributeEnum">
+            <reconciliation>
+              <attributes>
+                <attribute id="name"/>
+                <attribute id="org_id"/>
+                <attribute id="organization_name"/>
+                <attribute id="finalclass"/>
+              </attributes>
+            </reconciliation>
+            <obsolescence>
+              <condition>status='inactive'</condition>
+            </obsolescence>
+          </properties>
+          <fields>
+            <field id="status" xsi:type="AttributeEnum">
 			  <values>
 				<value id="active">active</value>
 				<value id="inactive">inactive</value>
@@ -548,8 +700,9 @@
 			  <default_value>active</default_value>
 			  <is_null_allowed>false</is_null_allowed>
 			  <display_style>list</display_style>
+			  <sort_type>rank</sort_type>
 			</field>
-			<field id="type_connexion" xsi:type="AttributeEnum">
+            <field id="type_connexion" xsi:type="AttributeEnum">
 				<values>
 					<value id="oauth2">oAuth2</value>
 					<value id="sso">SSO</value>
@@ -559,129 +712,224 @@
 				<default_value>oauth2</default_value>
 				<is_null_allowed>false</is_null_allowed>
 				<display_style>list</display_style>
+				<sort_type>rank</sort_type>
 			</field>
-		  </fields>
-		  <presentation>
-			<details>
-			  <items>
-				<item id="name">
-				  <rank>10</rank>
+            <field id="expiration_date" xsi:type="AttributeDate">
+              <sql>expiration_date</sql>
+              <default_value/>
+              <is_null_allowed>false</is_null_allowed>
+              <dependencies/>
+              <tracking_level>all</tracking_level>
+            </field>
+            <field id="token_id" xsi:type="AttributeString">
+              <sql>token_id</sql>
+              <default_value/>
+              <is_null_allowed>true</is_null_allowed>
+              <validation_pattern/>
+              <dependencies/>
+              <tracking_level>all</tracking_level>
+            </field>
+            <field id="application_id" xsi:type="AttributeExternalKey">
+              <sql>application_id</sql>
+              <filter>SELECT FunctionalCI WHERE finalclass IN ('SaasApplication','SoftwareInstance','OtherSoftware')</filter>
+              <dependencies/>
+              <is_null_allowed>false</is_null_allowed>
+              <target_class>FunctionalCI</target_class>
+              <on_target_delete>DEL_MANUAL</on_target_delete>
+              <allow_target_creation>false</allow_target_creation>
+              <tracking_level>all</tracking_level>
+            </field>
+            <field id="application_name" xsi:type="AttributeExternalField">
+              <extkey_attcode>application_id</extkey_attcode>
+              <target_attcode>name</target_attcode>
+            </field>
+			<field id="tokeninteractions_list" xsi:type="AttributeLinkedSet">
+              <linked_class>lnkFunctionalCIToSaasInteraction</linked_class>
+              <ext_key_to_me>saastoken_id</ext_key_to_me>
+              <tracking_level>list</tracking_level>
+              <edit_mode/>
+              <edit_when/>
+            </field>
+          </fields>
+          <methods/>
+          <presentation>
+            <list>
+              <items>
+                <item id="name">
+                  <rank>10</rank>
+                </item>
+                <item id="org_id">
+                  <rank>20</rank>
+                </item>
+                <item id="business_criticity">
+                  <rank>30</rank>
+                </item>
+                <item id="move2production">
+                  <rank>40</rank>
+                </item>
+                <item id="status">
+                  <rank>60</rank>
+                </item>
+                <item id="type_connexion">
+                  <rank>70</rank>
+                </item>
+                <item id="expiration_date">
+                  <rank>80</rank>
+                </item>
+                <item id="token_id">
+                  <rank>90</rank>
+                </item>
+                <item id="application_id">
+                  <rank>100</rank>
+                </item>
+              </items>
+            </list>
+            <search>
+              <items>
+                <item id="name">
+                  <rank>10</rank>
+                </item>
+                <item id="org_id">
+                  <rank>30</rank>
+                </item>
+                <item id="business_criticity">
+                  <rank>40</rank>
+                </item>
+                <item id="move2production">
+                  <rank>50</rank>
+                </item>
+              </items>
+            </search>
+            <details>
+              <items>
+                <item id="col:col1">
+                  <items>
+                    <item id="fieldset:SaasToken:baseinfo">
+                      <items>
+                        <item id="name">
+                          <rank>10</rank>
+                        </item>
+                        <item id="org_id">
+                          <rank>20</rank>
+                        </item>
+                        <item id="type_connexion">
+                          <rank>30</rank>
+                        </item>
+                        <item id="application_id">
+                          <rank>40</rank>
+                        </item>
+                        <item id="token_id">
+                          <rank>50</rank>
+                        </item>
+                        <item id="status">
+                          <rank>60</rank>
+                        </item>
+                        <item id="business_criticity">
+                          <rank>70</rank>
+                        </item>
+                      </items>
+                      <rank>10</rank>
+                    </item>
+                    <item id="fieldset:SaasToken:moreinfo">
+                      <items>
+                        <item id="description">
+                          <rank>10</rank>
+                        </item>
+                      </items>
+                      <rank>20</rank>
+                    </item>
+                  </items>
+                  <rank>10</rank>
+                </item>
+                <item id="col:col2">
+                  <items>
+                    <item id="fieldset:SaasToken:dates">
+                      <items>
+                        <item id="move2production">
+                          <rank>10</rank>
+                        </item>
+                        <item id="expiration_date">
+                          <rank>20</rank>
+                        </item>
+                      </items>
+                      <rank>10</rank>
+                    </item>
+                  </items>
+                  <rank>20</rank>
+                </item>
+                <item id="overview">
+                  <rank>30</rank>
+                </item>
+				<item id="tokeninteractions_list">
+				  <rank>35</rank>
 				</item>
-				<item id="token_id">
-				  <rank>15</rank>
-				</item>
-				<item id="org_id">
-				  <rank>20</rank>
-				</item>
-				<item id="status">
-				  <rank>30</rank>
-				</item>
-				<item id="business_criticity">
-				  <rank>40</rank>
-				</item>
-				<item id="move2production">
-				  <rank>50</rank>
-				</item>
-				<item id="application_id">
-				  <rank>51</rank>
-				</item>
-				<item id="interactions_list">
-				  <rank>52</rank>
-				</item>
-				<item id="type_connexion">
-				  <rank>53</rank>
-				</item>
-				<item id="expiration_date">
-				  <rank>54</rank>
-				</item>
-				<item id="description">
-				  <rank>60</rank>
-				</item>
-				<item id="contacts_list">
-				  <rank>65</rank>
-				</item>
-				<item id="documents_list">
-				  <rank>80</rank>
-				</item>
-			  </items>
-			</details>
-			<search>
-			  <items>
-				<item id="name">
-				  <rank>10</rank>
-				</item>
-				<item id="token_id">
-				  <rank>15</rank>
-				</item>
-				<item id="org_id">
-				  <rank>20</rank>
-				</item>
-				<item id="business_criticity">
-				  <rank>30</rank>
-				</item>
-				<item id="move2production">
-				  <rank>40</rank>
-				</item>
-			  </items>
-			</search>
-			<list>
-			  <items>
-				<item id="org_id">
-				  <rank>10</rank>
-				</item>
-				<item id="token_id">
-				  <rank>15</rank>
-				</item>
-				<item id="business_criticity">
-				  <rank>20</rank>
-				</item>
-				<item id="move2production">
-				  <rank>30</rank>
-				</item>
-			  </items>
-			</list>
-			<summary>
-			  <items>
-				<item id="org_id">
-				  <rank>10</rank>
-				</item>
-				<item id="business_criticity">
-				  <rank>20</rank>
-				</item>
-				<item id="description">
-				  <rank>30</rank>
-				</item>
-			  </items>
-			</summary>
-			</presentation>
-		  <methods/>
-		  <relations>
-			<relation id="impacts">
-			  <neighbours>
-				<neighbour id="saastokeninteraction">
-					<query_down>SELECT SaasInteraction AS SI JOIN lnkApplicationToSaasInteraction AS LNK ON LNK.saasinteraction_id=SI.id WHERE LNK.saastoken_id = :this-&gt;id</query_down>
-					<query_up>SELECT SaasToken AS TK JOIN lnkApplicationToSaasInteraction AS LNK ON LNK.saastoken_id=TK.id WHERE LNK.saasinteraction_id = :this-&gt;id</query_up>
-				</neighbour>
-			  </neighbours>
-			</relation>
-		  </relations>
-		</class>
-		<class id="lnkApplicationToSaasInteraction">
+                <item id="contacts_list">
+                  <rank>40</rank>
+                </item>
+                <item id="documents_list">
+                  <rank>50</rank>
+                </item>
+                <item id="applicationsolution_list">
+                  <rank>70</rank>
+                </item>
+                <item id="providercontracts_list">
+                  <rank>80</rank>
+                </item>
+                <item id="services_list">
+                  <rank>100</rank>
+                </item>
+              </items>
+            </details>
+            <summary>
+              <items>
+                <item id="name">
+                  <rank>10</rank>
+                </item>
+                <item id="application_id">
+                  <rank>20</rank>
+                </item>
+                <item id="type_connexion">
+                  <rank>30</rank>
+                </item>
+                <item id="expiration_date">
+                  <rank>40</rank>
+                </item>
+              </items>
+            </summary>
+          </presentation>
+          <relations >
+            <relation id="impacts" >
+              <neighbours >
+                <!--<neighbour id="saasinteraction" >
+                  <query_down >SELECT SaasInteraction AS SI JOIN lnkFunctionalCIToSaasInteraction AS LNK ON LNK.saasinteraction_id=SI.id WHERE LNK.saastoken_id = :this-&gt;id</query_down>
+                  <query_up >SELECT SaasToken AS TK JOIN lnkFunctionalCIToSaasInteraction AS LNK ON LNK.saastoken_id=TK.id WHERE LNK.saasinteraction_id = :this-&gt;id</query_up>
+                  <direction >both</direction>
+                </neighbour>-->
+				<neighbour id="my_saasinteraction" >
+                  <query_down >SELECT SaasInteraction AS SI JOIN lnkFunctionalCIToSaasInteraction AS LNK ON LNK.saasinteraction_id=SI.id WHERE LNK.saastoken_id = :this-&gt;id</query_down>
+                  <query_up ></query_up>
+                  <direction >down</direction>
+                </neighbour>
+              </neighbours>
+            </relation>
+          </relations>
+        </class>
+		<class id="lnkFunctionalCIToSaasInteraction">
 			<parent>cmdbAbstractObject</parent>
 			<properties>
 				<category>bizmodel</category>
 				<abstract>false</abstract>
-				<db_table>lnkapplicationtosaasinteraction</db_table>
+				<db_table>lnkfunctionalcitosaasinteraction</db_table>
 				<naming>
 					<attributes>
 						<attribute id="saasinteraction_id" />
-						<attribute id="saasapplication_id" />
+						<attribute id="functionalci_id" />
 					</attributes>
 				</naming>
 				<reconciliation>
 					<attributes>
 						<attribute id="saasinteraction_id" />
-						<attribute id="saasapplication_id" />
+						<attribute id="functionalci_id" />
 					</attributes>
 				</reconciliation>
 			</properties>
@@ -696,15 +944,15 @@
 					<extkey_attcode>saasinteraction_id</extkey_attcode>
 					<target_attcode>name</target_attcode>
 				</field>
-				<field id="saasapplication_id" xsi:type="AttributeExternalKey">
+				<field id="functionalci_id" xsi:type="AttributeExternalKey">
 				<filter><![CDATA[SELECT FunctionalCI WHERE finalclass IN ('SaasApplication','OtherSoftware','PCSoftware','Middleware','WebServer','DBServer')]]></filter>
-					<sql>saasapplication_id</sql>
+					<sql>functionalci_id</sql>
 					<target_class>FunctionalCI</target_class>
 					<is_null_allowed>false</is_null_allowed>
 					<on_target_delete>DEL_AUTO</on_target_delete>
 				</field>
-				<field id="saasapplication_name" xsi:type="AttributeExternalField">
-					<extkey_attcode>saasapplication_id</extkey_attcode>
+				<field id="functionalci_name" xsi:type="AttributeExternalField">
+					<extkey_attcode>functionalci_id</extkey_attcode>
 					<target_attcode>name</target_attcode>
 				</field>
 				<field id="role" xsi:type="AttributeEnum">
@@ -735,7 +983,7 @@
 						<item id="saasinteraction_id">
 							<rank>10</rank>
 						</item>
-						<item id="saasapplication_id">
+						<item id="functionalci_id">
 							<rank>20</rank>
 						</item>
 						<item id="role">
@@ -751,7 +999,7 @@
 						<item id="saasinteraction_id">
 							<rank>10</rank>
 						</item>
-						<item id="saasapplication_id">
+						<item id="functionalci_id">
 							<rank>20</rank>
 						</item>
 						<item id="role">
@@ -767,7 +1015,7 @@
 						<item id="saasinteraction_id">
 							<rank>10</rank>
 						</item>
-						<item id="saasapplication_id">
+						<item id="functionalci_id">
 							<rank>20</rank>
 						</item>
 						<item id="role">
@@ -855,164 +1103,21 @@
 				</details>
 			</presentation>
 		</class>
-		<class id="lnkSaasInteractionToBusinessProcess">
-			<parent>cmdbAbstractObject</parent>
-			<properties>
-				<category>bizmodel</category>
-				<abstract>false</abstract>
-				<db_table>lnksaasinteractiontobusinessprocess</db_table>
-				<naming>
-					<attributes>
-						<attribute id="businessprocess_id" />
-						<attribute id="saasinteraction_id" />
-					</attributes>
-				</naming>
-				<reconciliation>
-					<attributes>
-						<attribute id="businessprocess_id" />
-						<attribute id="saasinteraction_id" />
-					</attributes>
-				</reconciliation>
-			</properties>
-			<fields>
-				<field id="businessprocess_id" xsi:type="AttributeExternalKey">
-					<sql>businessprocess_id</sql>
-					<is_null_allowed>false</is_null_allowed>
-					<target_class>BusinessProcess</target_class>
-					<on_target_delete>DEL_MANUAL</on_target_delete>
-				</field>
-				<field id="businessprocess_name" xsi:type="AttributeExternalField">
-					<extkey_attcode>businessprocess_id</extkey_attcode>
-					<target_attcode>name</target_attcode>
-				</field>
-				<field id="saasinteraction_id" xsi:type="AttributeExternalKey">
-					<sql>saasinteraction_id</sql>
-					<target_class>SaasInteraction</target_class>
-					<is_null_allowed>false</is_null_allowed>
-					<on_target_delete>DEL_AUTO</on_target_delete>
-				</field>
-				<field id="saasinteraction_name" xsi:type="AttributeExternalField">
-					<extkey_attcode>saasinteraction_id</extkey_attcode>
-					<target_attcode>name</target_attcode>
-				</field>
-			</fields>
-			<methods />
-			<presentation>
-				<list>
-					<items>
-						<item id="businessprocess_id">
-							<rank>10</rank>
-						</item>
-						<item id="saasinteraction_id">
-							<rank>20</rank>
-						</item>
-					</items>
-				</list>
-				<search>
-					<items>
-						<item id="businessprocess_id">
-							<rank>10</rank>
-						</item>
-						<item id="saasinteraction_id">
-							<rank>20</rank>
-						</item>
-					</items>
-				</search>
-				<details>
-					<items>
-						<item id="businessprocess_id">
-							<rank>10</rank>
-						</item>
-						<item id="saasinteraction_id">
-							<rank>20</rank>
-						</item>
-					</items>
-				</details>
-			</presentation>
-		</class>
-		<class id="lnkSaasProviderToBusinessProcess">
-			<parent>cmdbAbstractObject</parent>
-			<properties>
-				<category>bizmodel</category>
-				<abstract>false</abstract>
-				<db_table>lnksaasprovidertobusinessprocess</db_table>
-				<naming>
-					<attributes>
-						<attribute id="businessprocess_id" />
-						<attribute id="saasprovider_id" />
-					</attributes>
-				</naming>
-				<reconciliation>
-					<attributes>
-						<attribute id="businessprocess_id" />
-						<attribute id="saasprovider_id" />
-					</attributes>
-				</reconciliation>
-			</properties>
-			<fields>
-				<field id="businessprocess_id" xsi:type="AttributeExternalKey">
-					<sql>businessprocess_id</sql>
-					<is_null_allowed>false</is_null_allowed>
-					<target_class>BusinessProcess</target_class>
-					<on_target_delete>DEL_MANUAL</on_target_delete>
-				</field>
-				<field id="businessprocess_name" xsi:type="AttributeExternalField">
-					<extkey_attcode>businessprocess_id</extkey_attcode>
-					<target_attcode>name</target_attcode>
-				</field>
-				<field id="saasprovider_id" xsi:type="AttributeExternalKey">
-					<sql>saasprovider_id</sql>
-					<target_class>SaasProvider</target_class>
-					<is_null_allowed>false</is_null_allowed>
-					<on_target_delete>DEL_AUTO</on_target_delete>
-				</field>
-				<field id="saasprovider_name" xsi:type="AttributeExternalField">
-					<extkey_attcode>saasprovider_id</extkey_attcode>
-					<target_attcode>name</target_attcode>
-				</field>
-			</fields>
-			<methods />
-			<presentation>
-				<list>
-					<items>
-						<item id="businessprocess_id">
-							<rank>10</rank>
-						</item>
-						<item id="saasprovider_id">
-							<rank>20</rank>
-						</item>
-					</items>
-				</list>
-				<search>
-					<items>
-						<item id="businessprocess_id">
-							<rank>10</rank>
-						</item>
-						<item id="saasprovider_id">
-							<rank>20</rank>
-						</item>
-					</items>
-				</search>
-				<details>
-					<items>
-						<item id="businessprocess_id">
-							<rank>10</rank>
-						</item>
-						<item id="saasprovider_id">
-							<rank>20</rank>
-						</item>
-					</items>
-				</details>
-			</presentation>
-		</class>
 		<class id="FunctionalCI" _delta="must_exist">
 			<fields>
 				<field id="saasinteractions_list" xsi:type="AttributeLinkedSetIndirect" _delta="define">
-				  <linked_class>lnkApplicationToSaasInteraction</linked_class>
-				  <ext_key_to_me>saasapplication_id</ext_key_to_me>
+				  <linked_class>lnkFunctionalCIToSaasInteraction</linked_class>
+				  <ext_key_to_me>functionalci_id</ext_key_to_me>
 				  <count_min>0</count_min>
 				  <count_max>0</count_max>
 				  <ext_key_to_remote>saasinteraction_id</ext_key_to_remote>
+				</field>
+				<field id="saasproviders_list" xsi:type="AttributeLinkedSetIndirect" _delta="define">
+				  <linked_class>lnkFunctionalCIToSaasProvider</linked_class>
+				  <ext_key_to_me>functionalci_id</ext_key_to_me>
+				  <count_min>0</count_min>
+				  <count_max>0</count_max>
+				  <ext_key_to_remote>saasprovider_id</ext_key_to_remote>
 				</field>
 			</fields>
 			<relations>
@@ -1020,10 +1125,12 @@
 				  <neighbours>
 					<neighbour id="saasinteraction">
 					  <attribute>saasinteractions_list</attribute>
+					  <direction>both</direction>
 					</neighbour>
 					<neighbour id="SaasToken">
 						<query_down>SELECT SaasToken WHERE application_id = :this-&gt;id</query_down>
 						<query_up>SELECT FunctionalCI WHERE id = :this-&gt;application_id</query_up>
+						<direction>both</direction>
 					</neighbour>
 				  </neighbours>
 				</relation>
@@ -1098,9 +1205,6 @@
 					<class id="SaasToken" />
 					<class id="lnkApplicationToSaasInteraction" />
 					<class id="lnkFunctionalCIToSaasProvider" />
-					<!--<class id="lnkSaasTokenToSaasInteraction" />-->
-					<class id="lnkSaasInteractionToBusinessProcess" />
-					<class id="lnkSaasProviderToBusinessProcess" />
 				</classes>
 			</group>
 		</groups>

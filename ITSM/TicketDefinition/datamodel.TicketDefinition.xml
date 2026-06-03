@@ -15,7 +15,12 @@
           <default_value/>
           <is_null_allowed>true</is_null_allowed>
         </field>
-        <field id="reeloutage" xsi:type="AttributeInteger" _delta="define">
+        <field id="plannedoutage" xsi:type="AttributeInteger" _delta="define">
+          <sql>plannedoutage</sql>
+           <default_value>0</default_value>
+          <is_null_allowed>false</is_null_allowed>
+        </field>
+		<field id="reeloutage" xsi:type="AttributeInteger" _delta="define">
           <sql>reeloutage</sql>
            <default_value>0</default_value>
           <is_null_allowed>false</is_null_allowed>
@@ -89,7 +94,7 @@
         </details>
       </presentation>
     </class>
-	<class id="ApprovedChange" _delta="merge">
+	<class id="EmergencyChange" _delta="merge">
       <fields>
       </fields>
       <presentation>

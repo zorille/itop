@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.0">
+  <classes>
+    <class id="OQLGroupByIndicator" _delta="define">
+      <parent>cmdbAbstractObject</parent>
+      <properties>
+        <category>bizmodel,searchable</category>
+        <abstract>false</abstract>
+        <key_type>autoincrement</key_type>
+        <db_table>oql_groupby_indicator</db_table>
+        <db_key_field>id</db_key_field>
+        <db_final_class_field></db_final_class_field>
+        <naming>
+          <attributes>
+            <attribute id="name"/>
+          </attributes>
+        </naming>
+        <style>
+          <icon>icones/oql-groupby-indicator.svg</icon>
+        </style>
+      </properties>
+
+      <fields>
+        <field id="name" xsi:type="AttributeString">
+          <sql>name</sql>
+          <is_null_allowed>false</is_null_allowed>
+          <max_length>255</max_length>
+        </field>
+
+        <field id="oql_query" xsi:type="AttributeText">
+          <sql>oql_query</sql>
+          <is_null_allowed>false</is_null_allowed>
+        </field>
+
+        <field id="group_by_attcode" xsi:type="AttributeString">
+          <sql>group_by_attcode</sql>
+          <is_null_allowed>false</is_null_allowed>
+          <max_length>128</max_length>
+        </field>
+		
+		<field id="result" xsi:type="AttributeString">
+          <sql>result</sql>
+          <is_null_allowed>true</is_null_allowed>
+          <max_length>255</max_length>
+		  <tracking_level>none</tracking_level>
+		  <dependencies>
+              <attribute id="oql_query"/>
+			  <attribute id="group_by_attcode"/>
+           </dependencies>
+        </field>
+		
+		<field id="description" xsi:type="AttributeText">
+		  <sql>description</sql>
+		  <is_null_allowed>true</is_null_allowed>
+		</field>
+
+	  </fields>
+      <presentation>
+        <details>
+          <items>
+            <item id="name"><rank>10</rank></item>
+            <item id="result"><rank>20</rank></item>
+			<item id="description"><rank>30</rank></item>
+            <item id="oql_query"><rank>40</rank></item>
+            <item id="group_by_attcode"><rank>50</rank></item>
+          </items>
+        </details>
+        <search>
+          <items>
+            <item id="name"><rank>10</rank></item>
+            <item id="result"><rank>20</rank></item>
+          </items>
+        </search>
+        <list>
+          <items>
+            <item id="name"><rank>10</rank></item>
+            <item id="result"><rank>20</rank></item>
+            <item id="group_by_attcode"><rank>30</rank></item>
+          </items>
+        </list>
+      </presentation>
+	  <methods>
+		<method id="EvtComputeResult">
+            <comment>   /**
+         * Event Listener for EVENT_DB_COMPUTE_VALUES
+         * An object has been written into the database. The modifications can be propagated to other objects.
+         *
+         * @param  Combodo\iTop\Service\Events\EventData $oEventData Event data object
+         *
+         * @author d.vargas@mon-cto.pro
+         */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>EventListener</type>
+            <code><![CDATA[     public function EvtComputeResult(Combodo\iTop\Service\Events\EventData $oEventData)
+        {
+
+                // Creation flag
+                // $oEventData->Get('is_new') returns a boolean
+
+                // For updates, the list of changes done during this operation
+                // $oEventData->Get('changes') returns an array
+				$sComputedResult = $this->BuildComputedResult();
+				$this->Set('result', $sComputedResult);
+				//$this->DBUpdate();
+        }]]></code>
+          </method>
+		  <method id="BuildComputedResult">
+            <comment>   /**
+         *
+         * @author d.vargas@mon-cto.pro
+         */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>Custom</type>
+            <code><![CDATA[     public function BuildComputedResult()
+        {
+                // Put your code here, call parent::CalculatePowerData(...); if needed
+                IssueLog::Debug("BuildComputedResult: Name: ".$this->Get('name'), 'Delta XML');
+
+				$sOql = trim((string)$this->Get('oql_query'));
+				$sGroupBy = trim((string)$this->Get('group_by_attcode'));
+
+				if ($sOql === '') {
+					throw new Exception(Dict::S('Class:OQLGroupByIndicator/Error:EmptyOQL'));
+					return;
+				}
+
+				if ($sGroupBy === '') {
+					throw new Exception(Dict::S('Class:OQLGroupByIndicator/Error:EmptyGroupBy'));
+					return;
+				}
+
+				$oSearch = DBObjectSearch::FromOQL($sOql);
+				$oSet = new DBObjectSet($oSearch);
+
+				$aRows = array();
+
+				while ($oObj = $oSet->Fetch()) {
+					if(is_null($oObj)) {
+						continue;
+					}
+					$sClass = get_class($oObj);
+					if (!MetaModel::IsValidAttCode($sClass, $sGroupBy)) {
+						throw new Exception(sprintf(Dict::S('Class:OQLGroupByIndicator/Error:InvalidAttribute'), $sGroupBy, $sClass));
+					}
+
+					$mRawValue = $oObj->Get($sGroupBy);
+					$sRawKey = is_scalar($mRawValue) ? (string)$mRawValue : serialize($mRawValue);
+					$sHtmlValue = $oObj->GetAsHTML($sGroupBy);
+
+					if (($mRawValue === '') || ($mRawValue === null)) {
+						$sRawKey = '__empty__';
+						$sHtmlValue = $this->EscapeHtml($this->Get('empty_value_label'));
+					}
+
+					if (!isset($aRows[$sRawKey])) {
+						$aRows[$sRawKey] = array(
+							'raw_value' => $mRawValue,
+							'label' => $sHtmlValue,
+							'count' => 0,
+						);
+					}
+
+					$aRows[$sRawKey]['count']++;
+				}
+
+				//$this->SortRows($aRows, $this->Get('sort_mode'));
+				$aData=array_shift($aRows);
+
+				return $aData['count'];
+        }]]></code>
+          </method>
+		  <method id="EvtSetInitialAttributesFlagsResult">
+            <comment>   /**
+         * Event Listener for EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS
+         * Set object initial attributes flags. Call cmdbAbstractObject::AddInitialAttributeFlags() for all the initial attributes to be set initially.
+         *
+         * @param  Combodo\iTop\Service\Events\EventData $oEventData Event data object
+         *
+         * @author d.vargas@mon-cto.pro
+         */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>EventListener</type>
+            <code><![CDATA[     public function EvtSetInitialAttributesFlagsResult(Combodo\iTop\Service\Events\EventData $oEventData)
+        {
+            $this->AddInitialAttributeFlags('result', OPT_ATT_READONLY);
+        }]]></code>
+          </method>
+          <method id="EvtSetAttributesFlagsResult">
+            <comment>   /**
+         * Event Listener for EVENT_DB_SET_ATTRIBUTES_FLAGS
+         * Set object attributes flags. Call cmdbAbstractObject::AddAttributeFlags() for all the attributes to be set for this target state.
+         *
+         * @param  Combodo\iTop\Service\Events\EventData $oEventData Event data object
+         *
+         * @author d.vargas@mon-cto.pro
+         */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>EventListener</type>
+            <code><![CDATA[     public function EvtSetAttributesFlagsResult(Combodo\iTop\Service\Events\EventData $oEventData)
+        {
+
+                // The target state in which to evaluate the flags
+                // $oEventData->Get('target_state') returns an array
+                $this->AddAttributeFlags('result', OPT_ATT_READONLY);
+
+        }]]></code>
+          </method>
+	  </methods>
+	  <relations />
+	   <event_listeners>
+          <event_listener id="EVENT_DB_COMPUTE_VALUES">
+            <event >EVENT_DB_COMPUTE_VALUES</event>
+            <callback >EvtComputeResult</callback>
+            <rank >0</rank>
+          </event_listener>
+          <event_listener id="EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS">
+            <event >EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
+            <callback >EvtSetInitialAttributesFlagsResult</callback>
+            <rank >0</rank>
+          </event_listener>
+          <event_listener id="EVENT_DB_SET_ATTRIBUTES_FLAGS">
+            <event >EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
+            <callback >EvtSetAttributesFlagsResult</callback>
+            <rank >0</rank>
+          </event_listener>
+        </event_listeners>
+    </class>
+	<class id="FunctionalCI" _delta="must_exist">
+	  <fields />
+	  <methods>
+		<method id="EvtRefreshOQLGroupByIndicators" _delta="define">
+            <comment>   /**
+         * Event Listener for EVENT_DB_AFTER_WRITE
+         * An object has been written into the database. The modifications can be propagated to other objects.
+         *
+         * @param  Combodo\iTop\Service\Events\EventData $oEventData Event data object
+         *
+         * @author d.vargas@mon-cto.pro
+         */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>EventListener</type>
+            <code><![CDATA[     public function EvtRefreshOQLGroupByIndicators(Combodo\iTop\Service\Events\EventData $oEventData)
+        {
+
+                // Creation flag
+                // $oEventData->Get('is_new') returns a boolean
+
+                // For updates, the list of changes done during this operation
+                // $oEventData->Get('changes') returns an array
+				
+				$sFinalClass = $this->Get('finalclass');
+
+				if ($sFinalClass === '') {
+					$sFinalClass = get_class($this);
+				}
+
+				$oSearch = DBObjectSearch::FromOQL('SELECT OQLGroupByIndicator WHERE oql_query LIKE \'SELECT '.$sFinalClass.' %\'');
+				$oSet = new DBObjectSet($oSearch);
+
+				while ($oIndicator = $oSet->Fetch()) {
+					$newResult=$oIndicator->BuildComputedResult();
+					$oIndicator->Set("result",$newResult);
+					$oIndicator->DBUpdate();
+				}
+        }]]></code>
+          </method>
+	   </methods>
+	   <event_listeners>
+		<event_listener id="RefreshOQLGroupByIndicatorAfterWrite" _delta="define">
+		  <event>EVENT_DB_AFTER_WRITE</event>
+		  <rank>10</rank>
+		  <callback>EvtRefreshOQLGroupByIndicators</callback>
+		</event_listener>
+	  </event_listeners>
+	</class>
+	<class id="Ticket" _delta="must_exist">
+	  <fields />
+	  <methods>
+		<method id="EvtRefreshTicketOQLGroupByIndicators" _delta="define">
+            <comment>   /**
+         * Event Listener for EVENT_DB_AFTER_WRITE
+         * An object has been written into the database. The modifications can be propagated to other objects.
+         *
+         * @param  Combodo\iTop\Service\Events\EventData $oEventData Event data object
+         *
+         * @author d.vargas@mon-cto.pro
+         */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>EventListener</type>
+            <code><![CDATA[     public function EvtRefreshTicketOQLGroupByIndicators(Combodo\iTop\Service\Events\EventData $oEventData)
+        {
+
+                // Creation flag
+                // $oEventData->Get('is_new') returns a boolean
+
+                // For updates, the list of changes done during this operation
+                // $oEventData->Get('changes') returns an array
+				
+				$sFinalClass = $this->Get('finalclass');
+
+				if ($sFinalClass === '') {
+					$sFinalClass = get_class($this);
+				}
+
+				$oSearch = DBObjectSearch::FromOQL('SELECT OQLGroupByIndicator WHERE oql_query LIKE \'SELECT '.$sFinalClass.' %\'');
+				$oSet = new DBObjectSet($oSearch);
+
+				while ($oIndicator = $oSet->Fetch()) {
+					$newResult=$oIndicator->BuildComputedResult();
+					$oIndicator->Set("result",$newResult);
+					$oIndicator->DBUpdate();
+				}
+        }]]></code>
+          </method>
+	   </methods>
+	   <event_listeners>
+		<event_listener id="RefreshTicketOQLGroupByIndicatorAfterWrite" _delta="define">
+		  <event>EVENT_DB_AFTER_WRITE</event>
+		  <rank>10</rank>
+		  <callback>EvtRefreshTicketOQLGroupByIndicators</callback>
+		</event_listener>
+	  </event_listeners>
+	</class>
+	<class id="WorkOrder" _delta="must_exist">
+	  <fields />
+	  <methods>
+		<method id="EvtRefreshWorkOrderOQLGroupByIndicators" _delta="define">
+            <comment>   /**
+         * Event Listener for EVENT_DB_AFTER_WRITE
+         * An object has been written into the database. The modifications can be propagated to other objects.
+         *
+         * @param  Combodo\iTop\Service\Events\EventData $oEventData Event data object
+         *
+         * @author d.vargas@mon-cto.pro
+         */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>EventListener</type>
+            <code><![CDATA[     public function EvtRefreshWorkOrderOQLGroupByIndicators(Combodo\iTop\Service\Events\EventData $oEventData)
+        {
+
+                // Creation flag
+                // $oEventData->Get('is_new') returns a boolean
+
+                // For updates, the list of changes done during this operation
+                // $oEventData->Get('changes') returns an array
+
+				$oSearch = DBObjectSearch::FromOQL('SELECT OQLGroupByIndicator WHERE oql_query LIKE \'SELECT WorkOrder %\'');
+				$oSet = new DBObjectSet($oSearch);
+
+				while ($oIndicator = $oSet->Fetch()) {
+					$newResult=$oIndicator->BuildComputedResult();
+					$oIndicator->Set("result",$newResult);
+					$oIndicator->DBUpdate();
+				}
+        }]]></code>
+          </method>
+	   </methods>
+	   <event_listeners>
+		<event_listener id="RefreshWorkOrderOQLGroupByIndicatorAfterWrite" _delta="define">
+		  <event>EVENT_DB_AFTER_WRITE</event>
+		  <rank>10</rank>
+		  <callback>EvtRefreshWorkOrderOQLGroupByIndicators</callback>
+		</event_listener>
+	  </event_listeners>
+	</class>
+  </classes>
+  <menus />
+</itop_design>
