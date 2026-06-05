@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.0">
+  <classes>
+	<class id="Rack" _delta="must_exist">
+	  <fields>
+		<field id="dataviz_url" xsi:type="AttributeString" _delta="define">
+			<sql>dataviz_url</sql>
+			<default_value></default_value>
+			<is_null_allowed>true</is_null_allowed>
+		</field>
+	  </fields>
+	  <presentation>
+		<details _delta="merge">
+			<items>
+				<item id="dataviz_url" _delta="define">
+					<rank>100</rank>
+				</item>
+			</items>
+		</details>
+	  </presentation>
+	  <methods>
+		<method id="DisplayBareRelations">
+            <static>false</static>
+            <access>public</access>
+            <type>Overload-DBObject</type>
+            <code><![CDATA[	/**
+	 * @param \WebPage $oPage
+	 * @param bool $bEditMode
+	 */
+	public function DisplayBareRelations(WebPage $oPage, $bEditMode = false)
+	{
+		parent::DisplayBareRelations($oPage, $bEditMode);
+
+		if ($bEditMode) {
+            return;
+        }
+
+        $sUrl = trim((string) $this->Get('dataviz_url')); // code attribut Rack
+
+        if ($sUrl === '') {
+            return;
+        }
+
+		$oPage->SetCurrentTab(Dict::S('EnterpriseEVoViewInRack:tab'));
+        if (!preg_match('#^https?://#i', $sUrl)) {
+            $oPage->p('URL invalide ou non autorisée.');
+            return;
+        }
+		
+        $sUrlEscaped = utils::EscapeHtml($sUrl);
+
+        $oPage->Add("
+            <div style=\"height:80vh; width:100%;\">
+                <iframe
+                    src=\"$sUrlEscaped\"
+                    style=\"width:100%; height:100%; border:0;\"
+                    loading=\"lazy\"
+                    referrerpolicy=\"no-referrer\">
+                </iframe>
+            </div>
+        ");
+	}]]></code>
+          </method>
+	   </methods>
+	</class>
+  </classes>
+  <menus/>
+</itop_design>
