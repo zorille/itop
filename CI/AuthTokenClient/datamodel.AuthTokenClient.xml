@@ -43,18 +43,29 @@
           <sql>description</sql>
           <default_value/>
           <is_null_allowed>true</is_null_allowed>
+		  <dependencies>
+              <attribute id="name"/>
+           </dependencies>
         </field>
         <field id="access_token" xsi:type="AttributeEncryptedPassword">
           <sql>access_token</sql>
           <default_value/>
           <is_null_allowed>true</is_null_allowed>
           <tracking_level>none</tracking_level>
+		  <dependencies>
+              <attribute id="username"/>
+			  <attribute id="password"/>
+           </dependencies>
         </field>
         <field id="access_token_expiration" xsi:type="AttributeDateTime">
           <sql>access_token_expiration</sql>
           <default_value/>
           <is_null_allowed>true</is_null_allowed>
           <tracking_level>none</tracking_level>
+		  <dependencies>
+              <attribute id="username"/>
+			  <attribute id="password"/>
+           </dependencies>
         </field>
 		<field id="username" xsi:type="AttributeString">
           <sql>username</sql>
@@ -166,7 +177,118 @@
         </reconciliation>
       </properties>
       <fields/>
-      <methods/>
+      <methods>
+	    <method id="ConnectUrl">
+            <comment>   /**
+         *
+         * @author d.vargas@mon-cto.pro
+         */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>EventListener</type>
+            <code><![CDATA[     public function ConnectURL()
+        {
+                // Put your code here, call parent::CalculatePowerData(...); if needed
+                IssueLog::Debug("ConnectURL: Name: ".$this->Get('name'), 'Delta XML');
+				$server_output="";
+				
+				$url=$this->Get('base_url')."/servicenav/auth/token";
+				$oOrmEncryptedPwd = $this->Get('password');
+				$sRealDecodedPassword = $oOrmEncryptedPwd->GetPassword();
+				$post_data = [
+					'username' => $this->Get('username'),
+					'password' => $sRealDecodedPassword,
+				];
+				
+				$headers=[
+				"accept: application/json",
+				"Content-Type: application/x-www-form-urlencoded"
+				];
+				
+				$ch = curl_init($url);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt ($ch, CURLOPT_HTTPHEADER, $headers );
+				// return the response instead of sending it to stdout:
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				// set the POST data, corresponding method and headers:
+				curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post_data));
+				
+				try {
+					// send the request and get the response
+					$server_output = curl_exec($ch);
+				} catch (Exception $e) {
+				
+				}
+				$tableau_resultat = json_decode ( $server_output, true );
+				//IssueLog::Debug("ConnectURL: Name: ".print_r($tableau_resultat,true), 'Delta XML');
+				
+				if(isset($tableau_resultat['token'])) {
+					$this->Set('access_token',$tableau_resultat['token']);
+					$this->Set('access_token_expiration',date('Y-m-d H:i:s', strtotime('+1 hour')));
+					//$this->DBUpdate();
+				} else {
+					$this->Set('access_token_expiration',date('Y-m-d H:i:s', strtotime('now')));
+				}
+				return;
+        }]]></code>
+          </method>
+		  <method id="ConnectUrl">
+            <comment>   /**
+         *
+         * @author d.vargas@mon-cto.pro
+         */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>EventListener</type>
+            <code><![CDATA[     public function CollectData()
+        {
+                // Put your code here, call parent::CollectData(...); if needed
+                IssueLog::Debug("CollectData: Name: ".$this->Get('name'), 'Delta XML');
+				$server_output="";
+				
+				$oOrmEncryptedToken = $this->Get('access_token');
+				$sRealDecodedToken = $oOrmEncryptedToken->GetPassword();
+				//IssueLog::Debug("CollectData: Token: ".$sRealDecodedToken, 'Delta XML');
+				
+				$url=$this->Get('base_url')."/servicenav/fr_FR/companies/2";
+				
+				$headers=[
+					"accept: application/json",
+					"Content-Type: application/x-www-form-urlencoded",
+					"Authorization: Bearer " . $sRealDecodedToken,
+				];
+				//IssueLog::Debug("CollectData: Name: ".print_r($headers,true), 'Delta XML');
+
+				$ch = curl_init($url);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt ($ch, CURLOPT_HTTPHEADER, $headers );
+				// send the request and get the response
+				try {
+					// send the request and get the response
+					$server_output = curl_exec($ch);
+				} catch (Exception $e) {
+				
+				}
+				$tableau_resultat = json_decode ( $server_output, true );
+				//IssueLog::Debug("CollectData: Name: ".print_r($tableau_resultat,true), 'Delta XML');
+				
+				$this->Set('description',print_r($tableau_resultat,true));
+				return;
+        }]]></code>
+          </method>
+	  </methods>
+	  <event_listeners>
+          <event_listener id="EVENT_DB_COMPUTE_VALUES">
+            <event >EVENT_DB_COMPUTE_VALUES</event>
+            <callback >ConnectURL</callback>
+            <rank >0</rank>
+          </event_listener>
+		  <event_listener id="EVENT_DB_COMPUTE_VALUES">
+            <event >EVENT_DB_COMPUTE_VALUES</event>
+            <callback >CollectData</callback>
+            <rank >1</rank>
+          </event_listener>
+        </event_listeners>
       <presentation/>
     </class>
   </classes>

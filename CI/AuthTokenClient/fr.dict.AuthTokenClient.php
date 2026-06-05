@@ -17,7 +17,6 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:AuthTokenClient/Attribute:access_token+' => 'Token fournit par le serveur pour conserver la connexion',
 	'Class:AuthTokenClient/Attribute:access_token_expiration' => 'Date d\'expiration du token',
 	'Class:AuthTokenClient/Attribute:access_token_expiration+' => '',
-	'Class:AuthTokenClient/Attribute:access_token_expiration' => 'Date d\'expiration du token',
 	'AuthTokenClient:baseinfo' => 'Informations de base',
 	'AuthTokenClient:idp_info' => 'Informations de connexion',
 	'Menu:AuthTokenClient' => 'Client Auth Token',
