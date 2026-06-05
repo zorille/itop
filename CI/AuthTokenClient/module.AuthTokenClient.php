@@ -2,18 +2,17 @@
 
 SetupWebPage::AddModule(
 	__FILE__,
-	'OqlGroupByIndicator/1.0.0',
+	'AuthTokenClient/1.0.0',
 	array(
-		'label' => 'OQL GroupBy Indicator',
+		'label' => 'Auth Token Client',
 		'category' => 'business',
 		'dependencies' => array(
-			'itop-config-mgmt/2.0.0',
-			'itop-tickets/2.0.0',
-			'itop-incident-mgmt-itil/2.0.0',
+			'itop-attribute-encrypted-password/1.0.0',
 		),
 		'mandatory' => false,
 		'visible' => true,
 		'datamodel' => array(
+			'wsclient.class.php',
 		),
 		'webservice' => array(),
 		'data.struct' => array(),

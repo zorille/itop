@@ -27,7 +27,7 @@
           <max_length>255</max_length>
         </field>
 
-        <field id="oql_query" xsi:type="AttributeText">
+        <field id="oql_query" xsi:type="AttributeOQL">
           <sql>oql_query</sql>
           <is_null_allowed>false</is_null_allowed>
         </field>
@@ -52,6 +52,11 @@
 		<field id="description" xsi:type="AttributeText">
 		  <sql>description</sql>
 		  <is_null_allowed>true</is_null_allowed>
+		  <!-- Ajout de l'IA de Itomig Fonctionne au 2026-06-04
+		  <dependencies>
+              <attribute id="oql_query"/>
+			  <attribute id="group_by_attcode"/>
+           </dependencies>-->
 		</field>
 
 	  </fields>
@@ -209,6 +214,42 @@
 
         }]]></code>
           </method>
+		  <!-- Ajout de l'IA de Itomig Fonctionne au 2026-06-04
+		  <method id="FillDescriptionWithAI">
+            <comment>   /**
+         *
+         * @author d.vargas@mon-cto.pro
+         */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>EventListener</type>
+            <code><![CDATA[     public function FillDescriptionWithAI(Combodo\iTop\Service\Events\EventData $oEventData)
+        {
+                $oAIService = new Itomig\iTop\Extension\AIBase\Service\AIService();
+				$sOql = trim((string)$this->Get('oql_query'));
+				$sGroupBy = trim((string)$this->Get('group_by_attcode'));
+				
+				if($sOql == "" || $sGroupBy == ""){
+					return;
+				}
+
+				// Register custom system prompt if configured for this module.
+				$sSystemPrompt = MetaModel::GetModuleSetting('itomig-ai-explain-oql', 'system_prompt', '');
+				if (is_string($sSystemPrompt) && trim($sSystemPrompt) !== '') {
+					$oAIService->addSystemInstruction('explain_oql', $sSystemPrompt);
+				}
+
+				// Determine the prefix that will precede every prompt sent to the AI backend.
+				$sPromptPrefix = MetaModel::GetModuleSetting('itomig-ai-explain-oql', 'prompt_prefix', 'Explain the following iTop OQL query in plain language.');
+
+				// Compose the final prompt: prefix first, then the raw OQL query as required.
+				$sPrompt = $sPromptPrefix . " this object add GROUP BY capability based on " . $sGroupBy . " field " . PHP_EOL . PHP_EOL . 'OQL:' . PHP_EOL . $sOql . " GROUP BY " . $sGroupBy ;
+
+				$sExplanation = $oAIService->PerformSystemInstruction($sPrompt, 'explain_oql');
+				$this->Set('description', $sExplanation);
+				$this->DBUpdate();
+        }]]></code>
+          </method> -->
 	  </methods>
 	  <relations />
 	   <event_listeners>
@@ -217,6 +258,12 @@
             <callback >EvtComputeResult</callback>
             <rank >0</rank>
           </event_listener>
+		  <!-- Ajout de l'IA de Itomig Fonctionne au 2026-06-04
+		  <event_listener id="EVENT_DB_COMPUTE_VALUES">
+            <event >EVENT_DB_COMPUTE_VALUES</event>
+            <callback >FillDescriptionWithAI</callback>
+            <rank >1</rank>
+          </event_listener>-->
           <event_listener id="EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS">
             <event >EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
             <callback >EvtSetInitialAttributesFlagsResult</callback>
@@ -259,7 +306,7 @@
 					$sFinalClass = get_class($this);
 				}
 
-				$oSearch = DBObjectSearch::FromOQL('SELECT OQLGroupByIndicator WHERE oql_query LIKE \'SELECT '.$sFinalClass.' %\'');
+				$oSearch = DBObjectSearch::FromOQL('SELECT OQLGroupByIndicator WHERE oql_query LIKE \'SELECT '.$sFinalClass.' %\' OR \'SELECT FunctionalCI %\'');
 				$oSet = new DBObjectSet($oSearch);
 
 				while ($oIndicator = $oSet->Fetch()) {
@@ -308,7 +355,7 @@
 					$sFinalClass = get_class($this);
 				}
 
-				$oSearch = DBObjectSearch::FromOQL('SELECT OQLGroupByIndicator WHERE oql_query LIKE \'SELECT '.$sFinalClass.' %\'');
+				$oSearch = DBObjectSearch::FromOQL('SELECT OQLGroupByIndicator WHERE oql_query LIKE \'SELECT '.$sFinalClass.' %\' OR oql_query LIKE \'SELECT Ticket %\'');
 				$oSet = new DBObjectSet($oSearch);
 
 				while ($oIndicator = $oSet->Fetch()) {
@@ -363,13 +410,71 @@
           </method>
 	   </methods>
 	   <event_listeners>
+		<event_listener id="RefreshLocationOQLGroupByIndicatorAfterWrite" _delta="define">
+		  <event>EVENT_DB_AFTER_WRITE</event>
+		  <rank>10</rank>
+		  <callback>EvtRefreshLocationOQLGroupByIndicators</callback>
+		</event_listener>
+	  </event_listeners>
+	</class>
+	<class id="Location" _delta="must_exist">
+	  <fields />
+	  <methods>
+		<method id="EvtRefreshLocationOQLGroupByIndicators" _delta="define">
+            <comment>   /**
+         * Event Listener for EVENT_DB_AFTER_WRITE
+         * An object has been written into the database. The modifications can be propagated to other objects.
+         *
+         * @param  Combodo\iTop\Service\Events\EventData $oEventData Event data object
+         *
+         * @author d.vargas@mon-cto.pro
+         */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>EventListener</type>
+            <code><![CDATA[     public function EvtRefreshLocationOQLGroupByIndicators(Combodo\iTop\Service\Events\EventData $oEventData)
+        {
+
+                // Creation flag
+                // $oEventData->Get('is_new') returns a boolean
+
+                // For updates, the list of changes done during this operation
+                // $oEventData->Get('changes') returns an array
+
+				$oSearch = DBObjectSearch::FromOQL('SELECT OQLGroupByIndicator WHERE oql_query LIKE \'SELECT Location %\'');
+				$oSet = new DBObjectSet($oSearch);
+
+				while ($oIndicator = $oSet->Fetch()) {
+					$newResult=$oIndicator->BuildComputedResult();
+					$oIndicator->Set("result",$newResult);
+					$oIndicator->DBUpdate();
+				}
+        }]]></code>
+          </method>
+	   </methods>
+	   <event_listeners>
 		<event_listener id="RefreshWorkOrderOQLGroupByIndicatorAfterWrite" _delta="define">
 		  <event>EVENT_DB_AFTER_WRITE</event>
 		  <rank>10</rank>
-		  <callback>EvtRefreshWorkOrderOQLGroupByIndicators</callback>
+		  <callback>EvtRefreshLocationOQLGroupByIndicators</callback>
 		</event_listener>
 	  </event_listeners>
 	</class>
   </classes>
-  <menus />
+  <menus>
+		<menu id="ConfigManagementOverview" xsi:type="DashboardMenuNode" _delta="must_exist">
+			<definition>
+				<cells>
+					<cell id="5" _delta="define_if_not_exists">
+						<dashlets>
+							<dashlet id="CUSTOM_OQLGroupByIndicator_1" xsi:type="DashletBadge" _delta="define">
+								<rank>10</rank>
+								<class>OQLGroupByIndicator</class>
+							</dashlet>
+						</dashlets>
+					</cell>
+				</cells>
+			</definition>
+		</menu>
+	</menus>
 </itop_design>

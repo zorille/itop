@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension format="1.0">
+	<extension_code>AuthTokenClient</extension_code>
+	<company>MonCTO</company>
+	<author><![CDATA[Vargas Damien]]></author>
+	<label><![CDATA[Auth Token based Client]]></label>
+	<description><![CDATA[Configure Auth connexion based on Token]]></description>
+	<version>1.0.0</version>
+	<release_date>2026-06-03</release_date>
+	<version_description><![CDATA[Initial version.]]></version_description>
+	<itop_version_min>3.0.0</itop_version_min>
+	<status>production</status>
+	<mandatory>false</mandatory>
+</extension>
