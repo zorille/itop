@@ -58,7 +58,7 @@
         </details>
 		<search _delta="merge">
           <items _delta="merge">
-		    <item id="sme_securite_flag">
+		    <item id="sme_flag">
               <rank>41</rank>
             </item>
             <item id="sme_level">

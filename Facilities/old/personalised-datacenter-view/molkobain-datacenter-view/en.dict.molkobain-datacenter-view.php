@@ -19,7 +19,7 @@ $aMolkobainThesaurus = array_merge($aMolkobainThesaurus, [
 	'Class/Attribute:position_p' => 'Panel Position',
 	'Class/Attribute:position_p/Value:front' => 'Front',
 	'Class/Attribute:position_p/Value:rear' => 'Rear',
-
+		
 	// Fieldsets
 	'Fieldset:baseinfo' => 'General information',
 	'Fieldset:moreinfo' => 'More information',
@@ -48,10 +48,10 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:PhysicalDevice/Attribute:position_v' => sprintf($aMolkobainThesaurus['Class/Attribute:position_v']),
 	// Note: Physical device can be either an host (eg. enclosure) or a device (eg. server), so we use a generic sentence
 	'Class:PhysicalDevice/Attribute:position_v+' => sprintf($aMolkobainThesaurus['Class/Attribute:position_v+/Variant:host'], 'the element', 'its host'),
-	'Class:PhysicalDevice/Attribute:position_p' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p']),
-	'Class:PhysicalDevice/Attribute:position_p/Value:front' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:front']),
-	'Class:PhysicalDevice/Attribute:position_p/Value:rear' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:rear']),
-	// - Rack
+		'Class:PhysicalDevice/Attribute:position_p' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p']),
+		'Class:PhysicalDevice/Attribute:position_p/Value:front' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:front']),
+		'Class:PhysicalDevice/Attribute:position_p/Value:rear' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:rear']),
+		// - Rack
 	'Class:Rack/Attribute:nb_u' => sprintf($aMolkobainThesaurus['Class/Attribute:nb_u']),
 	'Class:Rack/Attribute:nb_u+' => sprintf($aMolkobainThesaurus['Class/Attribute:nb_u+'], 'the rack'),
 	// - Enclosure
@@ -59,10 +59,10 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:Enclosure/Attribute:nb_u+' => sprintf($aMolkobainThesaurus['Class/Attribute:nb_u+'], 'the enclosure'),
 	'Class:Enclosure/Attribute:position_v' => sprintf($aMolkobainThesaurus['Class/Attribute:position_v']),
 	'Class:Enclosure/Attribute:position_v+' => sprintf($aMolkobainThesaurus['Class/Attribute:position_v+/Variant:host'], 'the enclosure', 'the rack'),
-	'Class:Enclosure/Attribute:position_p' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p']),
-	'Class:Enclosure/Attribute:position_p/Value:front' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:front']),
-	'Class:Enclosure/Attribute:position_p/Value:rear' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:rear']),
-	'Enclosure:baseinfo' => sprintf($aMolkobainThesaurus['Fieldset:baseinfo']),
+		'Class:Enclosure/Attribute:position_p' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p']),
+		'Class:Enclosure/Attribute:position_p/Value:front' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:front']),
+		'Class:Enclosure/Attribute:position_p/Value:rear' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:rear']),
+		'Enclosure:baseinfo' => sprintf($aMolkobainThesaurus['Fieldset:baseinfo']),
 	'Enclosure:moreinfo' => sprintf($aMolkobainThesaurus['Fieldset:moreinfo']),
 	'Enclosure:otherinfo' => sprintf($aMolkobainThesaurus['Fieldset:otherinfo']),
 	'Enclosure:dates' => sprintf($aMolkobainThesaurus['Fieldset:dates']),
@@ -71,23 +71,25 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:DatacenterDevice/Attribute:nb_u+' => sprintf($aMolkobainThesaurus['Class/Attribute:nb_u+'], 'the device'),
 	'Class:DatacenterDevice/Attribute:position_v' => sprintf($aMolkobainThesaurus['Class/Attribute:position_v']),
 	'Class:DatacenterDevice/Attribute:position_v+' => sprintf($aMolkobainThesaurus['Class/Attribute:position_v+/Variant:device'], 'the device'),
-	'Class:DatacenterDevice/Attribute:position_p' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p']),
-	'Class:DatacenterDevice/Attribute:position_p/Value:front' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:front']),
-	'Class:DatacenterDevice/Attribute:position_p/Value:rear' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:rear']),
-	// - PDU
+		'Class:DatacenterDevice/Attribute:position_p' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p']),
+		'Class:DatacenterDevice/Attribute:position_p/Value:front' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:front']),
+		'Class:DatacenterDevice/Attribute:position_p/Value:rear' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:rear']),
+		// - PDU
 	'Class:PDU/Attribute:nb_u' => sprintf($aMolkobainThesaurus['Class/Attribute:nb_u']),
 	'Class:PDU/Attribute:nb_u+' => sprintf($aMolkobainThesaurus['Class/Attribute:nb_u+'], 'the device'),
 	'Class:PDU/Attribute:position_v' => sprintf($aMolkobainThesaurus['Class/Attribute:position_v']),
 	'Class:PDU/Attribute:position_v+' => sprintf($aMolkobainThesaurus['Class/Attribute:position_v+/Variant:device'], 'the PDU'),
-	'Class:PDU/Attribute:position_p' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p']),
-	'Class:PDU/Attribute:position_p/Value:front' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:front']),
-	'Class:PDU/Attribute:position_p/Value:rear' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:rear']),
+		'Class:PDU/Attribute:position_p' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p']),
+		'Class:PDU/Attribute:position_p/Value:front' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:front']),
+		'Class:PDU/Attribute:position_p/Value:rear' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:rear']),
 ));
 
 // UI
 Dict::Add('EN US', 'English', 'English', array(
 	'Molkobain:DatacenterView:Tabs:View:Title' => 'Graphical view',
 	'Molkobain:DatacenterView:NoElement' => 'No element',
+	// - Messages
+	'Molkobain:DatacenterView:WarningMessage:NoHeightForHost' => 'No height defined for the element, devices might not display correctly.',
 	// - Legend
 	'Molkobain:DatacenterView:Legend:Title' => 'Legend',
 	// - Filter

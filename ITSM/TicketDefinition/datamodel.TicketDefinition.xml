@@ -27,7 +27,7 @@
         </field>
 		<field id="location_id" xsi:type="AttributeExternalKey" _delta="define">
           <sql>location_id</sql>
-          <filter>SELECT Location WHERE org_id=:this-&gt;org_id</filter>
+          <filter>SELECT l FROM Location AS l JOIN Organization AS root ON l.org_id=root.id JOIN Organization AS child ON child.parent_id BELOW root.id WHERE child.id= :this-&gt;org_id</filter>
           <dependencies>
             <attribute id="org_id"/>
           </dependencies>

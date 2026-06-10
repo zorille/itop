@@ -190,6 +190,16 @@ class DatacenterView
 		$sNoElementLabel = Dict::S('Molkobain:DatacenterView:NoElement');
 
 		// Add markup
+		// - Header messages
+		$sHeaderMessagesAsHTML = '';
+		//   No height defined for element
+		if ((int) $this->oObject->Get('nb_u') === 0) {
+			$sDictAsHTML = htmlentities(Dict::S('Molkobain:DatacenterView:WarningMessage:NoHeightForHost'), ENT_QUOTES, 'UTF-8');
+			$sHeaderMessagesAsHTML .= <<<HTML
+<div class="header_message message_warning ibo-alert ibo-is-warning">{$sDictAsHTML}</div>
+HTML;
+		}
+
 		// - Legend
 		$sLegendTitle = Dict::S('Molkobain:DatacenterView:Legend:Title');
 
@@ -235,7 +245,7 @@ HTML;
 		// Note: We could split this in protected methods for overloading (PrepareHtml, PrepareJs, ...)
 		$oOutput->AddHtml(<<<HTML
 <div class="molkobain-datacenter-view-container" data-portal="backoffice">
-	<div class="mdv-header"></div>
+	<div class="mdv-header">$sHeaderMessagesAsHTML</div>
 	<div class="mdv-body">
 		<div class="mdv-controls">
 			<div class="mdv-legend mhf-panel">
@@ -527,7 +537,7 @@ EOF
 				'rack_id' => (int) $oEnclosure->Get('rack_id'),
 				'position_v' => (int) $oEnclosure->Get('position_v'),
 				'position_h' => 1,
-				//'position_p' => static::ENUM_PANEL_FRONT,
+				#'position_p' => static::ENUM_PANEL_FRONT,
 				'position_p' => $oEnclosure->Get('position_p'),
 				'panels' => array(
 					static::ENUM_PANEL_FRONT => Dict::S('Molkobain:DatacenterView:Enclosure:Panel:Front:Title'),
@@ -586,7 +596,7 @@ EOF
 				'enclosure_id' => MetaModel::IsValidAttCode(get_class($oDevice), 'enclosure_id') ? (int) $oDevice->Get('enclosure_id') : 0,
 				'position_v' => (int) $oDevice->Get('position_v'),
 				'position_h' => 1,
-				//'position_p' => static::ENUM_PANEL_FRONT,
+				#'position_p' => static::ENUM_PANEL_FRONT,
 				'position_p' => $oDevice->Get('position_p'),
 			);
 

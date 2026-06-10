@@ -167,14 +167,6 @@
 							<query_down>SELECT Rack WHERE footprint_id = :this-&gt;id</query_down>
 							<query_up>SELECT FootPrint WHERE id = :this-&gt;footprint_id</query_up>
 						</neighbour>
-						<!--<neighbour id="Disjoncteur">
-							<query_down>SELECT Disjoncteur WHERE armoiredistrib_id = :this-&gt;id</query_down>
-							<query_up>SELECT PowerConnection WHERE id = :this-&gt;powerstart_id OR id = :this-&gt;powerB_id</query_up>
-						</neighbour>
-						<neighbour id="Differenciel">
-							<query_down>SELECT Differenciel WHERE armoiredistrib_id = :this-&gt;id</query_down>
-							<query_up>SELECT PowerConnection WHERE id = :this-&gt;powerstart_id OR id = :this-&gt;powerB_id</query_up>
-						</neighbour>-->
 					</neighbours>
 				</relation>
 			</relations>
@@ -308,7 +300,16 @@
 				</summary>
 			</presentation>
 			<methods />
-			<relations />
+			<relations>
+				<relation id="impacts">
+					<neighbours>
+						<neighbour id="CircuitElec" _delta="define">
+							<query_down>SELECT PowerConnection WHERE powerstart_id = :this-&gt;id</query_down>
+							<query_up>SELECT CircuitElec WHERE id = :this-&gt;powerstart_id</query_up>
+						</neighbour>
+					</neighbours>
+				</relation>
+			</relations>
 		</class>
 		<class id="lnkFootPrintToCircuitElec" _delta="define">
 			<parent>cmdbAbstractObject</parent>
@@ -485,11 +486,6 @@
 					<count_min>0</count_min>
 					<count_max>0</count_max>
 				</field>
-				<field id="fqdn" xsi:type="AttributeString">
-					<sql>fqdn</sql>
-					<default_value />
-					<is_null_allowed>true</is_null_allowed>
-				</field>
 			</fields>
 			<methods />
 			<presentation>
@@ -504,7 +500,7 @@
 								<item id="facilities_id">
 									<rank>15</rank>
 								</item>
-								<item id="fqdn">
+								<item id="fqdn" _delta="if_exists">
 									<rank>15</rank>
 								</item>
 								<item id="org_id">
@@ -533,7 +529,7 @@
 						<item id="fieldset:Server:power">
 							<rank>20</rank>
 							<items>
-								<item id="powerA_id">
+								<item id="powerstart_id">
 									<rank>10</rank>
 								</item>
 								<item id="powerB_id">
@@ -937,10 +933,9 @@
 			<relations>
 				<relation id="impacts">
 					<neighbours>
-						<neighbour id="PDU">
-							<query_down>SELECT PDU WHERE powerstart_id = :this-&gt;id</query_down>
-							<query_up>SELECT PowerConnection WHERE id =
-								:this-&gt;powerstart_id</query_up>
+						<neighbour id="Disjoncteur" >
+							<query_down>SELECT PowerConnection WHERE powerstart_id = :this-&gt;id</query_down>
+							<query_up>SELECT Disjoncteur WHERE id = :this-&gt;powerstart_id</query_up>
 						</neighbour>
 					</neighbours>
 				</relation>
@@ -1156,10 +1151,9 @@
 			<relations>
 				<relation id="impacts">
 					<neighbours>
-						<neighbour id="Disjoncteur">
-							<query_down>SELECT Disjoncteur WHERE powerstart_id = :this-&gt;id</query_down>
-							<query_up>SELECT PowerConnection WHERE id =
-								:this-&gt;powerstart_id</query_up>
+						<neighbour id="Differenciel" >
+							<query_down>SELECT PowerConnection WHERE powerstart_id = :this-&gt;id</query_down>
+							<query_up>SELECT Differenciel WHERE id = :this-&gt;powerstart_id</query_up>
 						</neighbour>
 					</neighbours>
 				</relation>
@@ -1212,11 +1206,6 @@
 					<min_up_mode>user</min_up_mode>
 					<min_up_type>count</min_up_type>
 				</field>
-				<field id="fqdn" xsi:type="AttributeString">
-					<sql>fqdn</sql>
-					<default_value />
-					<is_null_allowed>true</is_null_allowed>
-				</field>
 			</fields>
 			<methods />
 			<presentation>
@@ -1228,7 +1217,7 @@
 						<item id="facilities_id">
 							<rank>15</rank>
 						</item>
-						<item id="fqdn">
+						<item id="fqdn" _delta="if_exists">
 							<rank>15</rank>
 						</item>
 						<item id="org_id">
@@ -1411,6 +1400,10 @@
 						<neighbour id="armoirestg" _delta="define">
 							<attribute>powersources_list</attribute>
 						</neighbour>
+						<neighbour id="ArmoireTGBT" >
+							<query_down>SELECT PowerConnection WHERE powerstart_id = :this-&gt;id</query_down>
+							<query_up>SELECT ArmoireTGBT WHERE id = :this-&gt;powerstart_id</query_up>
+						</neighbour>
 					</neighbours>
 				</relation>
 			</relations>
@@ -1460,11 +1453,6 @@
 					<extkey_attcode>groupeelectro_id</extkey_attcode>
 					<target_attcode>name</target_attcode>
 				</field>
-				<field id="fqdn" xsi:type="AttributeString">
-					<sql>fqdn</sql>
-					<default_value />
-					<is_null_allowed>true</is_null_allowed>
-				</field>
 			</fields>
 			<methods />
 			<presentation>
@@ -1476,7 +1464,7 @@
 						<item id="facilities_id">
 							<rank>15</rank>
 						</item>
-						<item id="fqdn">
+						<item id="fqdn" _delta="if_exists">
 							<rank>15</rank>
 						</item>
 						<item id="org_id">
@@ -1647,11 +1635,6 @@
 				</reconciliation>
 			</properties>
 			<fields>
-				<field id="fqdn" xsi:type="AttributeString">
-					<sql>fqdn</sql>
-					<default_value />
-					<is_null_allowed>true</is_null_allowed>
-				</field>
 				<field id="batteries_list" xsi:type="AttributeLinkedSet">
 					<linked_class>Battery</linked_class>
 					<ext_key_to_me>powerconsumer_id</ext_key_to_me>
@@ -1670,7 +1653,7 @@
 						<item id="facilities_id">
 							<rank>15</rank>
 						</item>
-						<item id="fqdn">
+						<item id="fqdn" _delta="if_exists">
 							<rank>15</rank>
 						</item>
 						<item id="org_id">
@@ -1847,6 +1830,16 @@
 					</items>
 				</list>
 			</presentation>
+			<relations>
+				<relation id="impacts">
+					<neighbours>
+						<neighbour id="GroupeElectrogene" _delta="define">
+							<query_down>SELECT PowerConnection WHERE powerstart_id = :this-&gt;id</query_down>
+							<query_up>SELECT GroupeElectrogene WHERE id = :this-&gt;powerstart_id</query_up>
+						</neighbour>
+					</neighbours>
+				</relation>
+			</relations>
 		</class>
 		<class id="InverseurSource" _delta="define">
 			<parent>PowerConnection</parent>
@@ -1886,7 +1879,7 @@
 					<allow_target_creation>false</allow_target_creation>
 				</field>
 				<field id="powerA_name" xsi:type="AttributeExternalField" _delta="define">
-					<extkey_attcode>powerB_id</extkey_attcode>
+					<extkey_attcode>powerA_id</extkey_attcode>
 					<target_attcode>name</target_attcode>
 				</field>
 				<field id="powerB_id" xsi:type="AttributeExternalKey" _delta="define">
@@ -1905,7 +1898,7 @@
 					<sql>redundancy</sql>
 					<relation_code>impacts</relation_code>
 					<from_class>PowerConnection</from_class>
-					<neighbour_id>InverseurSourcePowerConnection</neighbour_id>
+					<neighbour_id>InverseurSourceRedundancy</neighbour_id>
 					<enabled>true</enabled>
 					<enabled_mode>fixed</enabled_mode>
 					<min_up>1</min_up>
@@ -2092,7 +2085,7 @@
 			<relations>
 				<relation id="impacts">
 					<neighbours>
-						<neighbour id="InverseurSource" _delta="define">
+						<neighbour id="InverseurSource" >
 							<query_down>SELECT PowerConnection WHERE powerstart_id = :this-&gt;id</query_down>
 							<query_up>SELECT InverseurSource WHERE id = :this-&gt;powerstart_id</query_up>
 						</neighbour>
@@ -2129,11 +2122,6 @@
 				</reconciliation>
 			</properties>
 			<fields>
-				<field id="fqdn" xsi:type="AttributeString">
-					<sql>fqdn</sql>
-					<default_value />
-					<is_null_allowed>true</is_null_allowed>
-				</field>
 				<field id="batteries_list" xsi:type="AttributeLinkedSet">
 					<linked_class>Battery</linked_class>
 					<ext_key_to_me>powerconsumer_id</ext_key_to_me>
@@ -2152,7 +2140,7 @@
 						<item id="facilities_id">
 							<rank>15</rank>
 						</item>
-						<item id="fqdn">
+						<item id="fqdn" _delta="if_exists">
 							<rank>15</rank>
 						</item>
 						<item id="org_id">
@@ -2335,7 +2323,10 @@
 			<relations>
 				<relation id="impacts">
 					<neighbours>
-						<neighbour id="Onduleur" _delta="define">
+						<neighbour id="batteryList" _delta="define">
+							<attribute>batteries_list</attribute>
+						</neighbour>
+						<neighbour id="Onduleur" >
 							<query_down>SELECT PowerConnection WHERE powerstart_id = :this-&gt;id</query_down>
 							<query_up>SELECT Onduleur WHERE id = :this-&gt;powerstart_id</query_up>
 						</neighbour>
@@ -2375,14 +2366,22 @@
 			<relations _delta="merge">
 				<relation id="impacts">
 					<neighbours>
-						<neighbour id="InverseurSourcePowerConnection" _delta="define">
+						  <neighbour id="datacenterdevice">
+							<query_down>SELECT DatacenterDevice WHERE powerA_id = :this-&gt;id OR powerB_id = :this-&gt;id</query_down>
+							<query_up>SELECT PowerConnection WHERE id = :this-&gt;powerA_id OR id = :this-&gt;powerB_id</query_up>
+						  </neighbour>
+						  <neighbour id="InverseurSourceRedundancy" >
 							<query_down>SELECT InverseurSource WHERE powerA_id = :this-&gt;id OR powerB_id = :this-&gt;id</query_down>
 							<query_up>SELECT PowerConnection WHERE id = :this-&gt;powerA_id OR id = :this-&gt;powerB_id</query_up>
-						</neighbour>
-						<neighbour id="PowerConnectionArmoireDistributionElect" _delta="define">
+						  </neighbour>
+						  <neighbour id="ArmoireDistributionElect" >
 							<query_down>SELECT ArmoireDistributionElect WHERE powerA_id = :this-&gt;id OR powerB_id = :this-&gt;id</query_down>
 							<query_up>SELECT PowerConnection WHERE id = :this-&gt;powerA_id OR id = :this-&gt;powerB_id</query_up>
-						</neighbour>
+						  </neighbour>
+						  <neighbour id="pdu">
+							<query_down>SELECT PDU WHERE powerstart_id = :this-&gt;id</query_down>
+							<query_up>SELECT PowerConnection WHERE id = :this-&gt;powerstart_id</query_up>
+						  </neighbour>
 					</neighbours>
 				</relation>
 			</relations>
@@ -2423,11 +2422,6 @@
 				</reconciliation>
 			</properties>
 			<fields>
-				<field id="fqdn" xsi:type="AttributeString">
-					<sql>fqdn</sql>
-					<default_value />
-					<is_null_allowed>true</is_null_allowed>
-				</field>
 			</fields>
 			<methods />
 			<presentation>
@@ -2439,7 +2433,7 @@
 						<item id="facilities_id">
 							<rank>15</rank>
 						</item>
-						<item id="fqdn">
+						<item id="fqdn" _delta="if_exists">
 							<rank>15</rank>
 						</item>
 						<item id="org_id">
@@ -2613,6 +2607,16 @@
 					</items>
 				</list>
 			</presentation>
+			<relations>
+				<relation id="impacts">
+					<neighbours>
+						<neighbour id="Transformateur" _delta="define">
+							<query_down>SELECT PowerConnection WHERE powerstart_id = :this-&gt;id</query_down>
+							<query_up>SELECT Transformateur WHERE id = :this-&gt;powerstart_id</query_up>
+						</neighbour>
+					</neighbours>
+				</relation>
+			</relations>
 		</class>
 		<class id="PowerSource" _delta="must_exist">
 			<fields _delta="merge">
@@ -2668,6 +2672,10 @@
 					<neighbours>
 						<neighbour id="Transformateur" _delta="define">
 							<attribute>Transfos_list</attribute>
+						</neighbour>
+						<neighbour id="PowerSource" _delta="define">
+							<query_down>SELECT PowerConnection WHERE powerstart_id = :this-&gt;id</query_down>
+							<query_up>SELECT PowerSource WHERE id = :this-&gt;powerstart_id</query_up>
 						</neighbour>
 					</neighbours>
 				</relation>
@@ -2836,6 +2844,16 @@
 					</items>
 				</list>
 			</presentation>
+			<relations>
+				<relation id="impacts">
+					<neighbours>
+						<neighbour id="HVCell" _delta="define">
+							<query_down>SELECT PowerConnection WHERE powerstart_id = :this-&gt;id</query_down>
+							<query_up>SELECT HVCell WHERE id = :this-&gt;powerstart_id</query_up>
+						</neighbour>
+					</neighbours>
+				</relation>
+			</relations>
 		</class>
 		<class id="Battery" _delta="define">
 			<parent>PowerConnection</parent>
@@ -3028,6 +3046,10 @@
 						<neighbour id="FromBattery">
 							<query_down>SELECT PowerConnection WHERE id = :this-&gt;powerconsumer_id</query_down>
 							<query_up>SELECT PowerConnection WHERE id = :this-&gt;powerstart_id</query_up>
+						</neighbour>
+						<neighbour id="Battery" >
+							<query_down>SELECT PowerConnection WHERE powerstart_id = :this-&gt;id</query_down>
+							<query_up>SELECT Battery WHERE id = :this-&gt;powerstart_id</query_up>
 						</neighbour>
 					</neighbours>
 				</relation>

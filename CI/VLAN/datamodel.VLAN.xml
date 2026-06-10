@@ -20,11 +20,11 @@
 				</reconciliation>
 			</properties>
 			<fields>
-				<field id="name" xsi:type="AttributeString" _delta="define">
+				<!-- teemip-network-mgmt-extended <field id="name" xsi:type="AttributeString" _delta="define_if_not_exists">
 					<sql>name</sql>
 					<default_value />
 					<is_null_allowed>false</is_null_allowed>
-				</field>
+				</field>-->
 			</fields>
 			<presentation>
 				<details _delta="merge">

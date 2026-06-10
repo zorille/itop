@@ -107,7 +107,7 @@
 										$oNewLink->DBInsert();
 									}
 								}
-							)
+							}
                           ]]></code>
 					<arguments>
 						<argument id="1">

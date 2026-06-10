@@ -5,14 +5,14 @@
   <classes>
     <class id="SoftwareInstance" _delta="must_exist">
       <fields>
-        <field id="networksocket_list" xsi:type="AttributeLinkedSet" _delta="define">
-          <linked_class>NetworkSocket</linked_class>
+        <!--<field id="networksocket_list" xsi:type="AttributeLinkedSet" _delta="define">
+          <linked_class>NetworkTCPSocket</linked_class>
           <ext_key_to_me>application_id</ext_key_to_me>
           <edit_mode>in_place</edit_mode>
           <tracking_level>all</tracking_level>
           <count_min>0</count_min>
           <count_max>0</count_max>
-        </field>
+        </field>-->
         <field id="logfile_list" xsi:type="AttributeLinkedSet" _delta="define">
           <linked_class>LogFile</linked_class>
           <ext_key_to_me>application_id</ext_key_to_me>
@@ -28,9 +28,9 @@
             <neighbour id="logfile">
               <attribute>logfile_list</attribute>
             </neighbour>
-            <neighbour id="networksocket">
+            <!--<neighbour id="networksocket">
               <attribute>networksocket_list</attribute>
-            </neighbour>
+            </neighbour>-->
           </neighbours>
         </relation>
       </relations>
@@ -42,23 +42,23 @@
             <item id="logfile_list">
               <rank>180</rank>
             </item>
-            <item id="networksocket_list">
+            <!--<item id="networksocket_list">
               <rank>190</rank>
-            </item>
+            </item>-->
           </items>
         </details>
       </presentation>
     </class>
     <class id="MiddlewareInstance" _delta="must_exist">
       <fields>
-        <field id="networksocket_list" xsi:type="AttributeLinkedSet" _delta="define">
-          <linked_class>NetworkSocket</linked_class>
+        <!--<field id="networksocket_list" xsi:type="AttributeLinkedSet" _delta="define">
+          <linked_class>NetworkTCPSocket</linked_class>
           <ext_key_to_me>application_id</ext_key_to_me>
           <edit_mode>in_place</edit_mode>
           <tracking_level>all</tracking_level>
           <count_min>0</count_min>
           <count_max>0</count_max>
-        </field>
+        </field>-->
         <field id="logfile_list" xsi:type="AttributeLinkedSet" _delta="define">
           <linked_class>LogFile</linked_class>
           <ext_key_to_me>application_id</ext_key_to_me>
@@ -82,9 +82,9 @@
             <item id="logfile_list">
               <rank>130</rank>
             </item>
-            <item id="networksocket_list">
+            <!--<item id="networksocket_list">
               <rank>140</rank>
-            </item>
+            </item>-->
           </items>
         </details>
       </presentation>
@@ -94,9 +94,9 @@
             <neighbour id="logfile">
               <attribute>logfile_list</attribute>
             </neighbour>
-            <neighbour id="networksocket">
+            <!--<neighbour id="networksocket">
               <attribute>networksocket_list</attribute>
-            </neighbour>
+            </neighbour>-->
           </neighbours>
         </relation>
       </relations>
@@ -108,9 +108,9 @@
             <item id="logfile_list">
               <rank>170</rank>
             </item>
-            <item id="networksocket_list">
+            <!--<item id="networksocket_list">
               <rank>180</rank>
-            </item>
+            </item>-->
           </items>
         </details>
       </presentation>
@@ -132,9 +132,9 @@
             <item id="logfile_list">
               <rank>170</rank>
             </item>
-            <item id="networksocket_list">
+            <!--<item id="networksocket_list">
               <rank>180</rank>
-            </item>
+            </item>-->
           </items>
         </details>
       </presentation>
@@ -146,23 +146,23 @@
             <item id="logfile_list">
               <rank>180</rank>
             </item>
-            <item id="networksocket_list">
+            <!--<item id="networksocket_list">
               <rank>190</rank>
-            </item>
+            </item>-->
           </items>
         </details>
       </presentation>
     </class>
     <class id="WebApplication" _delta="must_exist">
       <fields>
-        <field id="networksocket_list" xsi:type="AttributeLinkedSet" _delta="define">
-          <linked_class>NetworkSocket</linked_class>
+        <!--<field id="networksocket_list" xsi:type="AttributeLinkedSet" _delta="define">
+          <linked_class>NetworkTCPSocket</linked_class>
           <ext_key_to_me>application_id</ext_key_to_me>
           <edit_mode>in_place</edit_mode>
           <tracking_level>all</tracking_level>
           <count_min>0</count_min>
           <count_max>0</count_max>
-        </field>
+        </field>-->
         <field id="logfile_list" xsi:type="AttributeLinkedSet" _delta="define">
           <linked_class>LogFile</linked_class>
           <ext_key_to_me>application_id</ext_key_to_me>
@@ -186,9 +186,9 @@
             <item id="logfile_list">
               <rank>140</rank>
             </item>
-            <item id="networksocket_list">
+            <!--<item id="networksocket_list">
               <rank>150</rank>
-            </item>
+            </item>-->
           </items>
         </details>
       </presentation>
@@ -198,9 +198,9 @@
             <neighbour id="logfile">
               <attribute>logfile_list</attribute>
             </neighbour>
-            <neighbour id="networksocket">
+            <!--<neighbour id="networksocket">
               <attribute>networksocket_list</attribute>
-            </neighbour>
+            </neighbour>-->
           </neighbours>
         </relation>
       </relations>
@@ -212,9 +212,9 @@
             <item id="logfile_list">
               <rank>180</rank>
             </item>
-            <item id="networksocket_list">
+            <!--<item id="networksocket_list">
               <rank>190</rank>
-            </item>
+            </item>-->
           </items>
         </details>
       </presentation>

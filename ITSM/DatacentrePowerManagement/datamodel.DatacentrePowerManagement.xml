@@ -1,0 +1,949 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.0">
+  <classes>
+	<class id="Rack" _delta="must_exist">
+	  <fields>
+		<field id="contracted_power" xsi:type="AttributeDecimal" >
+            <sql>contracted_power</sql>
+            <default_value>0</default_value>
+            <is_null_allowed>true</is_null_allowed>
+            <digits>10</digits>
+            <decimals>1</decimals>
+            <dependencies/>
+            <tracking_level>none</tracking_level>
+          </field>
+          <field id="installed_power" xsi:type="AttributeDecimal" >
+            <sql>installed_power</sql>
+            <default_value>0</default_value>
+            <is_null_allowed>true</is_null_allowed>
+            <validation_pattern/>
+            <dependencies/>
+            <tracking_level>all</tracking_level>
+            <digits>10</digits>
+            <decimals>1</decimals>
+          </field>
+          <field id="power_reading_value" xsi:type="AttributeDecimal" >
+            <sql>power_reading_value</sql>
+            <default_value/>
+            <is_null_allowed>true</is_null_allowed>
+            <digits>10</digits>
+            <decimals>1</decimals>
+            <dependencies/>
+            <tracking_level>none</tracking_level>
+          </field>
+          <field id="power_reading_date" xsi:type="AttributeDate" >
+            <sql>power_reading_date</sql>
+            <default_value/>
+            <is_null_allowed>true</is_null_allowed>
+            <dependencies/>
+            <tracking_level>none</tracking_level>
+          </field>
+          <field id="power_contracted_usage" xsi:type="AttributePercentage">
+            <sql>power_contracted_usage</sql>
+            <default_value/>
+            <is_null_allowed>true</is_null_allowed>
+            <dependencies>
+              <attribute id="contracted_power"/>
+              <attribute id="power_reading_value"/>
+            </dependencies>
+            <tracking_level>none</tracking_level>
+          </field>
+          <field id="power_installed_usage" xsi:type="AttributePercentage">
+            <sql >power_installed_usage</sql>
+            <default_value />
+            <is_null_allowed >true</is_null_allowed>
+            <dependencies>
+              <attribute id="installed_power"/>
+              <attribute id="power_reading_value"/>
+            </dependencies>
+            <tracking_level>none</tracking_level>
+          </field>
+	  </fields>
+	  <methods>
+		<method id="EvtAfterWriteRackPowerMgmt">
+                <comment>	/**
+	 * Event Listener for EVENT_DB_AFTER_WRITE
+	 * An object has been written into the database. The modifications can be propagated to other objects.
+	 *
+	 * @param  Combodo\iTop\Service\Events\EventData $oEventData Event data object
+	 *
+	 * @author d.vargas@mon-cto.pro
+	 */</comment>
+                <static>false</static>
+                <access>public</access>
+                <type>EventListener</type>
+                <code><![CDATA[	public function EvtAfterWriteRackPowerMgmt(Combodo\iTop\Service\Events\EventData $oEventData)
+	{
+	
+		// Creation flag
+		// $oEventData->Get('is_new') returns a boolean
+	
+		// For updates, the list of changes done during this operation
+		// $oEventData->Get('changes') returns an array
+		//We calculate location's contracted_power
+		if($oEventData->Get('is_new')) {
+		    //create mode defualt value contracted_power=0
+		    $this->ComputeLocationContractedPower();
+		    //Customer Contract Mgmt
+    		$this->ComputeCustomerContractContractedPower();
+		} else {
+		    //update => $achanges = old value to change, $this = new value
+    		$aChanges = $this->ListPreviousValuesForUpdatedAttributes();
+    		if (array_key_exists('contracted_power', $aChanges) || array_key_exists('power_reading_value', $aChanges)) {
+				IssueLog::Debug("Rack: Calculate Power Values", 'Delta XML');
+				$this->ComputeLocationContractedPower();
+				$this->ComputeCustomerContractContractedPower();
+		    }
+		}
+	
+	}]]></code>
+        </method>
+		<method id="ComputeCustomerContractContractedPower">
+                <comment>	/**
+	 *
+	 * @author d.vargas@mon-cto.pro
+	 */</comment>
+                <static>false</static>
+                <access>public</access>
+                <type>Custom</type>
+                <code><![CDATA[	public function ComputeCustomerContractContractedPower()
+	{
+		// Put your code here, call parent::ComputeContractedPower(...); if needed
+        if(empty($this->Get('customer_id'))){
+            return true;
+        }
+	    
+		$sOQL = "SELECT CustomerContract WHERE org_id= :customer_id";
+		$oSearch=DBObjectSearch::FromOQL($sOQL);
+		$oSearch->AllowAllData();
+		$oConnectionSet = new DBObjectSet($oSearch,
+			array(),
+			array(
+				'customer_id' => $this->Get('customer_id')
+			)
+		);
+		while($oCustomerContract = $oConnectionSet->Fetch()){
+		    IssueLog::Debug("Rack: Calculate Power Values CC for ".$oCustomerContract->Get("name"), 'Delta XML');
+		    //installed_power
+		    $oCustomerContract->ComputeCustomerContractInstalledPower();
+		    
+		    //power_reading_value
+		    $oCustomerContract->ComputeCustomerContractPowerReadingValue();
+
+		}
+		return true;
+	}]]></code>
+        </method>
+		<method id="ComputeLocationContractedPower">
+            <comment>	/**
+		 *
+		 * @author d.vargas@mon-cto.pro
+		 */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>Custom</type>
+            <code><![CDATA[	public function ComputeLocationContractedPower()
+	{
+		// Put your code here, call parent::ComputeLocationContractedPower(...); if needed
+		if(empty($this->Get('location_id'))){
+            return true;
+        }
+	   
+		$sOQL = "SELECT Location AS root JOIN Location AS child ON child.parent_id BELOW root.id WHERE child.id= :location_id";
+		$oSearch=DBObjectSearch::FromOQL($sOQL);
+		$oSearch->AllowAllData();
+		$oConnectionSet = new DBObjectSet($oSearch,
+			array(),
+			array(
+				'location_id' => $this->Get('location_id')
+			)
+		);
+		while($oLocation = $oConnectionSet->Fetch()){
+		    IssueLog::Debug("Rack: Calculate Power Values Loc for ".$oLocation->Get("name"), 'Delta XML');
+		    //contracted_power
+		    $oLocation->ComputeLocationContractedPower();
+		    
+		    //power_reading_value
+		    $oLocation->ComputeLocationPowerReadingValue();
+		    
+		}
+		return true;
+	}]]></code>
+        </method>
+		<method id="onDelete">
+                <comment>	/**
+	 *
+	 * @author d.vargas@mon-cto.pro
+	 */</comment>
+                <static>false</static>
+                <access>public</access>
+                <type>Custom</type>
+                <code><![CDATA[	public function onDelete()
+	{
+		// Put your code here, call parent::onDelete(...); if needed
+		//remove contracted_power
+	    $this->ComputeLocationContractedPower();
+	    //Customer Contract Mgmt
+		$this->ComputeCustomerContractContractedPower();
+		
+		parent::onDelete();
+	}]]></code>
+              </method>
+        <method id="EvtComputeValuesRackPowerData">
+                <comment>	/**
+	 * Event Listener for EVENT_DB_COMPUTE_VALUES
+	 * An object needs to be recomputed after changes
+	 *
+	 * @param  Combodo\iTop\Service\Events\EventData $oEventData Event data object
+	 *
+	 * @author d.vargas@mon-cto.pro
+	 */</comment>
+                <static>false</static>
+                <access>public</access>
+                <type>EventListener</type>
+                <code><![CDATA[	public function EvtComputeValuesRackPowerData(Combodo\iTop\Service\Events\EventData $oEventData)
+	{
+	    if($this->Get('status')=='obsolete') {
+	        $this->Set('contracted_power', 0);
+	        $this->Set('installed_power', 0);
+	        $this->Set('power_reading_value', 0);
+	    }
+	}]]></code>
+        </method>
+        <method id="CalculatePowerReadingUsage">
+            <comment>	/**
+	 * Calculate percent usage of power reading
+	 * @author d.vargas@mon-cto.pro
+	 */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>Custom</type>
+            <code><![CDATA[	public function CalculatePowerReadingUsage()
+	{
+		IssueLog::Debug("Location Percent usage of Contracted Power: Name: ".$this->Get('name'), 'Delta XML');
+		// Put your code here, call parent::CalculatePowerReadingUsage(...); if needed
+		$fPowerReading = (float) $this->Get('power_reading_value');
+        
+        $fContractedPower = (float) $this->Get('contracted_power');
+        //IssueLog::Debug("Location Percent usage of Contracted Power: Name: ".$this->Get('name'). " Contracted Power: " .$fContractedPower." Reading Value Value: ".$fPowerReading, 'Delta XML');
+        if($fContractedPower > 0)
+        {
+                // Round with precision of 2 to keep an integer
+                $fPowerUsage = round($fPowerReading / $fContractedPower, 2) * 100;
+                //IssueLog::Debug("Location Name: ".$this->Get('name')." Reading Contracted Usage Value: ".$fPowerUsage, 'Delta XML');
+                $this->Set('power_contracted_usage', $fPowerUsage);
+        } else {
+            $this->Set('power_contracted_usage', 0);
+        }
+        
+        $fInstalledPower = (float) $this->Get('installed_power');
+        //IssueLog::Debug("Location Percent usage of Installed Power: Name: ".$this->Get('name'). " Installed Power: " .$fInstalledPower." Reading Value Value: ".$fPowerReading, 'Delta XML');
+        if($fInstalledPower > 0)
+        {
+                // Round with precision of 2 to keep an integer
+                $fPowerUsage = round($fPowerReading / $fInstalledPower, 2) * 100;
+                //IssueLog::Debug("Location Name: ".$this->Get('name')." Reading Installed Usage Value: ".$fPowerUsage, 'Delta XML');
+                $this->Set('power_installed_usage', $fPowerUsage);
+        } else {
+            $this->Set('power_installed_usage', 0);
+        }
+	}]]></code>
+          </method>
+        <method id="EvtComputeValuesRackPower">
+            <comment>	/**
+	 * Event Listener for EVENT_DB_COMPUTE_VALUES
+	 * An object needs to be recomputed after changes
+	 * Calaulate Power installed usage and contrated power usage with power reading
+	 * @param  Combodo\iTop\Service\Events\EventData $oEventData Event data object
+	 *
+	 * @author d.vargas@mon-cto.pro
+	 */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>EventListener</type>
+            <code><![CDATA[	public function EvtComputeValuesRackPower(Combodo\iTop\Service\Events\EventData $oEventData)
+	{
+	    $this->CalculatePowerReadingUsage();
+	}]]></code>
+          </method>
+        <method id="EvtSetInitialAttributesFlagsRack">
+            <comment>	/**
+	 * Event Listener for EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS
+	 * Set object initial attributes flags. Call cmdbAbstractObject::AddInitialAttributeFlags() for all the initial attributes to be set initially.
+	 *
+	 * @param  Combodo\iTop\Service\Events\EventData $oEventData Event data object
+	 *
+	 * @author d.vargas@mon-cto.pro
+	 */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>EventListener</type>
+            <code><![CDATA[	public function EvtSetInitialAttributesFlagsRack(Combodo\iTop\Service\Events\EventData $oEventData)
+	{
+	    $this->AddInitialAttributeFlags('location_id', OPT_ATT_MANDATORY);
+	}]]></code>
+          </method>
+        <method id="EvtSetAttributesFlagsRack">
+            <comment>	/**
+	 * Event Listener for EVENT_DB_SET_ATTRIBUTES_FLAGS
+	 * Set object attributes flags. Call cmdbAbstractObject::AddAttributeFlags() for all the attributes to be set for this target state.
+	 *
+	 * @param  Combodo\iTop\Service\Events\EventData $oEventData Event data object
+	 *
+	 * @author d.vargas@mon-cto.pro
+	 */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>EventListener</type>
+            <code><![CDATA[	public function EvtSetAttributesFlagsRack(Combodo\iTop\Service\Events\EventData $oEventData)
+	{
+	
+		// The target state in which to evaluate the flags
+		// $oEventData->Get('target_state') returns an array
+		$this->AddAttributeFlags('location_id', OPT_ATT_MANDATORY);
+	
+	}]]></code>
+          </method>
+	   </methods>
+	   <presentation>
+          <details _delta="merge">
+            <items>
+			  <item id="contracted_power">
+				<rank>100</rank>
+			  </item>
+			  <item id="installed_power">
+				<rank>120</rank>
+			  </item>
+			  <item id="power_reading_value">
+				<rank>130</rank>
+			  </item>
+			  <item id="power_reading_date">
+				<rank>140</rank>
+			  </item>
+			  <item id="power_contracted_usage">
+				<rank>150</rank>
+			  </item>
+			  <item id="power_installed_usage">
+				<rank>160</rank>
+			  </item>
+			</items>
+          </details>
+          <list _delta="merge">
+            <items>
+              <item id="contracted_power">
+                <rank>70</rank>
+              </item>
+              <item id="installed_power">
+                <rank>80</rank>
+              </item>
+              <item id="power_reading_value">
+                <rank>90</rank>
+              </item>
+            </items>
+          </list>
+        </presentation>
+        <event_listeners>
+		  <event_listener id="EVENT_DB_AFTER_WRITE">
+			<event>EVENT_DB_AFTER_WRITE</event>
+			<callback>EvtAfterWriteRackPowerMgmt</callback>
+			<rank>0</rank>
+		  </event_listener>
+		  <event_listener id="EVENT_DB_COMPUTE_VALUES">
+			<event>EVENT_DB_COMPUTE_VALUES</event>
+			<callback>EvtComputeValuesRackPowerData</callback>
+			<rank>0</rank>
+		  </event_listener>
+		  <event_listener id="EVENT_DB_COMPUTE_VALUES">
+            <event>EVENT_DB_COMPUTE_VALUES</event>
+            <callback>EvtComputeValuesRackPower</callback>
+            <rank>0</rank>
+          </event_listener>
+		  <event_listener id="EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS">
+            <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
+            <callback>EvtSetInitialAttributesFlagsRack</callback>
+            <rank>0</rank>
+          </event_listener>
+          <event_listener id="EVENT_DB_SET_ATTRIBUTES_FLAGS">
+            <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
+            <callback>EvtSetAttributesFlagsRack</callback>
+            <rank>0</rank>
+          </event_listener>
+        </event_listeners>
+	</class>
+	<class id="CustomerContract" _delta="must_exist">
+	  <fields>
+		<field id="contracted_power" xsi:type="AttributeDecimal" >
+            <sql>contracted_power</sql>
+            <default_value>0</default_value>
+            <is_null_allowed>true</is_null_allowed>
+            <digits>10</digits>
+            <decimals>1</decimals>
+            <dependencies/>
+            <tracking_level>none</tracking_level>
+          </field>
+          <field id="installed_power" xsi:type="AttributeDecimal" >
+            <sql>installed_power</sql>
+            <default_value>0</default_value>
+            <is_null_allowed>true</is_null_allowed>
+            <validation_pattern/>
+            <dependencies/>
+            <tracking_level>all</tracking_level>
+            <digits>10</digits>
+            <decimals>1</decimals>
+          </field>
+          <field id="power_reading_value" xsi:type="AttributeDecimal" >
+            <sql>power_reading_value</sql>
+            <default_value/>
+            <is_null_allowed>true</is_null_allowed>
+            <digits>10</digits>
+            <decimals>1</decimals>
+            <dependencies/>
+            <tracking_level>none</tracking_level>
+          </field>
+          <field id="power_reading_date" xsi:type="AttributeDate" >
+            <sql>power_reading_date</sql>
+            <default_value/>
+            <is_null_allowed>true</is_null_allowed>
+            <dependencies/>
+            <tracking_level>none</tracking_level>
+          </field>
+          <field id="power_contracted_usage" xsi:type="AttributePercentage">
+            <sql>power_contracted_usage</sql>
+            <default_value/>
+            <is_null_allowed>true</is_null_allowed>
+            <dependencies>
+              <attribute id="contracted_power"/>
+              <attribute id="power_reading_value"/>
+            </dependencies>
+            <tracking_level>none</tracking_level>
+          </field>
+          <field id="power_installed_usage" xsi:type="AttributePercentage">
+            <sql >power_installed_usage</sql>
+            <default_value />
+            <is_null_allowed >true</is_null_allowed>
+            <dependencies>
+              <attribute id="installed_power"/>
+              <attribute id="power_reading_value"/>
+            </dependencies>
+            <tracking_level>none</tracking_level>
+          </field>
+	  </fields>
+	  <methods>
+		<method id="ComputeCustomerContractInstalledPower">
+            <comment>	/**
+		 * Contracted power of Rack is Customer Installed Power
+		 * @author d.vargas@mon-cto.pro
+		 */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>Custom</type>
+            <code><![CDATA[	public function ComputeCustomerContractInstalledPower()
+	{
+		// Put your code here, call parent::ComputeCustomerContractInstalledPower(...); if needed
+		$icontracted_power=$this->CalculatePowerData('contracted_power');
+		
+		IssueLog::Debug("Customer contract Name: ".$this->Get('name')." New Installed Value: ".$icontracted_power, 'Delta XML');
+		$this->Set('installed_power',$icontracted_power);
+		$this->CalculatePowerReadingUsage();
+		$this->DBUpdate();
+	}]]></code>
+          </method>
+        <method id="ComputeCustomerContractPowerReadingValue">
+            <comment>	/**
+		 * Collect power reading from Rack for this contract
+		 * @author d.vargas@mon-cto.pro
+		 */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>Custom</type>
+            <code><![CDATA[	public function ComputeCustomerContractPowerReadingValue()
+	{
+		/// Put your code here, call parent::ComputeCustomerContractPowerReadingValue(...); if needed
+		$icontracted_power=$this->CalculatePowerData('power_reading_value');
+		
+		IssueLog::Debug("Customer Contract Name: ".$this->Get('name')." New Installed Value: ".$icontracted_power, 'Delta XML');
+		$this->Set('power_reading_value',$icontracted_power);
+		$this->CalculatePowerReadingUsage();
+		
+		$oDate = new DateTime();
+	    $sDate=$oDate->format('Y-m-d');
+		$this->Set('power_reading_date',$sDate);
+		$this->DBUpdate();
+	}]]></code>
+          </method>
+        <method id="CalculatePowerData">
+            <comment>	/**
+	 *
+	 * @author d.vargas@mon-cto.pro
+	 */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>Custom</type>
+            <code><![CDATA[	public function CalculatePowerData($sPowerReading)
+	{
+		// Put your code here, call parent::CalculatePowerData(...); if needed
+		IssueLog::Debug("Customer Contract: Calculate Power data for ".$this->Get("name"), 'Delta XML');
+		$sOQL = "SELECT Rack WHERE customer_id= :customer_id AND status='production'";
+		$oSearch=DBObjectSearch::FromOQL($sOQL);
+		$oSearch->AllowAllData();
+		$oConnectionSet = new DBObjectSet($oSearch,
+			array(),
+			array(
+				'customer_id' => $this->Get('org_id')
+			)
+		);
+		$iTotalPower=0;
+		//On ajoute tous
+		while($oRack = $oConnectionSet->Fetch()){
+		    //If contracted_power is empty, we set at 0
+		    $iRackPowerValue=$oRack->Get($sPowerValue);
+		    if ($iRackPowerValue=='' || $iRackPowerValue<0) {
+		        $iRackPowerValue=0;
+		    }
+		    $iTotalPower+=$iRackPowerValue;
+		}
+		//IssueLog::Debug("Calculated Power: " .$sPowerValue." Total Power: ".$iTotalPower, 'Delta XML');
+		return $iTotalPower;
+	}]]></code>
+          </method>
+        <method id="CalculatePowerReadingUsage">
+            <comment>	/**
+	 * Calculate percent usage of power reading
+	 * @author d.vargas@mon-cto.pro
+	 */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>Custom</type>
+            <code><![CDATA[	public function CalculatePowerReadingUsage()
+	{
+		IssueLog::Debug("CustomerContract Percent usage of Contracted Power: Name: ".$this->Get('name'), 'Delta XML');
+		// Put your code here, call parent::CalculatePowerReadingUsage(...); if needed
+		$fPowerReading = (float) $this->Get('power_reading_value');
+        
+        $fContractedPower = (float) $this->Get('contracted_power');
+        //IssueLog::Debug("CustomerContract Percent usage of Contracted Power: Name: ".$this->Get('name'). " Contracted Power: " .$fContractedPower." Reading Value Value: ".$fPowerReading, 'Delta XML');
+        if($fContractedPower > 0)
+        {
+                // Round with precision of 2 to keep an integer
+                $fPowerUsage = round($fPowerReading / $fContractedPower, 2) * 100;
+                //IssueLog::Debug("CustomerContract Name: ".$this->Get('name')." Reading Contracted Usage Value: ".$fPowerUsage, 'Delta XML');
+                $this->Set('power_contracted_usage', $fPowerUsage);
+        } else {
+            $this->Set('power_contracted_usage', 0);
+        }
+        
+        $fInstalledPower = (float) $this->Get('installed_power');
+        //IssueLog::Debug("CustomerContract Percent usage of Installed Power: Name: ".$this->Get('name'). " Installed Power: " .$fInstalledPower." Reading Value Value: ".$fPowerReading, 'Delta XML');
+        if($fInstalledPower > 0)
+        {
+                // Round with precision of 2 to keep an integer
+                $fPowerUsage = round($fPowerReading / $fInstalledPower, 2) * 100;
+                //IssueLog::Debug("CustomerContract Name: ".$this->Get('name')." Reading Installed Usage Value: ".$fPowerUsage, 'Delta XML');
+                $this->Set('power_installed_usage', $fPowerUsage);
+        } else {
+            $this->Set('power_installed_usage', 0);
+        }
+	}]]></code>
+        </method>
+        <method id="EvtComputeValuesCustomerContractPower">
+            <comment>	/**
+	 * Event Listener for EVENT_DB_COMPUTE_VALUES
+	 * An object needs to be recomputed after changes
+	 *
+	 * @param  Combodo\iTop\Service\Events\EventData $oEventData Event data object
+	 *
+	 * @author d.vargas@mon-cto.pro
+	 */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>EventListener</type>
+            <code><![CDATA[	public function EvtComputeValuesCustomerContractPower(Combodo\iTop\Service\Events\EventData $oEventData)
+	{
+	    $this->CalculatePowerReadingUsage();
+	}]]></code>
+        </method>
+        <method id="EvtSetInitialAttributesFlagsCustomerContract">
+            <comment>	/**
+	 * Event Listener for EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS
+	 * Set object initial attributes flags. Call cmdbAbstractObject::AddInitialAttributeFlags() for all the initial attributes to be set initially.
+	 *
+	 * @param  Combodo\iTop\Service\Events\EventData $oEventData Event data object
+	 *
+	 * @author d.vargas@mon-cto.pro
+	 */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>EventListener</type>
+            <code><![CDATA[	public function EvtSetInitialAttributesFlagsCustomerContract(Combodo\iTop\Service\Events\EventData $oEventData)
+	{
+	    $this->AddInitialAttributeFlags('power_contracted_usage', OPT_ATT_READONLY);
+	    $this->AddInitialAttributeFlags('power_installed_usage', OPT_ATT_READONLY);
+	}]]></code>
+        </method>
+        <method id="EvtSetAttributesFlagsCustomerContract">
+            <comment>	/**
+	 * Event Listener for EVENT_DB_SET_ATTRIBUTES_FLAGS
+	 * Set object attributes flags. Call cmdbAbstractObject::AddAttributeFlags() for all the attributes to be set for this target state.
+	 *
+	 * @param  Combodo\iTop\Service\Events\EventData $oEventData Event data object
+	 *
+	 * @author d.vargas@mon-cto.pro
+	 */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>EventListener</type>
+            <code><![CDATA[	public function EvtSetAttributesFlagsCustomerContract(Combodo\iTop\Service\Events\EventData $oEventData)
+	{
+	
+		// The target state in which to evaluate the flags
+		// $oEventData->Get('target_state') returns an array
+		$this->AddAttributeFlags('power_contracted_usage', OPT_ATT_READONLY);
+	    $this->AddAttributeFlags('power_installed_usage', OPT_ATT_READONLY);
+	
+	}]]></code>
+        </method>
+	   </methods>
+	   <presentation>
+          <details _delta="merge">
+            <items>
+			  <item id="contracted_power">
+				<rank>100</rank>
+			  </item>
+			  <item id="installed_power">
+				<rank>120</rank>
+			  </item>
+			  <item id="power_reading_value">
+				<rank>130</rank>
+			  </item>
+			  <item id="power_reading_date">
+				<rank>140</rank>
+			  </item>
+			  <item id="power_contracted_usage">
+				<rank>150</rank>
+			  </item>
+			  <item id="power_installed_usage">
+				<rank>160</rank>
+			  </item>
+			</items>
+          </details>
+          <list _delta="merge">
+            <items>
+              <item id="contracted_power">
+                <rank>70</rank>
+              </item>
+              <item id="installed_power">
+                <rank>80</rank>
+              </item>
+              <item id="power_reading_value">
+                <rank>90</rank>
+              </item>
+            </items>
+          </list>
+        </presentation>
+        <event_listeners>
+          <event_listener id="EVENT_DB_COMPUTE_VALUES">
+            <event>EVENT_DB_COMPUTE_VALUES</event>
+            <callback>EvtComputeValuesCustomerContractPower</callback>
+            <rank>0</rank>
+          </event_listener>
+          <event_listener id="EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS">
+            <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
+            <callback>EvtSetInitialAttributesFlagsCustomerContract</callback>
+            <rank>0</rank>
+          </event_listener>
+          <event_listener id="EVENT_DB_SET_ATTRIBUTES_FLAGS">
+            <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
+            <callback>EvtSetAttributesFlagsCustomerContract</callback>
+            <rank>0</rank>
+          </event_listener>
+        </event_listeners>
+	</class>
+	<class id="Location" _delta="must_exist">
+	  <fields>
+		<field id="contracted_power" xsi:type="AttributeDecimal" >
+            <sql>contracted_power</sql>
+            <default_value>0</default_value>
+            <is_null_allowed>true</is_null_allowed>
+            <digits>10</digits>
+            <decimals>1</decimals>
+            <dependencies/>
+            <tracking_level>none</tracking_level>
+          </field>
+          <field id="installed_power" xsi:type="AttributeDecimal" >
+            <sql>installed_power</sql>
+            <default_value>0</default_value>
+            <is_null_allowed>true</is_null_allowed>
+            <validation_pattern/>
+            <dependencies/>
+            <tracking_level>all</tracking_level>
+            <digits>10</digits>
+            <decimals>1</decimals>
+          </field>
+          <field id="power_reading_value" xsi:type="AttributeDecimal" >
+            <sql>power_reading_value</sql>
+            <default_value/>
+            <is_null_allowed>true</is_null_allowed>
+            <digits>10</digits>
+            <decimals>1</decimals>
+            <dependencies/>
+            <tracking_level>none</tracking_level>
+          </field>
+          <field id="power_reading_date" xsi:type="AttributeDate" >
+            <sql>power_reading_date</sql>
+            <default_value/>
+            <is_null_allowed>true</is_null_allowed>
+            <dependencies/>
+            <tracking_level>none</tracking_level>
+          </field>
+          <field id="power_contracted_usage" xsi:type="AttributePercentage">
+            <sql>power_contracted_usage</sql>
+            <default_value/>
+            <is_null_allowed>true</is_null_allowed>
+            <dependencies>
+              <attribute id="contracted_power"/>
+              <attribute id="power_reading_value"/>
+            </dependencies>
+            <tracking_level>none</tracking_level>
+          </field>
+          <field id="power_installed_usage" xsi:type="AttributePercentage">
+            <sql >power_installed_usage</sql>
+            <default_value />
+            <is_null_allowed >true</is_null_allowed>
+            <dependencies>
+              <attribute id="installed_power"/>
+              <attribute id="power_reading_value"/>
+            </dependencies>
+            <tracking_level>none</tracking_level>
+          </field>
+	  </fields>
+	  <methods>
+		<method id="ComputeLocationContractedPower">
+            <comment>	/**
+		 *
+		 * @author d.vargas@mon-cto.pro
+		 */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>Custom</type>
+            <code><![CDATA[	public function ComputeLocationContractedPower()
+	{
+		// Put your code here, call parent::ComputeLocationContractedPower(...); if needed
+		$icontracted_power=$this->CalculatePowerData('contracted_power');
+	    
+		IssueLog::Debug("Location Name: ".$this->Get('name')." New Calculated Value: ".$icontracted_power, 'Delta XML');
+		$this->Set('contracted_power',$icontracted_power);
+		$this->CalculatePowerReadingUsage();
+		$this->DBUpdate();
+	}]]></code>
+          </method>
+        <method id="ComputeLocationPowerReadingValue">
+            <comment>	/**
+		 *
+		 * @author d.vargas@mon-cto.pro
+		 */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>Custom</type>
+            <code><![CDATA[	public function ComputeLocationPowerReadingValue()
+	{
+		// Put your code here, call parent::ComputeLocationPowerReadingValue(...); if needed
+		$icontracted_power=$this->CalculatePowerData('power_reading_value');
+		IssueLog::Debug("Location Name: ".$this->Get('name')." New Calculated Value: ".$icontracted_power, 'Delta XML');
+		$this->Set('power_reading_value',$icontracted_power);
+		$this->CalculatePowerReadingUsage();
+		
+		$oDate = new DateTime();
+	    $sDate=$oDate->format('Y-m-d');
+		$this->Set('power_reading_date',$sDate);
+		$this->DBUpdate();
+	}]]></code>
+          </method>
+        <method id="CalculatePowerData">
+            <comment>	/**
+	 *
+	 * @author d.vargas@mon-cto.pro
+	 */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>Custom</type>
+            <code><![CDATA[	public function CalculatePowerData($sPowerReading)
+	{
+		// Put your code here, call parent::CalculatePowerData(...); if needed
+		IssueLog::Debug("Location Power data from Rack: Name: ".$this->Get('name'), 'Delta XML');
+		$sOQL = "SELECT Rack AS R JOIN Location AS root ON R.location_id=root.id JOIN Location AS child ON child.parent_id ABOVE root.id WHERE child.id= :location_id AND R.status='production'";
+		$oSearch=DBObjectSearch::FromOQL($sOQL);
+		$oSearch->AllowAllData();
+		$oConnectionSet = new DBObjectSet($oSearch,
+			array(),
+			array(
+				'location_id' => $this->GetKey()
+			)
+		);
+		$icontracted_power=0;
+		//On ajoute tous
+		while($oRack = $oConnectionSet->Fetch()){
+		    //If contracted_power is empty, we set at 0
+		    $iRackPowerValue=$oRack->Get($sPowerReading);
+		    if ($iRackPowerValue=='' || $iRackPowerValue<0) {
+		        $iRackPowerValue=0;
+		    }
+		    $icontracted_power+=$iRackPowerValue;
+		}
+		return $icontracted_power;
+	}]]></code>
+          </method>
+        <method id="CalculatePowerReadingUsage">
+            <comment>	/**
+	 * Calculate percent usage of power reading
+	 * @author d.vargas@mon-cto.pro
+	 */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>Custom</type>
+            <code><![CDATA[	public function CalculatePowerReadingUsage()
+	{
+		IssueLog::Debug("Location Percent usage of Contracted Power: Name: ".$this->Get('name'), 'Delta XML');
+		// Put your code here, call parent::CalculatePowerReadingUsage(...); if needed
+		$fPowerReading = (float) $this->Get('power_reading_value');
+        
+        $fContractedPower = (float) $this->Get('contracted_power');
+        //IssueLog::Debug("Location Percent usage of Contracted Power: Name: ".$this->Get('name'). " Contracted Power: " .$fContractedPower." Reading Value Value: ".$fPowerReading, 'Delta XML');
+        if($fContractedPower > 0)
+        {
+                // Round with precision of 2 to keep an integer
+                $fPowerUsage = round($fPowerReading / $fContractedPower, 2) * 100;
+                //IssueLog::Debug("Location Name: ".$this->Get('name')." Reading Contracted Usage Value: ".$fPowerUsage, 'Delta XML');
+                $this->Set('power_contracted_usage', $fPowerUsage);
+        } else {
+            $this->Set('power_contracted_usage', 0);
+        }
+        
+        $fInstalledPower = (float) $this->Get('installed_power');
+        //IssueLog::Debug("Location Percent usage of Installed Power: Name: ".$this->Get('name'). " Installed Power: " .$fInstalledPower." Reading Value Value: ".$fPowerReading, 'Delta XML');
+        if($fInstalledPower > 0)
+        {
+                // Round with precision of 2 to keep an integer
+                $fPowerUsage = round($fPowerReading / $fInstalledPower, 2) * 100;
+                //IssueLog::Debug("Location Name: ".$this->Get('name')." Reading Installed Usage Value: ".$fPowerUsage, 'Delta XML');
+                $this->Set('power_installed_usage', $fPowerUsage);
+        } else {
+            $this->Set('power_installed_usage', 0);
+        }
+	}]]></code>
+          </method>
+        <method id="EvtComputeValuesLocationPower">
+            <comment>	/**
+	 * Event Listener for EVENT_DB_COMPUTE_VALUES
+	 * An object needs to be recomputed after changes
+	 *
+	 * @param  Combodo\iTop\Service\Events\EventData $oEventData Event data object
+	 *
+	 * @author d.vargas@mon-cto.pro
+	 */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>EventListener</type>
+            <code><![CDATA[	public function EvtComputeValuesLocationPower(Combodo\iTop\Service\Events\EventData $oEventData)
+	{
+	    $this->CalculatePowerReadingUsage();
+	}]]></code>
+          </method>
+        <method id="EvtSetInitialAttributesFlagsLocation">
+            <comment>	/**
+	 * Event Listener for EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS
+	 * Set object initial attributes flags. Call cmdbAbstractObject::AddInitialAttributeFlags() for all the initial attributes to be set initially.
+	 *
+	 * @param  Combodo\iTop\Service\Events\EventData $oEventData Event data object
+	 *
+	 * @author d.vargas@mon-cto.pro
+	 */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>EventListener</type>
+            <code><![CDATA[	public function EvtSetInitialAttributesFlagsLocation(Combodo\iTop\Service\Events\EventData $oEventData)
+	{
+	    $this->AddInitialAttributeFlags('power_contracted_usage', OPT_ATT_READONLY);
+	    $this->AddInitialAttributeFlags('power_installed_usage', OPT_ATT_READONLY);
+	}]]></code>
+          </method>
+        <method id="EvtSetAttributesFlagsLocation">
+            <comment>	/**
+	 * Event Listener for EVENT_DB_SET_ATTRIBUTES_FLAGS
+	 * Set object attributes flags. Call cmdbAbstractObject::AddAttributeFlags() for all the attributes to be set for this target state.
+	 *
+	 * @param  Combodo\iTop\Service\Events\EventData $oEventData Event data object
+	 *
+	 * @author d.vargas@mon-cto.pro
+	 */</comment>
+            <static>false</static>
+            <access>public</access>
+            <type>EventListener</type>
+            <code><![CDATA[	public function EvtSetAttributesFlagsLocation(Combodo\iTop\Service\Events\EventData $oEventData)
+	{
+	
+		// The target state in which to evaluate the flags
+		// $oEventData->Get('target_state') returns an array
+		$this->AddAttributeFlags('power_contracted_usage', OPT_ATT_READONLY);
+	    $this->AddAttributeFlags('power_installed_usage', OPT_ATT_READONLY);
+	
+	}]]></code>
+          </method>
+	   </methods>
+	   <presentation>
+          <details _delta="merge">
+            <items>
+			  <item id="contracted_power">
+				<rank>100</rank>
+			  </item>
+			  <item id="installed_power">
+				<rank>120</rank>
+			  </item>
+			  <item id="power_reading_value">
+				<rank>130</rank>
+			  </item>
+			  <item id="power_reading_date">
+				<rank>140</rank>
+			  </item>
+			  <item id="power_contracted_usage">
+				<rank>150</rank>
+			  </item>
+			  <item id="power_installed_usage">
+				<rank>160</rank>
+			  </item>
+			</items>
+          </details>
+          <list _delta="merge">
+            <items>
+              <item id="contracted_power">
+                <rank>70</rank>
+              </item>
+              <item id="installed_power">
+                <rank>80</rank>
+              </item>
+              <item id="power_reading_value">
+                <rank>90</rank>
+              </item>
+            </items>
+          </list>
+        </presentation>
+        <event_listeners>
+          <event_listener id="EVENT_DB_COMPUTE_VALUES">
+            <event>EVENT_DB_COMPUTE_VALUES</event>
+            <callback>EvtComputeValuesLocationPower</callback>
+            <rank>0</rank>
+          </event_listener>
+          <event_listener id="EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS">
+            <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
+            <callback>EvtSetInitialAttributesFlagsLocation</callback>
+            <rank>0</rank>
+          </event_listener>
+          <event_listener id="EVENT_DB_SET_ATTRIBUTES_FLAGS">
+            <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
+            <callback>EvtSetAttributesFlagsLocation</callback>
+            <rank>0</rank>
+          </event_listener>
+        </event_listeners>
+	</class>
+  </classes>
+  <menus/>
+</itop_design>

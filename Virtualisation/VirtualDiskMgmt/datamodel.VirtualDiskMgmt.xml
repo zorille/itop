@@ -32,6 +32,21 @@
 				</reconciliation>
 			</properties>
 			<fields>
+				<field id="status" xsi:type="AttributeEnum" >
+				  <sql >status</sql>
+				  <values >
+					<value id="implementation" >implementation</value>
+					<value id="production" >production</value>
+					<value id="decommission" >decommission</value>
+					<value id="obsolete" >obsolete</value>
+				  </values>
+				  <sort_type >rank</sort_type>
+				  <default_value >production</default_value>
+				  <is_null_allowed >false</is_null_allowed>
+				  <display_style>list</display_style>
+				  <dependencies />
+				  <tracking_level >all</tracking_level>
+				</field>
 				<field id="size" xsi:type="AttributeString">
 					<sql>size</sql>
 					<default_value />
@@ -220,7 +235,7 @@
 						<attribute id="storagesystem_id" />
 						<attribute id="storagesystem_name" />
 						<attribute id="org_id" />
-						<attribute id="organization_name" />
+						<!--<attribute id="organization_name" />-->
 					</attributes>
 				</reconciliation>
 			</properties>

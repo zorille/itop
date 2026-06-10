@@ -494,7 +494,7 @@
 					<value id="soap">SOAP</value>
 				</values>
 				<sql>type_connexion</sql>
-				<default_value>rest</default_value>
+				<default_value>REST</default_value>
 				<is_null_allowed>false</is_null_allowed>
 				<display_style>list</display_style>
 				<sort_type>rank</sort_type>
@@ -704,12 +704,12 @@
 			</field>
             <field id="type_connexion" xsi:type="AttributeEnum">
 				<values>
-					<value id="oauth2">oAuth2</value>
+					<value id="oauth2">OAuth2</value>
 					<value id="sso">SSO</value>
 					<value id="mdp">connexion</value>
 				</values>
 				<sql>type_connexion</sql>
-				<default_value>oauth2</default_value>
+				<default_value>OAuth2</default_value>
 				<is_null_allowed>false</is_null_allowed>
 				<display_style>list</display_style>
 				<sort_type>rank</sort_type>

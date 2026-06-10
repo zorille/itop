@@ -16,10 +16,9 @@ $aMolkobainThesaurus = array_merge($aMolkobainThesaurus, [
 	'Class/Attribute:position_v' => 'Position',
 	'Class/Attribute:position_v+/Variant:host' => 'Position verticale (U) %1$s dans %2$s (Doit faire référence au bas %1$s et non au haut)',
 	'Class/Attribute:position_v+/Variant:device' => 'Position verticale (U) %1$s dans le châssis (ou rack si monté directement dessus). (Doit faire référence au bas %1$s et non au haut)',
-	'Class/Attribute:position_p' => 'Face de la baie',
-	'Class/Attribute:position_p/Value:front' => 'Avant',
-	'Class/Attribute:position_p/Value:rear' => 'Arrière',
-	
+		'Class/Attribute:position_p' => 'Position',
+		'Class/Attribute:position_p/Value:front' => 'Avant',
+		'Class/Attribute:position_p/Value:rear' => 'Arrière',
 	// Fieldsets
 	'Fieldset:baseinfo' => 'Informations générales',
 	'Fieldset:moreinfo' => 'Informations complémentaires',
@@ -51,7 +50,6 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:PhysicalDevice/Attribute:position_p' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p']),
 	'Class:PhysicalDevice/Attribute:position_p/Value:front' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:front']),
 	'Class:PhysicalDevice/Attribute:position_p/Value:rear' => sprintf($aMolkobainThesaurus['Class/Attribute:position_p/Value:rear']),
-
 	// - Rack
 	'Class:Rack/Attribute:nb_u' => sprintf($aMolkobainThesaurus['Class/Attribute:nb_u']),
 	'Class:Rack/Attribute:nb_u+' => sprintf($aMolkobainThesaurus['Class/Attribute:nb_u+'], 'du rack'),
@@ -89,6 +87,8 @@ Dict::Add('FR FR', 'French', 'Français', array(
 Dict::Add('FR FR', 'French', 'Français', array(
 	'Molkobain:DatacenterView:Tabs:View:Title' => 'Représentation graphique',
 	'Molkobain:DatacenterView:NoElement' => 'Aucun élément',
+	// - Messages
+	'Molkobain:DatacenterView:WarningMessage:NoHeightForHost' => 'Hauteur non définie pour l\'élément, les matériels peuvent ne pas s\'afficher correctement.',
 	// - Legend
 	'Molkobain:DatacenterView:Legend:Title' => 'Légende',
 	// - Filter

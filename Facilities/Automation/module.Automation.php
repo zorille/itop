@@ -5,17 +5,19 @@
 
 SetupWebPage::AddModule(
 	__FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-	'VLAN/1.0.0',
+	'Automation/1.0.5',
 	array(
 		// Identification
 		//
-		'label' => 'Ajout du nom aux VLAN',
+		'label' => 'Automation Definition',
 		'category' => 'business',
 
 		// Setup
 		//
 		'dependencies' => array(
+			'itop-datacenter-mgmt/2.0.0',
 			'itop-config-mgmt/2.0.0',
+			'EnterpriseCIDashboard/1.0.0',
 		),
 		'mandatory' => false,
 		'visible' => true,
@@ -23,7 +25,7 @@ SetupWebPage::AddModule(
 		// Components
 		//
 		'datamodel' => array(
-			'model.VLAN.php'
+			'model.Automation.php'
 		),
 		'webservice' => array(
 			

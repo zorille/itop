@@ -49,11 +49,6 @@
 					<extkey_attcode>powerstart_id</extkey_attcode>
 					<target_attcode>name</target_attcode>
 				</field>
-				<field id="fqdn" xsi:type="AttributeString">
-					<sql>fqdn</sql>
-					<default_value />
-					<is_null_allowed>true</is_null_allowed>
-				</field>
 				<field id="facilities_id" xsi:type="AttributeString">
 					<sql>facilities_id</sql>
 					<default_value />
@@ -70,7 +65,7 @@
 						<item id="facilities_id">
 							<rank>15</rank>
 						</item>
-						<item id="fqdn">
+						<item id="fqdn" _delta="if_exists">
 							<rank>15</rank>
 						</item>
 						<item id="org_id">
@@ -340,11 +335,6 @@
 					<extkey_attcode>powerstart_id</extkey_attcode>
 					<target_attcode>name</target_attcode>
 				</field>
-				<field id="fqdn" xsi:type="AttributeString">
-					<sql>fqdn</sql>
-					<default_value />
-					<is_null_allowed>true</is_null_allowed>
-				</field>
 				<field id="facilities_id" xsi:type="AttributeString">
 					<sql>facilities_id</sql>
 					<default_value />
@@ -361,7 +351,7 @@
 						<item id="facilities_id">
 							<rank>15</rank>
 						</item>
-						<item id="fqdn">
+						<item id="fqdn" _delta="if_exists">
 							<rank>15</rank>
 						</item>
 						<item id="org_id">
@@ -1665,19 +1655,15 @@
 					<neighbours>
 						<neighbour id="ArmoireClim" _delta="define">
 							<query_down>SELECT ArmoireClim WHERE powerstart_id = :this-&gt;id</query_down>
-							<query_up>SELECT PowerConnection WHERE id =
-								:this-&gt;powerstart_id</query_up>
+							<query_up>SELECT PowerConnection WHERE id =	:this-&gt;powerstart_id</query_up>
 						</neighbour>
 						<neighbour id="PompeClim" _delta="define">
 							<query_down>SELECT PompeClim WHERE powerstart_id = :this-&gt;id</query_down>
-							<query_up>SELECT PowerConnection WHERE id =
-								:this-&gt;powerstart_id</query_up>
+							<query_up>SELECT PowerConnection WHERE id =	:this-&gt;powerstart_id</query_up>
 						</neighbour>
 						<neighbour id="GroupeEauGlace" _delta="define">
-							<query_down>SELECT GroupeEauGlace WHERE powerstart_id =
-								:this-&gt;id</query_down>
-							<query_up>SELECT PowerConnection WHERE id =
-								:this-&gt;powerstart_id</query_up>
+							<query_down>SELECT GroupeEauGlace WHERE powerstart_id =	:this-&gt;id</query_down>
+							<query_up>SELECT PowerConnection WHERE id =	:this-&gt;powerstart_id</query_up>
 						</neighbour>
 					</neighbours>
 				</relation>
