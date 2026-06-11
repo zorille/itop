@@ -22,7 +22,7 @@
 				  <dashlet id="CUSTOM_FacilitiesDashboard_100" xsi:type="DashletHeaderStatic">
 					<rank>0</rank>
 					<title>Menu:Electricity</title>
-					<icon>Electricite/images/ArmoireTGBT.png</icon>
+					<icon>Electricity/images/PowerGeneralBoard.png</icon>
 				  </dashlet>
 				  <dashlet id="CUSTOM_FacilitiesDashboard_101" xsi:type="DashletBadge">
 					<rank>1</rank>
@@ -30,7 +30,7 @@
 				  </dashlet>
 				  <dashlet id="CUSTOM_FacilitiesDashboard_102" xsi:type="DashletBadge">
 					<rank>2</rank>
-					<class>Transformateur</class>
+					<class>PowerTransform</class>
 				  </dashlet>
 				  <dashlet id="CUSTOM_FacilitiesDashboard_103" xsi:type="DashletBadge">
 					<rank>3</rank>
@@ -38,35 +38,35 @@
 				  </dashlet>
 				  <dashlet id="CUSTOM_FacilitiesDashboard_104" xsi:type="DashletBadge">
 					<rank>3</rank>
-					<class>GroupeElectrogene</class>
+					<class>PowerGenerator</class>
 				  </dashlet>
 				  <dashlet id="CUSTOM_FacilitiesDashboard_105" xsi:type="DashletBadge">
 					<rank>4</rank>
-					<class>ArmoireTGBT</class>
+					<class>PowerGeneralBoard</class>
 				  </dashlet>
 				  <dashlet id="CUSTOM_FacilitiesDashboard_106" xsi:type="DashletBadge">
 					<rank>5</rank>
-					<class>Onduleur</class>
+					<class>UPS</class>
 				  </dashlet>
 				  <dashlet id="CUSTOM_FacilitiesDashboard_107" xsi:type="DashletBadge">
 					<rank>6</rank>
-					<class>InverseurSource</class>
+					<class>PowerSourceInverter</class>
 				  </dashlet>
 				  <dashlet id="CUSTOM_FacilitiesDashboard_108" xsi:type="DashletBadge">
 					<rank>7</rank>
-					<class>ArmoireDistributionElect</class>
+					<class>PowerDistributionUnit</class>
 				  </dashlet>
 				  <dashlet id="CUSTOM_FacilitiesDashboard_109" xsi:type="DashletBadge">
 					<rank>8</rank>
-					<class>Differenciel</class>
+					<class>PowerFaultDetectionRelay</class>
 				  </dashlet>
 				  <dashlet id="CUSTOM_FacilitiesDashboard_110" xsi:type="DashletBadge">
 					<rank>9</rank>
-					<class>Disjoncteur</class>
+					<class>PowerBreaker</class>
 				  </dashlet>
 				  <dashlet id="CUSTOM_FacilitiesDashboard_111" xsi:type="DashletBadge">
 					<rank>10</rank>
-					<class>CircuitElec</class>
+					<class>PowerCircuit</class>
 				  </dashlet>
 				</dashlets>
 			  </cell>
@@ -75,32 +75,36 @@
 				<dashlets>
 				  <dashlet id="CUSTOM_FacilitiesDashboard_200" xsi:type="DashletHeaderStatic">
 					<rank>0</rank>
-					<title>Menu:Climatisation</title>
-					<icon>Climatisation/images/pompe.png</icon>
+					<title>Menu:HVAC</title>
+					<icon>HVAC/images/pompe.png</icon>
 				  </dashlet>
 				  <dashlet id="CUSTOM_FacilitiesDashboard_201" xsi:type="DashletBadge">
 					<rank>1</rank>
-					<class>BallonEauGlace</class>
+					<class>ChilledWaterTank</class>
 				  </dashlet>
 				  <dashlet id="CUSTOM_FacilitiesDashboard_202" xsi:type="DashletBadge">
 					<rank>2</rank>
-					<class>GroupeEauGlace</class>
+					<class>Chiller</class>
 				  </dashlet>
 				  <dashlet id="CUSTOM_FacilitiesDashboard_203" xsi:type="DashletBadge">
 					<rank>3</rank>
-					<class>PompeClim</class>
+					<class>ChilledPump</class>
 				  </dashlet>
 				  <dashlet id="CUSTOM_FacilitiesDashboard_204" xsi:type="DashletBadge">
 					<rank>4</rank>
-					<class>CircuitEauGlace</class>
+					<class>ChilledWaterCircuit</class>
 				  </dashlet>
 				  <dashlet id="CUSTOM_FacilitiesDashboard_205" xsi:type="DashletBadge">
 					<rank>5</rank>
-					<class>ArmoireClim</class>
+					<class>ChilledWaterCabinet</class>
 				  </dashlet>
 				  <dashlet id="CUSTOM_FacilitiesDashboard_206" xsi:type="DashletBadge">
 					<rank>6</rank>
-					<class>Climatisation</class>
+					<class>AirConditioning</class>
+				  </dashlet>
+				  <dashlet id="CUSTOM_FacilitiesDashboard_207" xsi:type="DashletBadge">
+					<rank>7</rank>
+					<class>AirConditioningCompressor</class>
 				  </dashlet>
 				</dashlets>
 			  </cell>
@@ -155,8 +159,8 @@
 				<dashlets>
 				  <dashlet id="CUSTOM_FacilitiesDashboard_400" xsi:type="DashletHeaderStatic">
 					<rank>0</rank>
-					<title>Menu:Cabling</title>
-					<icon>CablageReseaux/images/rocadefo.jpg</icon>
+					<title>Menu:FiberManagement</title>
+					<icon>FiberManagement/images/rocadefo.jpg</icon>
 				  </dashlet>
 				  <dashlet id="CUSTOM_FacilitiesDashboard_401" xsi:type="DashletBadge">
 					<rank>1</rank>

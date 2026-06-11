@@ -10,6 +10,9 @@ Dict::Add('FR FR', 'French', 'Français', array(
 		'Incident:Incidentsme' => 'Incident de Gestion d\'énergie',
 		'Class:Incident/Attribute:sme_flag' => 'Incident de gestion d\'énergie ?',
 		'Class:Incident/Attribute:sme_level' => 'Niveau de l\'incident',
+		'Class:Incident/Attribute:sme_level/Value:noimpact' => 'Pas d\'impact',
+		'Class:Incident/Attribute:sme_level/Value:minor' => 'Mineur',
+		'Class:Incident/Attribute:sme_level/Value:major' => 'Majeur',
 		'Class:Incident/Attribute:sme_rapport_incident' => 'Rapport d\'incident',
 ));
 ?>

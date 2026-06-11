@@ -79,9 +79,6 @@
             <item id="comment">
               <rank>50</rank>
             </item>
-            <item id="speed">
-              <rank>80</rank>
-            </item>
           </items>
         </details>
         <search>
@@ -104,9 +101,6 @@
             </item>
             <item id="comment">
               <rank>30</rank>
-            </item>
-            <item id="speed">
-              <rank>60</rank>
             </item>
           </items>
         </list>

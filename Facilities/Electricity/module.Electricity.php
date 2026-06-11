@@ -5,19 +5,19 @@
 
 SetupWebPage::AddModule(
 	__FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-	'Climatisation/1.0.3',
+	'Electricity/3.0.0',
 	array(
 		// Identification
 		//
-		'label' => 'Climatisation Definition',
+		'label' => 'Electricity Definition fro Datacentre',
 		'category' => 'business',
 
 		// Setup
 		//
 		'dependencies' => array(
-				'itop-config-mgmt/2.0.0',
-				'PhysicalDeviceDefinition/1.0.0',
-				'EnterpriseCIDashboard/1.0.0',
+			'itop-datacenter-mgmt/2.0.0',
+			'PhysicalDeviceDefinition/1.0.0',
+			'EnterpriseCIDashboard/1.0.0',
 		),
 		'mandatory' => false,
 		'visible' => true,
@@ -25,7 +25,7 @@ SetupWebPage::AddModule(
 		// Components
 		//
 		'datamodel' => array(
-			'model.Climatisation.php'
+			'model.Electricity.php'
 		),
 		'webservice' => array(
 			

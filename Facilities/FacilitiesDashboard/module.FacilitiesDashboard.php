@@ -17,9 +17,9 @@ SetupWebPage::AddModule(
 		'dependencies' => array(
 			'itop-config-mgmt/2.0.0',
 			'Automation/1.0.0',
-			'CablageReseaux/1.1.0',
-			'Climatisation/1.0.3',
-			'Electricite/3.0.0',
+			'FiberManagement/1.1.0',
+			'HVAC/1.0.3',
+			'Electricity/3.0.0',
 		),
 		'mandatory' => false,
 		'visible' => true,
@@ -27,7 +27,6 @@ SetupWebPage::AddModule(
 		// Components
 		//
 		'datamodel' => array(
-			'model.FacilitiesDashboard.php'
 		),
 		'webservice' => array(
 			

@@ -18,12 +18,12 @@
         </field>
 		<field id="sme_level" xsi:type="AttributeEnum" _delta="define">
 			<values>
-				<value id="pasdimpact">Pas d'impact</value>
-				<value id="mineur">Mineur</value>
-				<value id="majeur">Majeur</value>
+				<value id="noimpact">noimpact</value>
+				<value id="minor">minor</value>
+				<value id="major">major</value>
             </values>
             <sql>sme_level</sql>
-            <default_value>Pas d'impact</default_value>
+            <default_value>noimpact</default_value>
             <is_null_allowed>false</is_null_allowed>
             <display_style>select</display_style>
         </field>

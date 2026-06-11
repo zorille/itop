@@ -1283,7 +1283,7 @@
 							<dashlet id="CUSTOM_NETWORKCABLING_1" xsi:type="DashletHeaderStatic">
 								<rank>0</rank>
 								<title>Menu:NetworkFiberCabling</title>
-								<icon>CablageReseaux/images/rocadefo.jpg</icon>
+								<icon>FiberManagement/images/rocadefo.jpg</icon>
 							 </dashlet>
 							<dashlet id="CUSTOM_NETWORKCABLING_2" xsi:type="DashletBadge" _delta="define">
 								<rank>1</rank>

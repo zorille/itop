@@ -34,7 +34,7 @@
 			</properties>
 			<fields>
 				<field id="powerstart_id" xsi:type="AttributeExternalKey">
-					<filter><![CDATA[SELECT PowerConnection WHERE id != :this->id AND location_id = :this->location_id  AND finalclass IN ('PowerSource','Transformateur','ArmoireTGBT','ArmoireDistributionElect')]]></filter>
+					<filter><![CDATA[SELECT PowerConnection WHERE id != :this->id AND location_id = :this->location_id]]></filter>
 					<dependencies>
 						<attribute id="location_id" />
 					</dependencies>

@@ -3,10 +3,10 @@
 // iTop module definition file
 //
 SetupWebPage::AddModule ( __FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-'CablageReseaux/1.1.0', array (
+'FiberManagement/1.1.0', array (
 		// Identification
 		//
-		'label' => 'Gestion du cablage des reseaux optiques',
+		'label' => 'Fiber cabling management for datacentre',
 		'category' => 'business',
 		// Setup
 		//
@@ -21,7 +21,6 @@ SetupWebPage::AddModule ( __FILE__, // Path to the current file, all other file 
 		// Components
 		//
 		'datamodel' => array (
-				'model.CablageReseaux.php'
 		),
 		'webservice' => array (),
 		'data.struct' => array (

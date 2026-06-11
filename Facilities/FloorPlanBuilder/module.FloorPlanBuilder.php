@@ -18,7 +18,7 @@ SetupWebPage::AddModule(
 		//
 		'dependencies' => array(
 			'itop-datacenter-mgmt/2.0.0',
-			'Electricite/3.0.0',
+			'Electricity/3.0.0',
 		),
 		'mandatory' => false,
 		'visible' => true,

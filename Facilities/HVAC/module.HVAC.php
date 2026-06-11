@@ -5,19 +5,19 @@
 
 SetupWebPage::AddModule(
 	__FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-	'Electricite/3.0.0',
+	'HVAC/1.0.4',
 	array(
 		// Identification
 		//
-		'label' => 'Electricite Definition',
+		'label' => 'HVAC Definition for datacentre',
 		'category' => 'business',
 
 		// Setup
 		//
 		'dependencies' => array(
-			'itop-datacenter-mgmt/2.0.0',
-			'PhysicalDeviceDefinition/1.0.0',
-			'EnterpriseCIDashboard/1.0.0',
+				'itop-config-mgmt/2.0.0',
+				'PhysicalDeviceDefinition/1.0.0',
+				'EnterpriseCIDashboard/1.0.0',
 		),
 		'mandatory' => false,
 		'visible' => true,
@@ -25,7 +25,6 @@ SetupWebPage::AddModule(
 		// Components
 		//
 		'datamodel' => array(
-			'model.Electricite.php'
 		),
 		'webservice' => array(
 			
